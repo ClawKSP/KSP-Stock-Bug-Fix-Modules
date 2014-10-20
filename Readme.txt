@@ -21,6 +21,8 @@ Bug fixes included so far
 
 + AnchoredDecouplerFix.dll - Fixes radial decouplers not wanting to decouple correctly at high speed (leading to boosters striking the core stack)
 
++ EVAEjectionFix.dll - Fixes the bug that causes a kerbal to be ejected away from a capsule upon EVA.
+
 
 
 
@@ -56,7 +58,8 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.1 (19 Oct 14) - Release of EVAEjectionFix.dll and reduced some log spam with ChuteQuickloadFixer and AnchoredDecouplerFix
 
 
 
-v0.1 - Initial release, includes ChuteQuickloadFixer and AnchoredDecouplerFix
+v0.1 (17 Oct 14) - Initial release, includes ChuteQuickloadFixer and AnchoredDecouplerFix

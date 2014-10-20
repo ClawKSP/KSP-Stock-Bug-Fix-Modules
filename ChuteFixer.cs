@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*
+ * This module written by Claw (with an incredible amount of help from NathanKell). Please visit
+ * http://forum.kerbalspaceprogram.com/threads/97285-0-25-Stock-Bug-Fix-Modules for more details.
+ * 
+ * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
+ * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
+ * 
+ * Written for KSP v0.25.0
+ *
+ * ChuteFixer v0.1.1
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +25,12 @@ namespace ClawKSP
 
         public void Awake()
         {
-            Debug.LogWarning("ChuteFixer: Awake");
+            // Debug.LogWarning("ChuteFixer: Awake");
         } // Awake()
 
         public void Start()
         {
-            Debug.LogWarning("ChuteFixer: Start");
+            // Debug.LogWarning("ChuteFixer: Start");
 
             GameEvents.onVesselLoaded.Add(ResetChutes); // Reset chutes whenever vessel is loaded
 
@@ -26,7 +38,7 @@ namespace ClawKSP
             // or after a quicksave, and not GameEvents.onVesselLoaded.
             GameEvents.onVesselGoOffRails.Add(ResetChutes);
 
-            Debug.LogWarning("ChuteFixer: Start complete.");
+            // Debug.LogWarning("ChuteFixer: Start complete.");
         } // Start()
 
         public void ResetChutes(Vessel VesselToFix)
@@ -40,7 +52,7 @@ namespace ClawKSP
             
             // Need to check if the vessel is in atmosphere or not. If not, we can return.
 
-            Debug.LogWarning("ChuteFixer: Attempting to Reset Chutes (" + VesselToFix.Parts.Count + " parts.)");
+            // Debug.LogWarning("ChuteFixer: Attempting to Reset Chutes (" + VesselToFix.Parts.Count + " parts.)");
 
             // Loop through all the parts in the vessel
             for (int PartsIndex = 0; PartsIndex < VesselToFix.Parts.Count; PartsIndex++)
@@ -50,7 +62,7 @@ namespace ClawKSP
 
                 foreach (ModuleParachute ChuteModule in CurrentPart.Modules.OfType<ModuleParachute>())
                 {
-                    Debug.LogWarning("ChuteFixer: Looping chutes.");
+                    // Debug.LogWarning("ChuteFixer: Looping chutes.");
 
                     // ModuleParachute acts differently than other Modules. ModuleParachute does not store its
                     // values in a valuelist, but rather has public variables that store the values.
@@ -76,18 +88,18 @@ namespace ClawKSP
                 }
             }
 
-            Debug.LogWarning("ChuteFixer: Reset attempt complete.");
+            // Debug.LogWarning("ChuteFixer: Reset attempt complete.");
 
         } // ResetChutes()
 
         public void OnDestroy()
         {
-            Debug.LogWarning("ChuteFixer: OnDestroy");
+            // Debug.LogWarning("ChuteFixer: OnDestroy");
 
             GameEvents.onVesselLoaded.Remove(ResetChutes);
             GameEvents.onVesselGoOffRails.Remove(ResetChutes);
 
-            Debug.LogWarning("ChuteFixer: OnDestroy complete.");
+            // Debug.LogWarning("ChuteFixer: OnDestroy complete.");
             
         } // Destroy()
 

@@ -1,4 +1,16 @@
-﻿using System.Linq;
+﻿/*
+ * This module written by Claw (with an incredible amount of help from NathanKell). Please visit
+ * http://forum.kerbalspaceprogram.com/threads/97285-0-25-Stock-Bug-Fix-Modules for more details.
+ * 
+ * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
+ * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
+ * 
+ * Written for KSP v0.25.0
+ *
+ * AnchoredDecouplerFix v0.1.1
+ */
+
+using System.Linq;
 using UnityEngine;
 using KSP;
 
@@ -6,7 +18,6 @@ namespace ClawKSP
 {
     public class ModuleAnchoredDecouplerFix : PartModule
     {
-
         public int DecouplerModuleIndex;
 
         public void Start()
@@ -16,7 +27,6 @@ namespace ClawKSP
 
         public override void OnFixedUpdate()
         {
-
             ModuleAnchoredDecoupler DecouplerModule = (ModuleAnchoredDecoupler)part.Modules.GetModule(DecouplerModuleIndex);
             if (false == DecouplerModule.isDecoupled)
             {
@@ -24,15 +34,15 @@ namespace ClawKSP
             }
 
             Vector3d PartVelocity = part.rigidbody.velocity;
-            Debug.LogWarning("ModuleAnchoredDecouplerFix: Velocity X, Y, Z, Magnitude = " + PartVelocity.x + " " + PartVelocity.y + " " + PartVelocity.z + " " + PartVelocity.magnitude);
+            // Debug.LogWarning("ModuleAnchoredDecouplerFix: Velocity X, Y, Z, Magnitude = " + PartVelocity.x + " " + PartVelocity.y + " " + PartVelocity.z + " " + PartVelocity.magnitude);
 
-            part.rigidbody.AddRelativeForce(Vector3d.left * DecouplerModule.ejectionForce, ForceMode.Force);
+            part.rigidbody.AddRelativeForce(Vector3d.left * DecouplerModule.ejectionForce * (part.rigidbody.velocity.magnitude / 750f), ForceMode.Force);
             part.RemoveModule(this);
         }
 
         public void OnDestroy()
         {
-            Debug.LogWarning("ModuleAnchoredDecouplerFix: Destroyed.");
+            // Debug.LogWarning("ModuleAnchoredDecouplerFix: Destroyed.");
         }
 
     }  // ModuleAnchoredDecouplerFix
@@ -43,17 +53,17 @@ namespace ClawKSP
     {
         public void Awake()
         {
-            Debug.LogWarning("AnchoredDecouplerFix: Awake");
+            // Debug.LogWarning("AnchoredDecouplerFix: Awake");
         }
 
         public void Start()
         {
-            Debug.LogWarning("AnchoredDecouplerFix: Start");
+            // Debug.LogWarning("AnchoredDecouplerFix: Start");
 
             GameEvents.onVesselLoaded.Add(AnchoredDecouplerFixHook);
             GameEvents.onVesselGoOffRails.Add(AnchoredDecouplerFixHook);
 
-            Debug.LogWarning("AnchoreDecouplerFix: Start complete.");
+            // Debug.LogWarning("AnchoreDecouplerFix: Start complete.");
         }
 
         public void AnchoredDecouplerFixHook(Vessel VesselToFix)
@@ -64,41 +74,41 @@ namespace ClawKSP
                 return;
             }
 
-            Debug.LogWarning("AnchoredDecouplerFixHook: Attempting to add module fix. (" + VesselToFix.Parts.Count + " parts.)");
+            // Debug.LogWarning("AnchoredDecouplerFixHook: Attempting to add module fix. (" + VesselToFix.Parts.Count + " parts.)");
 
             for (int PartsIndex = 0; PartsIndex < VesselToFix.Parts.Count; PartsIndex++)
             {
                 Part CurrentPart = VesselToFix.Parts[PartsIndex];
                 if (null == CurrentPart) continue;
 
-                Debug.LogWarning("Looping Modules = " + CurrentPart.Modules.Count);
+                // Debug.LogWarning("Looping Modules = " + CurrentPart.Modules.Count);
                 for (int ModuleIndex = 0; ModuleIndex < CurrentPart.Modules.Count; ModuleIndex++)
                 {
                     ModuleAnchoredDecoupler DecouplerModule;
                     Debug.LogWarning(CurrentPart.Modules[ModuleIndex].moduleName);
                     if ("ModuleAnchoredDecoupler" == CurrentPart.Modules[ModuleIndex].moduleName)
                     {
-                        Debug.LogWarning("Decoupler Found " + ModuleIndex);
+                        // Debug.LogWarning("Decoupler Found " + ModuleIndex);
                         DecouplerModule = (ModuleAnchoredDecoupler)CurrentPart.Modules.GetModule(ModuleIndex);
 
                         if (false == DecouplerModule.isDecoupled)
                         {
-                            Debug.LogWarning("AnchoredDecouplerFixHook: Attempting to add a fix module to part " + PartsIndex);
+                            // Debug.LogWarning("AnchoredDecouplerFixHook: Attempting to add a fix module to part " + PartsIndex);
                             ModuleAnchoredDecouplerFix NewModule = (ModuleAnchoredDecouplerFix) CurrentPart.AddModule("ModuleAnchoredDecouplerFix");
                             NewModule.DecouplerModuleIndex = ModuleIndex;
-                            Debug.LogWarning("AnchoredDecouplerFixHook: Added Fix module.");
+                            // Debug.LogWarning("AnchoredDecouplerFixHook: Added Fix module.");
                         }
                         break;
                     }
                 }
             }
 
-            Debug.LogWarning("AnchoreDecouplerFixHook: Finished adding modules.");
+            // Debug.LogWarning("AnchoreDecouplerFixHook: Finished adding modules.");
         }  // AnchoredDecouplerFixHook
 
         public void OnDestroy ()
         {
-            Debug.LogWarning("AnchoredDecouplerFix: OnDestroy");
+            // Debug.LogWarning("AnchoredDecouplerFix: OnDestroy");
 
             GameEvents.onVesselLoaded.Remove(AnchoredDecouplerFixHook);
             GameEvents.onVesselGoOffRails.Remove(AnchoredDecouplerFixHook);
