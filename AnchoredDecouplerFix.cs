@@ -7,7 +7,13 @@
  * 
  * Written for KSP v0.25.0
  *
- * AnchoredDecouplerFix v0.1.1
+ * AnchoredDecouplerFix v0.1.2
+ * 
+ * Change Log:
+ * 
+ * v0.1.2 - Fixed decouplers breaking off at 700-750 m/s and strut disconnect problems.
+ * v0.1.1 - Scaled force based on airspeed
+ * v0.1 - Initial Release
  */
 
 using System.Linq;
@@ -19,10 +25,28 @@ namespace ClawKSP
     public class ModuleAnchoredDecouplerFix : PartModule
     {
         public int DecouplerModuleIndex;
+        private int StateTimer = 0;
+        private float EjectionForce = 250;
 
         public void Start()
         {
             Debug.Log("ModuleAnchoredDecouplerFix: Start() against Module #" + DecouplerModuleIndex);
+
+            ModuleAnchoredDecoupler DecouplerModule = (ModuleAnchoredDecoupler)part.Modules.GetModule(DecouplerModuleIndex);
+            EjectionForce = DecouplerModule.ejectionForce;
+            DecouplerModule.ejectionForce = 0;
+        }
+        
+        public override void OnUpdate()
+        {
+            ModuleAnchoredDecoupler DecouplerModule = (ModuleAnchoredDecoupler)part.Modules.GetModule(DecouplerModuleIndex);
+            if (false == DecouplerModule.isDecoupled)
+            {
+                return;
+            }
+            part.vessel.angularMomentum.Zero();
+            part.vessel.angularVelocity.Zero();
+            part.rigidbody.angularVelocity.Zero();
         }
 
         public override void OnFixedUpdate()
@@ -33,16 +57,30 @@ namespace ClawKSP
                 return;
             }
 
-            Vector3d PartVelocity = part.rigidbody.velocity;
-            // Debug.LogWarning("ModuleAnchoredDecouplerFix: Velocity X, Y, Z, Magnitude = " + PartVelocity.x + " " + PartVelocity.y + " " + PartVelocity.z + " " + PartVelocity.magnitude);
-
-            part.rigidbody.AddRelativeForce(Vector3d.left * DecouplerModule.ejectionForce * (part.rigidbody.velocity.magnitude / 750f), ForceMode.Force);
-            part.RemoveModule(this);
+            if (0 == StateTimer)
+            {
+                part.vessel.angularMomentum.Zero();
+                part.vessel.angularVelocity.Zero();
+                part.rigidbody.angularVelocity.Zero();
+            }
+            else if (1 == StateTimer) // Waits for struts and fuel lines to all disconnect
+            {
+                part.rigidbody.AddRelativeForce(Vector3d.left * EjectionForce, ForceMode.Force);
+                Debug.Log("ModuleAnchordDecouplerFix: Fix Applied. Force = " + EjectionForce);
+            }
+            else if (2 == StateTimer) // Waits for the force to disappate before deleting
+            {
+                part.RemoveModule(this);
+            }
+            StateTimer++;
         }
 
         public void OnDestroy()
         {
             // Debug.LogWarning("ModuleAnchoredDecouplerFix: Destroyed.");
+
+            ModuleAnchoredDecoupler DecouplerModule = (ModuleAnchoredDecoupler)part.Modules.GetModule(DecouplerModuleIndex);
+            DecouplerModule.ejectionForce = EjectionForce;
         }
 
     }  // ModuleAnchoredDecouplerFix
@@ -85,7 +123,7 @@ namespace ClawKSP
                 for (int ModuleIndex = 0; ModuleIndex < CurrentPart.Modules.Count; ModuleIndex++)
                 {
                     ModuleAnchoredDecoupler DecouplerModule;
-                    Debug.LogWarning(CurrentPart.Modules[ModuleIndex].moduleName);
+                    // Debug.LogWarning(CurrentPart.Modules[ModuleIndex].moduleName);
                     if ("ModuleAnchoredDecoupler" == CurrentPart.Modules[ModuleIndex].moduleName)
                     {
                         // Debug.LogWarning("Decoupler Found " + ModuleIndex);
