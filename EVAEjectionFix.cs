@@ -7,7 +7,12 @@
  * 
  * Written for KSP v0.25.0
  *
- * EVAEjectonFix v0.1
+ * EVAEjectonFix v0.1.1
+ * 
+ * Change Log:
+ * 
+ * v0.1.1 - Updated error handling to prevent log spam for incompatible mods
+ * v0.1 - Initial Release
  */
 
 using UnityEngine;
@@ -18,17 +23,27 @@ namespace ClawKSP
 
     public class ModuleEVAEjectionFix : PartModule
     {
-        private int TimesToTry = 10; // number of attempts before giving up, prevents locking up kerbal
+        private int TimesToTry = 5; // number of attempts before giving up, prevents locking up kerbal
 
         public override void OnUpdate()
         {
             if ("Ladder (Acquire)" != part.vessel.evaController.fsm.currentStateName
                 && 0 <= TimesToTry)
             {
-                Debug.LogWarning("ModuleEVAEjectionFIx: Attempting to reset = " + vessel.evaController.fsm.currentStateName);
+                Debug.LogWarning("ModuleEVAEjectionFix: Attempting to reset = " + vessel.evaController.fsm.currentStateName);
 
-                part.vessel.evaController.fsm.StartFSM("Ladder (Acquire)"); // Force the FSM to reacquire the ladder
                 TimesToTry--;
+
+                try
+                {
+                    part.vessel.evaController.fsm.StartFSM("Ladder (Acquire)"); // Force the FSM to reacquire the ladder
+                }
+                catch
+                {
+                    Debug.LogError("ModuleEVAEjectionFix: Incompatible Module Found");
+                    TimesToTry = 0;
+                    part.RemoveModule(this);
+                }
                 return;
             }
 
