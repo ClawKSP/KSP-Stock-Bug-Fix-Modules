@@ -7,13 +7,17 @@
  * 
  * Written for KSP v0.25.0
  *
- * ChuteFixer v0.1.1
+ * ChuteFixer v0.1.1a
+ * 
+ * Change Log:
+ * 
+ * v0.1.1a - Removed the "Reset" notification. Recompiled for .NET 3.5
+ * v0.1.1 - Reduced some log spam
+ * v0.1.0 - Initial release
+ * 
  */
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 using KSP;
 
@@ -75,7 +79,7 @@ namespace ClawKSP
                         ChuteModule.deploymentState = ModuleParachute.deploymentStates.ACTIVE;
                         ChuteModule.persistentState = "ACTIVE";
 
-                        Debug.LogWarning("Chute Reset: Resetting chute with persistent state = " + ChuteModule.persistentState);
+                        Debug.Log("Chute Reset: Resetting chute with persistent state = " + ChuteModule.persistentState);
                         if (ModuleParachute.deploymentStates.ACTIVE != ChuteModule.deploymentState)
                         {
                             Debug.LogWarning("ChuteFixer: Failed to reset chute.");
@@ -84,7 +88,7 @@ namespace ClawKSP
                         ChuteModule.Deploy();  // Force the parachute to deploy so the ModuleParachute is error checked correctly.
                     }
 
-                    ScreenMessages.PostScreenMessage("Chute Reset: Complete", 5.0f, ScreenMessageStyle.UPPER_CENTER);
+                    // ScreenMessages.PostScreenMessage("Chute Reset: Complete", 5.0f, ScreenMessageStyle.UPPER_CENTER);
                 }
             }
 
