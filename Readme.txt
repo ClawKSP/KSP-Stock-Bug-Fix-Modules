@@ -24,6 +24,14 @@ Bug fixes included so far
 + EVAEjectionFix.dll - Fixes the bug that causes a kerbal to be ejected away from a capsule upon EVA.
 
 + SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
+*** Please use caution with this. It's done in a way that shouldn't break anything, but symmetry itself is sometimes flaky in KSP. ***
+Please read a very important note below.
+This fixes the problem where action groups are lost on symmetric parts when they are removed and replaced.
+This fix ONLY fixes the loss of action groups on symmetric parts. It does not fix any other symmetry bugs in the editor. As such, there are some symmetry bugs that cause this fix to fail. If you place a part and the action groups don't transfer, try lifting the part and placing again.
+
+Of specific note, if you pick up a part that has children, the children become disassociated from their siblings. KSP fixes itself, but my module fails before that happens. Also, symmetry within symmetry is still buggy in stock, and my action group fix will suffer from those bugs. It shouldn't break anything new, but I didn't want people to think that symmetry is completely fixed with this module.
+
+Again, if you hit one of these bugs, lift the part and place it again. You can watch the ALT+F2 debug log. My module doesn't throw any warnings. So if you see warnings, it's the stock editor fixing itself.
 
 
 
