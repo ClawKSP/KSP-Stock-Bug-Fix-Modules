@@ -23,6 +23,8 @@ Bug fixes included so far
 
 + EVAEjectionFix.dll - Fixes the bug that causes a kerbal to be ejected away from a capsule upon EVA.
 
++ SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
+
 
 
 
@@ -63,6 +65,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.3 (1 Nov 14) - Initial release of SymmetryActionFix.dll
 v0.1.2a (27 Oct 14) - Removed "Reset" message from ChuteQuickloadFixer.dll and recompiled for .NET 3.5, updated readme to accomodate releases
 v0.1.2 (21 Oct 14) - Reworked AnchoredDecouplerFix to better handle struts and prevent decouplers from ripping off. (Should work like pre KSP v0.24.2)
 v0.1.1a (21 Oct 14) - Updated error handling in EVAEjectionFix to prevent log spam and kerbal lockup with incompatible mod
