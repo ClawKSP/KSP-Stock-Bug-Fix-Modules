@@ -33,6 +33,7 @@ Bug fixes included so far
 Please read a very important note below.
 This fixes the problem where action groups are lost on symmetric parts when they are removed and replaced.
 Please bear in mind that this fix ONLY fixes the loss of action groups on symmetric parts. It does not fix any other symmetry bugs in the editor. As such, there are some symmetry bugs that cause this fix to fail. If you place a part and the action groups don't transfer, try lifting the part (or part tree) and placing again.
+<<<<<<< HEAD
 
 Of specific note, if you pick up a part that has children, the children become disassociated from their siblings. KSP fixes itself, but my module fails before that happens. Also, symmetry within symmetry is still buggy in stock, and my action group fix will suffer from those bugs. For example: If you lift a part, change the symmetry multiplier, then place the part back on, the module will fail. Again, if you hit one of these bugs, lift the part and place it again.
 
@@ -41,7 +42,14 @@ You can watch the ALT+F2 debug log. My module doesn't throw any warnings. So if 
 --
 
 + LargeCraftLaunchFix.dll - Fixes launch pad and runway explosions when launching large vessels.
+Now works through quickloads, scene transitions, and when approaching a craft on the pad/runway from outside physics range.
 
+=======
+
+Of specific note, if you pick up a part that has children, the children become disassociated from their siblings. KSP fixes itself, but my module fails before that happens. Also, symmetry within symmetry is still buggy in stock, and my action group fix will suffer from those bugs. For example: If you lift a part, change the symmetry multiplier, then place the part back on, the module will fail. Again, if you hit one of these bugs, lift the part and place it again.
+>>>>>>> origin/master
+
+You can watch the ALT+F2 debug log. My module doesn't throw any warnings. So if you see warnings, it's the stock editor fixing itself. My module shouldn't break anything new, but I didn't want people to think that symmetry is completely fixed with this module.
 
 
 
@@ -82,8 +90,9 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.4a (3 Nov 14) - Updated LargeCraftLaunchFix.dll to be a bit more robust. Now works through quickloads, scene transitions, and coming within physics range.
 v0.1.4 (2 Nov 14) - Initial release of LargeCraftLaunchFix.dll
-v0.1.3 and v0.1.3a (1 Nov 14) - Initial release of SymmetryActionFix.dll
+v0.1.3 & v0.1.3a (1 Nov 14) - Initial release of SymmetryActionFix.dll
 v0.1.2a (27 Oct 14) - Removed "Reset" message from ChuteQuickloadFixer.dll and recompiled for .NET 3.5, updated readme to accomodate releases
 v0.1.2 (21 Oct 14) - Reworked AnchoredDecouplerFix to better handle struts and prevent decouplers from ripping off. (Should work like pre KSP v0.24.2)
 v0.1.1a (21 Oct 14) - Updated error handling in EVAEjectionFix to prevent log spam and kerbal lockup with incompatible mod

@@ -1,4 +1,22 @@
-﻿using KSP;
+﻿/*
+ * This module written by Claw. Please visit
+ * http://forum.kerbalspaceprogram.com/threads/97285-0-25-Stock-Bug-Fix-Modules for more details.
+ * 
+ * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
+ * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
+ * 
+ * Written for KSP v0.25.0
+ *
+ * ChuteFixer v0.1.1
+ * 
+ * Change Log:
+ * 
+ * v0.1.1 - Made the setup a little more robust to prevent inadvertantly saving changed
+ *          indestructible facilities state.
+ * v0.1.0 - Initial release
+ * 
+ */
+using KSP;
 using UnityEngine;
 
 namespace ClawKSP
@@ -6,30 +24,26 @@ namespace ClawKSP
     [KSPAddon(KSPAddon.Startup.Flight, false)]
     public class LargeCraftLaunchFix : UnityEngine.MonoBehaviour
     {
-        private bool UserSelection;
+        private bool UserSelection = true;
         private int CountdownTimer = 5;
         private bool isActive = false;
 
         public void Start()
         {
             //Debug.LogWarning("LargeCraftLaunchFix.Start()");
-            GameEvents.onVesselGoOffRails.Add(OffRails);
+            if (false == HighLogic.CurrentGame.Parameters.Difficulty.IndestructibleFacilities)
+            {
+                GameEvents.onVesselGoOffRails.Add(OffRails);
+                UserSelection = false;
+            }
         }
 
         public void OffRails (Vessel VesselToFix)
         {
-            if (Vessel.Situations.PRELAUNCH == VesselToFix.situation)
-            {
-                isActive = true;
-                UserSelection = HighLogic.CurrentGame.Parameters.Difficulty.IndestructibleFacilities;
-                //Debug.LogWarning("LargeCraftLaunchFix: UserSetting = " + UserSelection);
-                HighLogic.CurrentGame.Parameters.Difficulty.IndestructibleFacilities = true;
-            }
-            else
-            {
-                this.isActive = false;
-                isActive = false;
-            }
+            //Debug.LogWarning("LargeCraftLaunchFix.OffRails");
+            HighLogic.CurrentGame.Parameters.Difficulty.IndestructibleFacilities = true;
+            isActive = true;
+            CountdownTimer = 5;
         }
 
         public void FixedUpdate ()
@@ -45,15 +59,16 @@ namespace ClawKSP
             if (CountdownTimer <= 0)
             {
                 isActive = false;
-                HighLogic.CurrentGame.Parameters.Difficulty.IndestructibleFacilities = UserSelection;
+                HighLogic.CurrentGame.Parameters.Difficulty.IndestructibleFacilities = false;
                 Debug.Log("LargeCraftLaunchFix Deactivating");
             }
         }
 
         public void OnDestroy()
         {
-            //Debug.LogWarning("LargeCraftLaunchFix.OnDestroy()");
+            Debug.Log("LargeCraftLaunchFix.OnDestroy() User Selection = " + UserSelection);
             GameEvents.onVesselGoOffRails.Remove(OffRails);
+            HighLogic.CurrentGame.Parameters.Difficulty.IndestructibleFacilities = UserSelection;
         }
     }
 }
