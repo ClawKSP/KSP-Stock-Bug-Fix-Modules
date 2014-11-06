@@ -7,12 +7,13 @@
  * 
  * Written for KSP v0.25.0
  *
- * SymmetryActionFix v0.1
+ * SymmetryActionFix v0.1.1
  * 
  * Beware, this plugin doesn't fix any symmetry issues except keeping action groups for symmetric parts.
  * 
  * Change Log:
  * 
+ * v0.1.1 - Added some error checking to ensure parts don't become mismatched.
  * v0.1.0 - Initial release
  * 
  */
@@ -60,14 +61,32 @@ namespace ClawKSP
 
         void UpdatePartAndChildren (Part UpdatePart)
         {
+            if (0 == UpdatePart.symmetryCounterparts.Count)
+            {
+                // This part has no mirrored parts. No need to copy the action groups.
+                return;
+            }
+
             Part SourcePart = UpdatePart.symmetryCounterparts[0];
+
+            if (SourcePart.Modules.Count != UpdatePart.Modules.Count)
+            {
+                Debug.LogError("SymmetryActionFix: Part Copy Error. Module Mismatch.");
+                return;
+            }
 
             // Loop through all the modules. Action groups are stored inside the PartModules
             for (int IndexModules = 0; IndexModules < UpdatePart.Modules.Count; IndexModules++)
             {
+                if (SourcePart.Modules[IndexModules].Actions.Count != UpdatePart.Modules[IndexModules].Actions.Count)
+                {
+                    Debug.LogError("SymmetryActionFix: Actions Mismatch in Module " + SourcePart.Modules[IndexModules].moduleName);
+                    return;
+                }
                 // Loop through all the Actions for this module.
                 for (int IndexActions = 0; IndexActions < SourcePart.Modules[IndexModules].Actions.Count; IndexActions++)
                 {
+                    
                     // Copy the Action's triggers.
                     // Debug.LogWarning("Module/Action " + UpdatePart.Modules[IndexModules].Actions[IndexActions].name);
                     UpdatePart.Modules[IndexModules].Actions[IndexActions].actionGroup =
