@@ -34,9 +34,11 @@ Please read a very important note below.
 This fixes the problem where action groups are lost on symmetric parts when they are removed and replaced.
 Please bear in mind that this fix ONLY fixes the loss of action groups on symmetric parts. It does not fix any other symmetry bugs in the editor. As such, there are some symmetry bugs that cause this fix to fail. If you place a part and the action groups don't transfer, try lifting the part (or part tree) and placing again.
 
-Of specific note, if you pick up a part that has children, the children become disassociated from their siblings. KSP fixes itself, but my module fails before that happens. Also, symmetry within symmetry is still buggy in stock, and my action group fix will suffer from those bugs. For example: If you lift a part, change the symmetry multiplier, then place the part back on, the module will fail. Again, if you hit one of these bugs, lift the part and place it again.
+Of specific note, if you pick up a part that has children, the children can become disassociated from their siblings. KSP fixes itself, but my module fails before that happens. For example: If you lift a part, increase the symmetry multiplier, then place the part back on, the siblings become disassociated and the action group fix will fail. If you hit this bug, lift the part (or part tree) and place it again.
 
-You can watch the ALT+F2 debug log. My module doesn't throw any warnings. So if you see warnings, it's the stock editor fixing itself. My module shouldn't break anything new, but I didn't want people to think that symmetry is completely fixed with this module.
+Also, symmetry within symmetry is still buggy in stock. This fix can handle copying Action groups buried in symmetry within symmetry, but can still fail when encounering certain stock bugs. 
+
+My module shouldn't break anything new, but I didn't want people to think that symmetry is completely fixed with this module.
 
 --
 
@@ -84,6 +86,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.4c (6 Nov 14) - SymmetryActionFix.dll now handles action groups buried in symmetry within symmetry.
 v0.1.4b (5 Nov 14) - Added some error checking to SymmetryActionFix.dll
 v0.1.4a (3 Nov 14) - Updated LargeCraftLaunchFix.dll to be a bit more robust. Now works through quickloads, scene transitions, and coming within physics range.
 v0.1.4 (2 Nov 14) - Initial release of LargeCraftLaunchFix.dll

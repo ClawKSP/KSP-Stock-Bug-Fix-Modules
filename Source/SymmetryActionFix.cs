@@ -13,6 +13,7 @@
  * 
  * Change Log:
  * 
+ * v0.1.2 - Updated to handle symmetry within symmetry
  * v0.1.1 - Added some error checking to ensure parts don't become mismatched.
  * v0.1.0 - Initial release
  * 
@@ -56,22 +57,26 @@ namespace ClawKSP
                 return;
             }
 
-            UpdatePartAndChildren(AttachedPart.host);
+            UpdatePartAndChildren(AttachedPart.host.symmetryCounterparts[0], AttachedPart.host);
         }
 
-        void UpdatePartAndChildren (Part UpdatePart)
+        void UpdatePartAndChildren (Part SourcePart, Part UpdatePart)
         {
+            if (null == SourcePart || null == UpdatePart)
+            {
+                // Null parts were passed to the updater. This should not happen, but just in case...
+                return;
+            }
+
             if (0 == UpdatePart.symmetryCounterparts.Count)
             {
                 // This part has no mirrored parts. No need to copy the action groups.
                 return;
             }
 
-            Part SourcePart = UpdatePart.symmetryCounterparts[0];
-
             if (SourcePart.Modules.Count != UpdatePart.Modules.Count)
             {
-                Debug.LogError("SymmetryActionFix: Part Copy Error. Module Mismatch.");
+                Debug.LogWarning("SymmetryActionFix: Part Copy Error. Module Count Mismatch.");
                 return;
             }
 
@@ -80,7 +85,7 @@ namespace ClawKSP
             {
                 if (SourcePart.Modules[IndexModules].Actions.Count != UpdatePart.Modules[IndexModules].Actions.Count)
                 {
-                    Debug.LogError("SymmetryActionFix: Actions Mismatch in Module " + SourcePart.Modules[IndexModules].moduleName);
+                    Debug.LogWarning("SymmetryActionFix: Actions Mismatch in Module. Actions not copied for Module: " + SourcePart.Modules[IndexModules].moduleName);
                     return;
                 }
                 // Loop through all the Actions for this module.
@@ -98,7 +103,7 @@ namespace ClawKSP
             for (int IndexChild = 0; IndexChild < UpdatePart.children.Count; IndexChild++)
             {
                 // Go through all the children parts and copy the actions.
-                UpdatePartAndChildren (UpdatePart.children[IndexChild]);
+                UpdatePartAndChildren (SourcePart.children[IndexChild], UpdatePart.children[IndexChild]);
             }
         }
 
