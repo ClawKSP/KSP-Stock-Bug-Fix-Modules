@@ -43,7 +43,8 @@ My module shouldn't break anything new, but I didn't want people to think that s
 --
 
 + LargeCraftLaunchFix.dll - Fixes launch pad and runway explosions when launching large vessels.
-Now works through quickloads, scene transitions, and when approaching a craft on the pad/runway from outside physics range.
+  - Now works through quickloads, scene transitions, and when approaching a craft on the pad/runway from outside physics range.
+  - Functions correctly with Kerbal Joint Reinforcement installed.
 
 =======
 
@@ -86,6 +87,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.4d (22 Nov 14) - LargeCraftLaunchFix.dll now functions correctly with Kerbal Joint Reinforcement installed.
 v0.1.4c (6 Nov 14) - SymmetryActionFix.dll now handles action groups buried in symmetry within symmetry.
 v0.1.4b (5 Nov 14) - Added some error checking to SymmetryActionFix.dll
 v0.1.4a (3 Nov 14) - Updated LargeCraftLaunchFix.dll to be a bit more robust. Now works through quickloads, scene transitions, and coming within physics range.

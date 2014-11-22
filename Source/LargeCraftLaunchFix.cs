@@ -11,6 +11,7 @@
  * 
  * Change Log:
  * 
+ * v0.1.1b - Modified slightly to be compatible with Kerbal Joint Reinforcement
  * v0.1.1 - Made the setup a little more robust to prevent inadvertantly saving changed
  *          indestructible facilities state.
  * v0.1.0 - Initial release
@@ -25,7 +26,7 @@ namespace ClawKSP
     public class LargeCraftLaunchFix : UnityEngine.MonoBehaviour
     {
         private bool UserSelection = true;
-        private int CountdownTimer = 5;
+        private int CountdownTimer = 15;
         private bool isActive = false;
 
         public void Start()
@@ -43,7 +44,7 @@ namespace ClawKSP
             //Debug.LogWarning("LargeCraftLaunchFix.OffRails");
             HighLogic.CurrentGame.Parameters.Difficulty.IndestructibleFacilities = true;
             isActive = true;
-            CountdownTimer = 5;
+            CountdownTimer = 15;
         }
 
         public void FixedUpdate ()
