@@ -11,6 +11,7 @@
  * 
  * Change Log:
  * 
+ * v0.1a - Fixed names when loading an already frozen kerbal.
  * v0.1 - Initial Release
  */
 
@@ -84,8 +85,7 @@ namespace ClawKSP
                 {
                     Debug.LogWarning("ModuleKerbalDebrisFix: Fixing Kerbal");
                     vessel.vesselType = VesselType.EVA;
-                    // name is in the format "kerbalEVA (Bob Kermin)"
-                    vessel.vesselName = part.name.Substring(11, part.name.Length-12);
+                    vessel.vesselName = part.protoModuleCrew[0].name;
                 }
             }
             //else
