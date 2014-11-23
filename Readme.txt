@@ -46,6 +46,10 @@ My module shouldn't break anything new, but I didn't want people to think that s
   - Now works through quickloads, scene transitions, and when approaching a craft on the pad/runway from outside physics range.
   - Functions correctly with Kerbal Joint Reinforcement installed.
 
++ KerbalDebrisFix.dll - Fixes kerbals turning into debris when crashing vehicles containing External Command Seats.
+  - Also recovers kerbals who have been previous frozen by this bug.
+
+
 =======
 
 
@@ -87,6 +91,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.5 (22 Nov 14) - Initial release of KerbalDebrisFix.dll
 v0.1.4d (22 Nov 14) - LargeCraftLaunchFix.dll now functions correctly with Kerbal Joint Reinforcement installed.
 v0.1.4c (6 Nov 14) - SymmetryActionFix.dll now handles action groups buried in symmetry within symmetry.
 v0.1.4b (5 Nov 14) - Added some error checking to SymmetryActionFix.dll
