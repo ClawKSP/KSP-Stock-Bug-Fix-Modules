@@ -11,7 +11,8 @@
  * 
  * Change Log:
  * 
- * v0.1a - Fixed names when loading an already frozen kerbal.
+ * v0.1.1b - Added a bit of error checking.
+ * v0.1.1a - Fixed names when loading an already frozen kerbal.
  * v0.1 - Initial Release
  */
 
@@ -44,6 +45,8 @@ namespace ClawKSP
             for (int IndexParts = 0; IndexParts < VesselToFix.parts.Count; IndexParts++)
             {
                 // Debug.LogWarning(VesselToFix.parts[IndexParts].name.Substring(0, 9));
+                if (9 > VesselToFix.parts[IndexParts].name.Length) { continue; }
+
                 if ("kerbalEVA" == VesselToFix.parts[IndexParts].name.Substring(0, 9))
                 {
                     // Debug.LogWarning("KerbalDebrisFix: Kerbal Found");

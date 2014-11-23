@@ -7,10 +7,11 @@
  * 
  * Written for KSP v0.25.0
  *
- * EVAEjectonFix v0.1.1
+ * EVAEjectonFix v0.1.1a
  * 
  * Change Log:
  * 
+ * v0.1.1a - Nullifies ladder slide bug for initial EVA
  * v0.1.1 - Updated error handling to prevent log spam for incompatible mods
  * v0.1 - Initial Release
  */
@@ -73,6 +74,10 @@ namespace ClawKSP
 
             // tipping the kerbal back prevents collision induced ejection
             EVAParts.to.vessel.transform.Rotate(-30f, 0f, 0f);
+
+            // nullify the ladder slide upon initially going EVA
+            EVAParts.to.vessel.rigidbody.velocity = EVAParts.from.rigidbody.velocity;
+            EVAParts.to.rigidbody.velocity = EVAParts.from.rigidbody.velocity;
 
             // hook in the module that reacquires the ladder
             EVAParts.to.AddModule("ModuleEVAEjectionFix");

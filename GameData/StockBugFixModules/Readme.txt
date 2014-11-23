@@ -25,6 +25,7 @@ Bug fixes included so far
 --
 
 + EVAEjectionFix.dll - Fixes the bug that causes a kerbal to be ejected away from a capsule upon EVA.
+  - Nullifies ladder slide bug for initial EVA.
 
 --
 
@@ -91,6 +92,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.5b (23 Nov 14) - EVAEjectionFix now nullifies ladder slide bug for initial EVA, and added minor error checking for KerbalDebrsFix.
 v0.1.5a (22 Nov 14) - KerbalDebrisFix now properly recovers names for already frozen kerbals.
 v0.1.5 (22 Nov 14) - Initial release of KerbalDebrisFix.dll
 v0.1.4d (22 Nov 14) - LargeCraftLaunchFix.dll now functions correctly with Kerbal Joint Reinforcement installed.
