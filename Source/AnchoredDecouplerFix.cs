@@ -7,22 +7,22 @@
  * 
  * Written for KSP v0.25.0
  *
- * AnchoredDecouplerFix v0.1.2
+ * AnchoredDecouplerFix v0.1.2a
  * 
  * Change Log:
  * 
+ * v0.1.2a - Updated for compatibility with Kerbquake
  * v0.1.2 - Fixed decouplers breaking off at 700-750 m/s and strut disconnect problems.
  * v0.1.1 - Scaled force based on airspeed
  * v0.1 - Initial Release
  */
 
-using System.Linq;
 using UnityEngine;
 using KSP;
 
 namespace ClawKSP
 {
-    public class ModuleAnchoredDecouplerFix : PartModule
+    public class MADFix : PartModule
     {
         public int DecouplerModuleIndex;
         private int StateTimer = 0;
@@ -30,7 +30,7 @@ namespace ClawKSP
 
         public void Start()
         {
-            Debug.Log("ModuleAnchoredDecouplerFix: Start() against Module #" + DecouplerModuleIndex);
+            Debug.Log("MADFix: Start() against Module #" + DecouplerModuleIndex);
 
             ModuleAnchoredDecoupler DecouplerModule = (ModuleAnchoredDecoupler)part.Modules.GetModule(DecouplerModuleIndex);
             EjectionForce = DecouplerModule.ejectionForce;
@@ -57,6 +57,8 @@ namespace ClawKSP
                 return;
             }
 
+            // Debug.Log("MADFix: OnFixedUpdate, State Timer = " + StateTimer);
+
             if (0 == StateTimer)
             {
                 part.vessel.angularMomentum.Zero();
@@ -77,13 +79,13 @@ namespace ClawKSP
 
         public void OnDestroy()
         {
-            // Debug.LogWarning("ModuleAnchoredDecouplerFix: Destroyed.");
+            // Debug.LogWarning("MADFix: Destroyed.");
 
             ModuleAnchoredDecoupler DecouplerModule = (ModuleAnchoredDecoupler)part.Modules.GetModule(DecouplerModuleIndex);
             DecouplerModule.ejectionForce = EjectionForce;
         }
 
-    }  // ModuleAnchoredDecouplerFix
+    }  // MADFix
 
 
     [KSPAddon(KSPAddon.Startup.Flight, false)]
@@ -132,7 +134,7 @@ namespace ClawKSP
                         if (false == DecouplerModule.isDecoupled)
                         {
                             // Debug.LogWarning("AnchoredDecouplerFixHook: Attempting to add a fix module to part " + PartsIndex);
-                            ModuleAnchoredDecouplerFix NewModule = (ModuleAnchoredDecouplerFix) CurrentPart.AddModule("ModuleAnchoredDecouplerFix");
+                            MADFix NewModule = (MADFix) CurrentPart.AddModule("MADFix");
                             NewModule.DecouplerModuleIndex = ModuleIndex;
                             // Debug.LogWarning("AnchoredDecouplerFixHook: Added Fix module.");
                         }
