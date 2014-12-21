@@ -5,12 +5,13 @@
  * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
- * Written for KSP v0.25.0
+ * Written for KSP v0.90.0
  *
- * EVAEjectonFix v0.1.1a
+ * EVAEjectonFix v0.1.2
  * 
  * Change Log:
  * 
+ * v0.1.2 (20 Dec 14) - Recompiled and tested for KSP v0.90.0
  * v0.1.1a - Nullifies ladder slide bug for initial EVA
  * v0.1.1 - Updated error handling to prevent log spam for incompatible mods
  * v0.1 - Initial Release

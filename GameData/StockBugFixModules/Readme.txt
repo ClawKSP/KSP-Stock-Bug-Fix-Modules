@@ -3,7 +3,6 @@ KSP-Stock-Bug-Fix-Modules
 =========================
 
 
-
 Stand alone fixes for common stock KSP bugs. These modules are meant to be fully stock compatible. My aim is to be able to remove them from the game at any time without causing a problem for the stock saves.
 
 
@@ -13,7 +12,6 @@ Stand alone fixes for common stock KSP bugs. These modules are meant to be fully
 Bug fixes included so far
 
 =========================
-
 
 
 + ChuteQuickloadFixer.dll - Fixes "Tiny Chutes" or disappearing chutes on quickload
@@ -30,7 +28,16 @@ Bug fixes included so far
 
 --
 
-+ SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
++ KerbalDebrisFix.dll - Fixes kerbals turning into debris when crashing vehicles containing External Command Seats.
+  - Also recovers kerbals who have been previous frozen by this bug.
+
+--
+
++ CrewRosterFreezeFix.dll - Fixes a bug where firing a kerbal who had logged Achiements caused the game to lock up and corrupt the save.
+
+--
+
++ [REGRESSED FOR BUGS IN v0.90]  SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
 *** Please use caution with this. It's done in a way that shouldn't break anything, but symmetry itself is sometimes flaky in KSP. ***
 Please read a very important note below.
 This fixes the problem where action groups are lost on symmetric parts when they are removed and replaced.
@@ -42,14 +49,24 @@ Also, symmetry within symmetry is still buggy in stock. This fix can handle copy
 
 My module shouldn't break anything new, but I didn't want people to think that symmetry is completely fixed with this module.
 
+
+
+
+
+=======
+
+
+Depricated
+
 --
 
-+ LargeCraftLaunchFix.dll - Fixes launch pad and runway explosions when launching large vessels.
++ [DEPRICATED FOR v0.90] LargeCraftLaunchFix.dll - Fixes launch pad and runway explosions when launching large vessels.
   - Now works through quickloads, scene transitions, and when approaching a craft on the pad/runway from outside physics range.
   - Functions correctly with Kerbal Joint Reinforcement installed.
+  - DEPRICATED: This bug is now fixed in stock KSP.
 
-+ KerbalDebrisFix.dll - Fixes kerbals turning into debris when crashing vehicles containing External Command Seats.
-  - Also recovers kerbals who have been previous frozen by this bug.
+
+
 
 
 =======
@@ -66,11 +83,7 @@ Installation
 Just download the desired fix's .dll and place in the KSP/GameData directory. No other downloads, file changes, or add-ons are required.
 
 
-
 Alternately, you can download the release and place the "StockBugFixModules" directory in the KSP/GameData directory.
-
-
-
 
 
 
@@ -93,6 +106,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.6 (20 Dec 14) - Initial release CrewRosterFreezeFix.dll, regressed SymmetryActionFix.dll (broken in KSP v0.90), depricated LargeCraftLaunchFix.dll
 v0.1.5c (10 Dec 14) - AnchoredDecouplerFix.dll updated for compatilibity with Kerbquake.
 v0.1.5b (23 Nov 14) - EVAEjectionFix now nullifies ladder slide bug for initial EVA, and added minor error checking for KerbalDebrsFix.
 v0.1.5a (22 Nov 14) - KerbalDebrisFix now properly recovers names for already frozen kerbals.

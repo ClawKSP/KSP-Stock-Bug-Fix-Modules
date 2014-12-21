@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8DE20227-F408-4CA7-98D3-A73E770A33EC}</ProjectGuid>
+    <ProjectGuid>{763EBAA0-C333-4605-A3D3-463BAD9D4AC2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LargeCraftLaunchFix</RootNamespace>
-    <AssemblyName>LargeCraftLaunchFix</AssemblyName>
+    <RootNamespace>CrewRosterFreezeFix</RootNamespace>
+    <AssemblyName>CrewRosterFreezeFix</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="LargeCraftLaunchFix.cs" />
+    <Compile Include="CrewRosterFreezeFix.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

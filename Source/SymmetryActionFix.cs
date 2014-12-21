@@ -5,14 +5,15 @@
  * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
- * Written for KSP v0.25.0
+ * Written for KSP v0.90.0
  *
- * SymmetryActionFix v0.1.1
+ * SymmetryActionFix v0.1.3
  * 
  * Beware, this plugin doesn't fix any symmetry issues except keeping action groups for symmetric parts.
  * 
  * Change Log:
  * 
+ * v0.1.3 (20 Dec 14) - Recompiled and tested for KSP v0.90.0
  * v0.1.2 - Updated to handle symmetry within symmetry
  * v0.1.1 - Added some error checking to ensure parts don't become mismatched.
  * v0.1.0 - Initial release

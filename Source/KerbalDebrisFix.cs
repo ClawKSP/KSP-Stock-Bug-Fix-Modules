@@ -5,12 +5,13 @@
  * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
- * Written for KSP v0.25.0
+ * Written for KSP v0.90.0
  *
- * KerbalDebrisFix v0.1
+ * KerbalDebrisFix v0.1.2
  * 
  * Change Log:
  * 
+ * v0.1.2 (20 Dec 14) - Recompiled and tested for KSP v0.90.0
  * v0.1.1b - Added a bit of error checking.
  * v0.1.1a - Fixed names when loading an already frozen kerbal.
  * v0.1 - Initial Release

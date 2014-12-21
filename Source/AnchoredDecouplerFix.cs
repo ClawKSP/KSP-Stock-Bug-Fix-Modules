@@ -5,12 +5,13 @@
  * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
- * Written for KSP v0.25.0
+ * Written for KSP v0.90.0
  *
- * AnchoredDecouplerFix v0.1.2a
+ * AnchoredDecouplerFix v0.1.3
  * 
  * Change Log:
  * 
+ * v0.1.3 (20 Dec 14) - Recompiled and tested for KSP v0.90.0
  * v0.1.2a - Updated for compatibility with Kerbquake
  * v0.1.2 - Fixed decouplers breaking off at 700-750 m/s and strut disconnect problems.
  * v0.1.1 - Scaled force based on airspeed
