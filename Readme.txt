@@ -37,6 +37,10 @@ Bug fixes included so far
 
 --
 
++ StickyLaunchPadFix.dll - Fixes the tier 2 launch pad, where certain rocket configurations "stick" to the launch pad.
+
+--
+
 + [REGRESSED FOR BUGS IN v0.90]  SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
 *** Please use caution with this. It's done in a way that shouldn't break anything, but symmetry itself is sometimes flaky in KSP. ***
 Please read a very important note below.
@@ -106,6 +110,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.7 (23 Dec 14) - Initial release StickyLaunchPadFix.dll.
 v0.1.6 (20 Dec 14) - Initial release CrewRosterFreezeFix.dll, regressed SymmetryActionFix.dll (broken in KSP v0.90), depricated LargeCraftLaunchFix.dll
 v0.1.5c (10 Dec 14) - AnchoredDecouplerFix.dll updated for compatilibity with Kerbquake.
 v0.1.5b (23 Nov 14) - EVAEjectionFix now nullifies ladder slide bug for initial EVA, and added minor error checking for KerbalDebrsFix.
