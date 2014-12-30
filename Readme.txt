@@ -34,6 +34,7 @@ Bug fixes included so far
 --
 
 + CrewRosterFreezeFix.dll - Fixes a bug where firing a kerbal who had logged Achiements caused the game to lock up and corrupt the save.
+  - Now handles firing kerbals who are MIA and works when managing kerbals from the Editors.
 
 --
 
@@ -110,6 +111,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.7a (27 Dec 14) - Updated CrewRosterFreezeFix.dll to be a bit more robust. Reduced StickyLaunchPadFix.dll log spam.
 v0.1.7 (23 Dec 14) - Initial release StickyLaunchPadFix.dll.
 v0.1.6 (20 Dec 14) - Initial release CrewRosterFreezeFix.dll, regressed SymmetryActionFix.dll (broken in KSP v0.90), depricated LargeCraftLaunchFix.dll
 v0.1.5c (10 Dec 14) - AnchoredDecouplerFix.dll updated for compatilibity with Kerbquake.

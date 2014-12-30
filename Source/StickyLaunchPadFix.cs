@@ -11,6 +11,7 @@
  * 
  * Change Log:
  * 
+ * v0.1.0a (29 Dec 14) - Reduced log spam
  * v0.1.0 (23 Dec 14) - Initial Release
  */
 
@@ -73,8 +74,8 @@ namespace ClawKSP
 
             for (int CollIndex = 0; CollIndex < part.currentCollisions.Count; CollIndex++)
             {
-                Debug.LogWarning("-- " + CollIndex + " || " + part.currentCollisions[CollIndex].name
-                    + " || " + part.currentCollisions[CollIndex].enabled);
+                //Debug.LogWarning("-- " + CollIndex + " || " + part.currentCollisions[CollIndex].name
+                //    + " || " + part.currentCollisions[CollIndex].enabled);
 
                 // Check for the main portion (outer ring) of the launch pad
                 if ("LP_main" == part.currentCollisions[CollIndex].name)
@@ -99,7 +100,7 @@ namespace ClawKSP
             {
                 for (int CollIndex = 0; CollIndex < part.currentCollisions.Count; CollIndex++)
                 {
-                    Debug.LogWarning("MSLPFix.FixedUpdate: Sticky Launch Pad Detected");
+                    //Debug.LogWarning("MSLPFix.FixedUpdate: Sticky Launch Pad Detected");
 
                     if ("LP_main" == part.currentCollisions[CollIndex].name)
                     {
