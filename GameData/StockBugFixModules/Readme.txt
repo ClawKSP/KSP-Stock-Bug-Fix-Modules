@@ -42,7 +42,7 @@ Bug fixes included so far
 
 --
 
-+ SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
++ [Regressed for bugs] SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
 *** Please use caution with this. It's done in a way that shouldn't break anything, but symmetry itself is sometimes flaky in KSP. ***
 Please read a very important note below.
 This fixes the problem where action groups are lost on symmetric parts when they are removed and replaced.
@@ -111,6 +111,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.7c (4 Jan 15) - Regressed SymmetryActionFix.dll again. Found further bugs that break new KSP symmetry features.
 v0.1.7b (29 Dec 14) - Reinstated SymmetryActionFix.dll for KSP v0.90.0.705.
 v0.1.7a (29 Dec 14) - Updated CrewRosterFreezeFix.dll to be a bit more robust. Reduced StickyLaunchPadFix.dll log spam.
 v0.1.7 (23 Dec 14) - Initial release StickyLaunchPadFix.dll.
