@@ -42,19 +42,12 @@ Bug fixes included so far
 
 --
 
-+ [Regressed for bugs] SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
++ SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
 *** Please use caution with this. It's done in a way that shouldn't break anything, but symmetry itself is sometimes flaky in KSP. ***
-Please read a very important note below.
-This fixes the problem where action groups are lost on symmetric parts when they are removed and replaced.
-Please bear in mind that this fix ONLY fixes the loss of action groups on symmetric parts. It does not fix any other symmetry bugs in the editor. As such, there are some symmetry bugs that cause this fix to fail. If you place a part and the action groups don't transfer, try lifting the part (or part tree) and placing again.
+Please read a very important notes below.
+I was tired of bandaid fixing this patch, so I've attacked it on a more fundamental level. In addition to fixing the problem where action groups are lost on symmetric parts when they are removed and replaced, This fix now fixes loss of action groups when placing symmetric parts, prevents symmetric parts from becoming disassociated (where you pull off a part, and some of the mirrors stay). It also fixes some bugs with recursive symmetry. There are still problems with the editor building recursive symmetry that I haven't fixed.
 
-Of specific note, if you pick up a part that has children, the children can become disassociated from their siblings. KSP fixes itself, but my module fails before that happens. For example: If you lift a part, increase the symmetry multiplier, then place the part back on, the siblings become disassociated and the action group fix will fail. If you hit this bug, lift the part (or part tree) and place it again.
-
-Also, symmetry within symmetry is still buggy in stock. This fix can handle copying Action groups buried in symmetry within symmetry, but can still fail when encounering certain stock bugs. 
-
-My module shouldn't break anything new, but I didn't want people to think that symmetry is completely fixed with this module.
-
-
+So, symmetry within symmetry is still a bit buggy in stock. This fix can handle copying Action groups buried in symmetry within symmetry, but might still fail when encounering certain stock bugs.
 
 
 
@@ -111,6 +104,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.7d (6 Jan 15) - Rebuild of SymmetryActionFix.dll. More robust at handling nested symmetry and collecting symmetric parts / action groups.
 v0.1.7c (4 Jan 15) - Regressed SymmetryActionFix.dll again. Found further bugs that break new KSP symmetry features.
 v0.1.7b (29 Dec 14) - Reinstated SymmetryActionFix.dll for KSP v0.90.0.705.
 v0.1.7a (29 Dec 14) - Updated CrewRosterFreezeFix.dll to be a bit more robust. Reduced StickyLaunchPadFix.dll log spam.
