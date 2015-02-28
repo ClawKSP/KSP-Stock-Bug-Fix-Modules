@@ -45,7 +45,9 @@ Bug fixes included so far
 + SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
 *** Please use caution with this. It's done in a way that shouldn't break anything, but symmetry itself is sometimes flaky in KSP. ***
 Please read a very important notes below.
-I was tired of bandaid fixing this patch, so I've attacked it on a more fundamental level. In addition to fixing the problem where action groups are lost on symmetric parts when they are removed and replaced, This fix now fixes loss of action groups when placing symmetric parts, prevents symmetric parts from becoming disassociated (where you pull off a part, and some of the mirrors stay). It also fixes some bugs with recursive symmetry. There are still problems with the editor building recursive symmetry that I haven't fixed.
+I was tired of bandaid fixing this patch, so I've attacked it on a more fundamental level. In addition to fixing the problem where action groups are lost on symmetric parts when they are removed and replaced, this fix now fixes loss of action groups when placing symmetric parts and prevents symmetric parts from becoming disassociated (where you pull off a part, and some of the mirrors stay). It also fixes some bugs with recursive symmetry. There are still problems with the editor building recursive symmetry that I haven't fixed.
+
+- Now includes a highlighter tool (was built for debugging). To toggle, press MOD+H. If you want to change the keybinding or force it to default to ON, edit the included SymmetryActionFix.cfg.
 
 So, symmetry within symmetry is still a bit buggy in stock. This fix can handle copying Action groups buried in symmetry within symmetry, but might still fail when encounering certain stock bugs.
 
@@ -104,6 +106,7 @@ Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 Change Log
 
 ==========
+v0.1.7e (28 Feb 15) - SymmetryActionFix fixes some default behaviors in the editors, prevents staging icons from separating, and includes part highlighting.
 v0.1.7d (6 Jan 15) - Rebuild of SymmetryActionFix.dll. More robust at handling nested symmetry and collecting symmetric parts / action groups.
 v0.1.7c (4 Jan 15) - Regressed SymmetryActionFix.dll again. Found further bugs that break new KSP symmetry features.
 v0.1.7b (29 Dec 14) - Reinstated SymmetryActionFix.dll for KSP v0.90.0.705.
