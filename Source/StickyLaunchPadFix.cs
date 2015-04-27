@@ -5,12 +5,12 @@
  * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
- * Written for KSP v0.90.0
  *
- * StickyLaunchPadFix v0.1.0
+ * StickyLaunchPadFix - Written for KSP v1.00
  * 
  * Change Log:
  * 
+ * v01.00 (27 Apr 15) - Recompiled for KSP v1.0
  * v0.1.0a (29 Dec 14) - Reduced log spam
  * v0.1.0 (23 Dec 14) - Initial Release
  */
@@ -126,7 +126,7 @@ namespace ClawKSP
 
         public void Start()
         {
-            Debug.LogWarning("SLPFix.Start()");
+            Debug.LogWarning("SLPFix.Start(): v01.00");
 
             GameEvents.onVesselGoOffRails.Add(SLPFixHook);
         } // Start()

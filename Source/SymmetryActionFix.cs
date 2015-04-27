@@ -5,9 +5,8 @@
  * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
- * Written for KSP v0.90.0
  *
- * SymmetryActionFix v0.1.4
+ * SymmetryActionFix Written for KSP v1.00
  * 
  * This plugin manages the symmetric sibilings so that they retain action gropus when pulled off
  * and replaced. As of v0.1.4, this module also manages symmetric siblings better in that they now
@@ -16,6 +15,7 @@
  * 
  * Change Log:
  * 
+ * v01.00 (26 Apr 15) - Updated for KSP v1.0
  * v0.1.5 (28 Feb 15) - Fixed engine icons coming apart in stage sequence. Added debug highlighting and action key toggle.
  *   Set SPH to default to mirror symmetry for singular parts. Standardized debug log entries.
  * v0.1.4a (12 Jan 15) - Fixed the SPH so that building one wing first, then copying with mirror symmetry doesn't
@@ -47,8 +47,10 @@ namespace ClawKSP
 
         public void Start()
         {
-            Debug.Log("SAFix.Start()");
+            Debug.Log("SAFix.Start(): v01.00");
             GameEvents.onPartAttach.Add(onPartAttach);
+
+            return;
 
             if (null != GameDatabase.Instance.GetConfigNodes("SAFIX_HIGHLIGHT"))
             {
@@ -156,12 +158,12 @@ namespace ClawKSP
                 return;
             }
 
-            //if (null == AttachedPart.host.symmetryCounterparts[0].parent)
-            //{
-            //    // This part is the first part. No need to copy the action groups.
-            //    // Debug.LogError("Null Parent 0");
-            //    return;
-            //}
+            if (null == AttachedPart.host.symmetryCounterparts[0].parent)
+            {
+                // This part is the first part. No need to copy the action groups.
+                // Debug.LogError("Null Parent 0");
+                return;
+            }
 
             UpdatePartAndChildren(AttachedPart.host.symmetryCounterparts[0], AttachedPart.host,
                 AttachedPart.host.symmetryCounterparts[0].symMethod);
@@ -187,11 +189,11 @@ namespace ClawKSP
             UpdatePart.originalStage = SourcePart.originalStage;
 
             // This shouldn't be needed anymore.
-            //if (0 == UpdatePart.symmetryCounterparts.Count)
-            //{
-            //    // This part has no mirrored parts. No need to copy the action groups.
-            //    return;
-            //}
+            if (0 == UpdatePart.symmetryCounterparts.Count)
+            {
+                // This part has no mirrored parts. No need to copy the action groups.
+                return;
+            }
 
             CheckAndAddCounterpart(SourcePart, UpdatePart);
             PropagateCounterparts(SourcePart);
@@ -206,18 +208,18 @@ namespace ClawKSP
             SourcePart.symMethod = SymMethod;
             UpdatePart.symMethod = SymMethod;
 
-            //if (SourcePart.Modules.Count != UpdatePart.Modules.Count)
-            //{
-            //    Debug.LogWarning("SAFix.onPartAttach(): Part Copy Error. Module Count Mismatch.");
-            //    return;
-            //}
+            if (SourcePart.Modules.Count != UpdatePart.Modules.Count)
+            {
+                Debug.LogError("SAFix.onPartAttach(): Part Copy Error. Module Count Mismatch.");
+                return;
+            }
 
             // Loop through all the modules. Action groups are stored inside the PartModules
             for (int IndexModules = 0; IndexModules < UpdatePart.Modules.Count; IndexModules++)
             {
                 if (SourcePart.Modules[IndexModules].Actions.Count != UpdatePart.Modules[IndexModules].Actions.Count)
                 {
-                    Debug.LogWarning("SAFix.UpdatePartAndChildren(): Actions Mismatch in Module. Action copy aborted at Module: "
+                    Debug.LogError("SAFix.UpdatePartAndChildren(): Actions Mismatch in Module. Action copy aborted at Module: "
                         + SourcePart.Modules[IndexModules].moduleName);
                     return;
                 }
@@ -393,7 +395,7 @@ namespace ClawKSP
         public void HighlightParent (Part Parent)
         {
             if (null == Parent) { return; }
-            Debug.LogError("Highlighting Parent");
+            Debug.LogError("SAFix.HighlightParent()");
 
             Parent.SetHighlightColor(Color.blue);
             Parent.SetHighlight(true, false);
@@ -411,7 +413,7 @@ namespace ClawKSP
         public void RemoveHighlight (Part HighlightPart)
         {
             if (null == HighlightPart) { return; }
-            Debug.LogError("Removing Highlight");
+            Debug.LogError("SAFix.RemoveHighlight()");
 
             HighlightPart.SetHighlightColor();
             HighlightPart.SetHighlight(false, false);

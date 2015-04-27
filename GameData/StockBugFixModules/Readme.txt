@@ -1,30 +1,30 @@
 KSP-Stock-Bug-Fix-Modules
-
 =========================
-
 
 Stand alone fixes for common stock KSP bugs. These modules are meant to be fully stock compatible. My aim is to be able to remove them from the game at any time without causing a problem for the stock saves.
 
 
 
+Installation
+============
+Unzip the zip file to the KSP/GameData directory. Module Manager should be in the GameData directory along side the ClawKSP folder.
+
+The fixes are all stand alone. So if there are any that you don't want, just delete the directory inside the ClawKSP folder.
+
+Special NOTE: If you want to use the readjusted parachute drag (ParachuteFix/ParachuteDragFix.cfg), you will need to delete the PartDatabase.cfg file from the root KSP directory.
 
 
-Bug fixes included so far
 
-=========================
+Bug Fixes Included
+==================
 
-
-+ ChuteQuickloadFixer.dll - Fixes "Tiny Chutes" or disappearing chutes on quickload
++ BandwidthFix.dll - Fixes incorrect calculation/display of transmitter bandwidth in the editors
+  - Very minor fix
 
 --
 
-+ AnchoredDecouplerFix.dll - Fixes radial decouplers not wanting to decouple correctly at high speed (leading to boosters striking the core stack)
-  - Updated for compatibility with Kerbquake
-
---
-
-+ EVAEjectionFix.dll - Fixes the bug that causes a kerbal to be ejected away from a capsule upon EVA.
-  - Nullifies ladder slide bug for initial EVA.
++ HeatBalanceFix.dll - Adjusts heat balancing of parts
+  - Right now this is a minor change to the service bays (which were blocking all heat)
 
 --
 
@@ -33,30 +33,74 @@ Bug fixes included so far
 
 --
 
-+ CrewRosterFreezeFix.dll - Fixes a bug where firing a kerbal who had logged Achiements caused the game to lock up and corrupt the save.
-  - Now handles firing kerbals who are MIA and works when managing kerbals from the Editors.
++ Mk3StrengthFix.dll - Increases strength of Mk3 parts
+  - Mk3 parts are rebalanced to have joint strength on par with other size 3 (SLS) parts.
+
+--
+
++ ModuleCargoBayFix.dll - Shielded parts in cargo bays won't unshield
+  - When parts are place in a cargo bay, they remain marked as "shielded" even after they leave the bay.
+
+--
+
++ ModuleProceduralFairingFix
+  - Fixes some bugs with removing/replacing interstage fairings which can cause fairings to lock up
+  - Fixes fairing decoupler strength
+  - Adds tweakable that allows adjusting the number of shell splits on the fairing
+  - Adds tweakable option to enable/disable fairings inside a procedural fairing
+
+--
+
++ ModuleWheelFix - Rover wheel bugs
+  - Improves wheel grip for all rover wheels (Tweakable multiplier from 1 to 3x)
+  - Fixes bug with brake torque not working on rover wheels (now tweakable from 0 to 200)
+
+--
+
++ ParachuteFix - Various fixes for chutes
+  - Fixes drag values displayed in Editor to show values useful for KSP 1.0 aero
+  - Lowers semi-deployed drag to be more inline with previous performance, and (importantly) to reduce opening shock
+  - Adjusts fully deployed drag slightly to match previous landing performance 
+  - Adjusts drogue chute drag to be more drogue like
+  - Unlocks tweakables to for deployment time and higher altitudes (for drogues)
+  - Adds a couple visual effects (such as symmetric chute spread and asymmetric chute movement)
 
 --
 
 + StickyLaunchPadFix.dll - Fixes the tier 2 launch pad, where certain rocket configurations "stick" to the launch pad.
+  - It's possible this fix isn't needed anymore, but it was unclear.
 
 --
 
-+ SymmetryActionFix.dll - Retains action groups for symmetric parts when they are removed and replaced in the editor.
++ SymmetryActionFix.dll - Fixes several symmetry bugs in the editors.
 *** Please use caution with this. It's done in a way that shouldn't break anything, but symmetry itself is sometimes flaky in KSP. ***
-Please read a very important notes below.
-I was tired of bandaid fixing this patch, so I've attacked it on a more fundamental level. In addition to fixing the problem where action groups are lost on symmetric parts when they are removed and replaced, this fix now fixes loss of action groups when placing symmetric parts and prevents symmetric parts from becoming disassociated (where you pull off a part, and some of the mirrors stay). It also fixes some bugs with recursive symmetry. There are still problems with the editor building recursive symmetry that I haven't fixed.
 
-- Now includes a highlighter tool (was built for debugging). To toggle, press MOD+H. If you want to change the keybinding or force it to default to ON, edit the included SymmetryActionFix.cfg.
+  - Editors now properly default to Radial Symmetry (VAB) and Mirror Symmetry (SPH)
+  - Retains action groups for symmetric parts when they are removed and replaced in the editor.
+  - Now includes a highlighter tool (was built for debugging). To toggle, press MOD+H. If you want to change the keybinding or force it to default to ON, edit the included SymmetryActionFix.cfg.
 
-So, symmetry within symmetry is still a bit buggy in stock. This fix can handle copying Action groups buried in symmetry within symmetry, but might still fail when encounering certain stock bugs.
+So, symmetry within symmetry is still a bit buggy in stock (I'm slowly working toward fixing it). This fix can handle copying Action groups buried in symmetry within symmetry, but might still fail when encountering
+certain stock bugs.
 
 
 
+DEPRICATED
 =======
 
+--
 
-Depricated
++ [DEPRICATED FOR v1.00] AnchoredDecouplerFix.dll - Fixes radial decouplers not wanting to decouple correctly at high speed (leading to boosters striking the core stack)
+  - Updated for compatibility with Kerbquake
+
+--
+
++ [DEPRICATED FOR v1.00] EVAEjectionFix.dll - Fixes the bug that causes a kerbal to be ejected away from a capsule upon EVA.
+  - Nullifies ladder slide bug for initial EVA.
+
+--
+
++ [DEPRICATED FOR v1.00] CrewRosterFreezeFix.dll - Fixes a bug where firing a kerbal who had logged Achiements caused the game to lock up and corrupt the save.
+  - Now handles firing kerbals who are MIA and works when managing kerbals from the Editors.
 
 --
 
@@ -67,45 +111,18 @@ Depricated
 
 
 
-
-
-=======
-
-
-
-
-Installation
-
-============
-
-
-
-Just download the desired fix's .dll and place in the KSP/GameData directory. No other downloads, file changes, or add-ons are required.
-
-
-Alternately, you can download the release and place the "StockBugFixModules" directory in the KSP/GameData directory.
-
-
-
-
-
 License
-
 =======
-
-
 
 Covered under the CC-BY-NC-SA license. See the license.txt for more details.
-
 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 
 
 
-
 Change Log
-
 ==========
+v1.0.0  (27 Apr 15) - Depricated and Added several new fixes for KSP v1.0
 v0.1.7e (28 Feb 15) - SymmetryActionFix fixes some default behaviors in the editors, prevents staging icons from separating, and includes part highlighting.
 v0.1.7d (6 Jan 15) - Rebuild of SymmetryActionFix.dll. More robust at handling nested symmetry and collecting symmetric parts / action groups.
 v0.1.7c (4 Jan 15) - Regressed SymmetryActionFix.dll again. Found further bugs that break new KSP symmetry features.

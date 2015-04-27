@@ -5,12 +5,12 @@
  * This mod is covered under the CC-BY-NC-SA license. See the license.txt for more details.
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
- * Written for KSP v0.90.0
  *
- * KerbalDebrisFix v0.1.2
+ * KerbalDebrisFix v0.1.2 - Written for KSP v1.00
  * 
  * Change Log:
  * 
+ * v01.00 (26 Apr 15) - Recompiled and tested for KSP v1.00
  * v0.1.2 (20 Dec 14) - Recompiled and tested for KSP v0.90.0
  * v0.1.1b - Added a bit of error checking.
  * v0.1.1a - Fixed names when loading an already frozen kerbal.
@@ -27,7 +27,7 @@ namespace ClawKSP
     {
         public void Start()
         {
-            Debug.Log("KerbalDebrisFix.Start()");
+            Debug.Log("KerbalDebrisFix.Start(): v01.00");
 
             GameEvents.onVesselGoOffRails.Add(OffRails);
             GameEvents.onCrewOnEva.Add(OnEVA);
@@ -82,7 +82,6 @@ namespace ClawKSP
         public override void OnUpdate()
         {
             //Debug.LogWarning("ModuleKerbalDebrisFix.OnUpdate()");
-
             if (null == part.parent)
             {
                 if (VesselType.Debris == vessel.vesselType)
