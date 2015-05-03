@@ -9,12 +9,9 @@ Installation
 ============
 Please delete any old installations of KSP-Stock-Bug-Fix-Modules before installing.
 
-Unzip the zip file to the KSP/GameData directory. Module Manager should be in the GameData directory along side the StockBugFixModules folder.
+Unzip the zip file to the KSP/GameData directory.
 
 The fixes are all stand alone. So if there are any that you don't want, just delete the directory inside the StockBugFixModules folder.
-
-Special NOTE: If you want to use the readjusted parachute drag (StockBugFixModules/ParachuteFix/ParachuteDragFix.cfg), you MUST delete the PartDatabase.cfg file from the root KSP directory. If you don't want to use the readjusted parachute drag, delete ParachuteDragFix.cfg.
-
 
 
 Bug Fixes Included
@@ -153,8 +150,6 @@ License
 
 Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-ModuleManager by Sarabian (included in the full download) is covered under a CC share-alike license.
 
 
 Change Log
