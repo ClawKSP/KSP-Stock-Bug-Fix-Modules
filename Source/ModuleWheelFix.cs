@@ -6,12 +6,13 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * ModuleWheelFix - Written for KSP v1.00
+ * ModuleWheelFix - Written for KSP v1.0
  * 
  * - Fixes the traction and breaking torque for wheels.
  * 
  * Change Log:
- * - v01.00    Initial Release
+ * - v01.01  (1 May 15)    Reworked loading procedure and tweakables, recompiled for KSP 1.0.2
+ * - v01.00  (27 Apr 15)   Initial Release
  * 
  */
 
@@ -20,49 +21,84 @@ using KSP;
 
 namespace ClawKSP
 {
-    public class MWFix : PartModule
+    [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+    public class MWFixHook : MonoBehaviour
     {
-        public float steeringResponseSpeed = 0.1f;
-        [KSPField(guiName = "Brake Torque", isPersistant = true, guiActive = true)]
-        [UI_FloatRange(minValue = 0f, stepIncrement = 10f, maxValue = 200f)]
-        public float brakeTorque = -1f;
 
-        [KSPField(guiName = "Grip Multi", isPersistant = true, guiActive = true)]
-        [UI_FloatRange(minValue = 1f, maxValue = 3f, stepIncrement = 0.25f)]
-        public float Stiffness = 2f;
-
-        private float lastStiffness = 2f;
-        private float originalStiffness;
-
-        ModuleWheel WheelModule;
-
-        public void Start ()
+        public void Start()
         {
-            WheelModule = (ModuleWheel) part.Modules["ModuleWheel"];
+            Debug.Log("MWFixHook.Start(): v01.01");
 
-            if (WheelModule == null) { return; }
+            if (null == PartLoader.LoadedPartsList) { return; }
 
-            AvailablePart originalPart = PartLoader.getPartInfoByName(part.name);
-            
-            if (originalPart != null)
+            for (int indexParts = 0; indexParts < PartLoader.LoadedPartsList.Count; indexParts++)
             {
-                for (int indexModules = 0; indexModules < originalPart.partPrefab.Modules.Count; indexModules++)
+                if (null == PartLoader.LoadedPartsList[indexParts].partPrefab) { continue; }
+
+                Part currentPart = PartLoader.LoadedPartsList[indexParts].partPrefab;
+
+                if (null == currentPart.Modules) { continue; }
+
+                for (int indexModules = 0; indexModules < currentPart.Modules.Count; indexModules++)
                 {
-                    if ("ModuleWheel" == originalPart.partPrefab.Modules[indexModules].moduleName)
+                    if ("ModuleWheel" == currentPart.Modules[indexModules].moduleName)
                     {
-                        ModuleWheel MW = (ModuleWheel) originalPart.partPrefab.Modules[indexModules];
-                        originalStiffness = MW.wheels[0].whCollider.forwardFriction.stiffness;
-                        if (brakeTorque == -1f)
-                        {
-                            brakeTorque = MW.brakeTorque / 2;
-                        }
+                        Debug.Log("MWFixHook: Hooking Wheel " + currentPart.Modules[indexModules].moduleName);
+                        ModuleWheel MW = (ModuleWheel)currentPart.Modules[indexModules];
+                        MWFix NewModule = (MWFix)currentPart.AddModule("MWFix");
+
+                        NewModule.originalStiffness = MW.wheels[0].whCollider.forwardFriction.stiffness;
+                        NewModule.brakeTorque = MW.brakeTorque / 2;
+                        continue;
                     }
                 }
             }
 
+        } // Start
+
+    }  // MWFixHook
+
+
+
+    public class MWFix : PartModule
+    {
+        [KSPField(guiName = "Brake Torque", isPersistant = true, guiActive = true)]
+        [UI_FloatRange(minValue = 0f, stepIncrement = 5f, maxValue = 200f)]
+        public float brakeTorque = -1f;
+
+        //[KSPField(guiName = "Grip Multi", isPersistant = true, guiActive = true)]
+        //[UI_FloatRange(minValue = 1f, maxValue = 3f, stepIncrement = 0.25f)]
+        public float Stiffness = 2f;
+
+        private float lastStiffness = 2f;
+        public float originalStiffness = 1;
+
+        ModuleWheel WheelModule;
+
+        private void GetModule()
+        {
+            if (null == part.Modules) { return; }
+
+            for (int indexModules = 0; indexModules < part.Modules.Count; indexModules++)
+            {
+                if ("ModuleWheel" == part.Modules[indexModules].moduleName)
+                {
+                    WheelModule = (ModuleWheel)part.Modules[indexModules];
+                }
+            }
+        }  // GetModule
+
+        public void Start()
+        {
+            Debug.Log("ModuleWheelFix.Start()");
+
+            GetModule();
+
+            if (null == WheelModule) { return; }
+
             for (int indexWheels = 0; indexWheels < WheelModule.wheels.Count; indexWheels++)
             {
-                Debug.LogWarning("WFFix.Start(): " + WheelModule.wheels[indexWheels].whCollider.forwardFriction.stiffness);
+                Debug.Log("WFFix.Start(): " + WheelModule.wheels[indexWheels].whCollider.forwardFriction.stiffness);
 
                 WheelFrictionCurve WFC = WheelModule.wheels[indexWheels].whCollider.forwardFriction;
                 WFC.stiffness = originalStiffness * Stiffness;
@@ -74,8 +110,10 @@ namespace ClawKSP
 
         }
 
-        public void FixedUpdate ()
+        public void FixedUpdate()
         {
+            if (null == WheelModule) { return; }
+
             if (lastStiffness != Stiffness)
             {
                 lastStiffness = Stiffness;

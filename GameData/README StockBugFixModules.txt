@@ -26,18 +26,6 @@ Description: Transmitter bandwidth listed in the SPH/VAB is incorrect.
 
 --
 
-+ HeatBalanceFix
-Description: Service bays block all heat flow (acting as infinte heat shields).
-  - Right now this is only a minor change to the service bays (which are blocking all heat)
-
---
-
-+ HeatShieldFix
-Description: Heat shields cause pods to reenter at an offset angle.
-  - Resets the pod to be physics based. Fixes mass and stability issues.
-
---
-
 + KerbalDebrisFix
 Description: Kerbals sometimes turn into debris when crashing in External Command Seats.
   - Also recovers kerbals who have been previous frozen by this bug.
@@ -50,19 +38,13 @@ Description: Mk3 parts are easy to break relative to their size.
 
 --
 
-+ ModuleCargoBayFix
-Description: Parts in cargo bays are inoperative when removed from the bay.
-  - When parts are place in a cargo bay, they remain marked as "shielded" even after they leave the bay, when the bay doors are re-closed. This causes some parts to be unresponsive.
-
---
-
 + ModuleProceduralFairingFix
 Description: Fairings removed from craft sometimes break when reattaching in VAB/SPH.
   - Fixes some bugs with removing/replacing interstage fairings which can cause fairings to lock up
   - Fixes fairing decoupler force (small fairings are too high, and large fairings too low)
-  - Adds tweakable that allows adjusting the number of shell splits on the fairing
-  - Adds tweakable decoupler force range.
-  - Adds tweakable option to enable/disable fairings inside a procedural fairing
+  - (removed) Adds tweakable that allows adjusting the number of shell splits on the fairing
+  - (removed) Adds tweakable decoupler force range.
+  - (removed) Adds tweakable option to enable/disable fairings inside a procedural fairing
 
 --
 
@@ -70,31 +52,13 @@ Description: Fairings removed from craft sometimes break when reattaching in VAB
 Description: Rover wheel brakes are rendered ineffective and traction is low.
   - Fixes bug with brake torque not working on rover wheels (changes tweakable range to 0 to 200)
   - Improves wheel grip for all rover wheels
-    -- Also adds tweakable "grip" multiplier (from 1 to 3x)
+    -- (removed) Also adds tweakable "grip" multiplier (from 1 to 3x)
 
---
-
-+ ParachuteFix
-Description: Various fixes for chutes
-  - Fixes drag values displayed in Editor to show values useful for KSP 1.0 aero (still WIP)
-  - Fixes deployment altitude tweakable to allow more low-end altitude selection (instead of it jumping from 50 to 300/350).
-  - Lowers semi-deployed drag to be more inline with previous performance, and (importantly) to reduce opening shock
-  - Adjusts fully deployed drag slightly to match previous landing performance 
-  - Adjusts drogue chute drag to be more drogue like
-  - Unlocks tweakables for deployment time and higher altitudes (typically for drogues)
-  - Adds a couple visual effects (such as symmetric chute spread and asymmetric chute movement) 
-
-Note: Drag values for chutes are a bit high. This fix modifies drag values.
-
-  - If you do not want to use the chute numbers in this fix, delete the ParachuteDragFix.cfg file (not required, but safest way to be sure).
-  - If you want to use the chute numbers in this fix, you MUST rename or delete the KSP/PartDatabase.cfg file.
-  - If you uninstall this fix, you must also go back and delete the KSP/PartDatabase.cfg file.
-
---
+----
 
 + StickyLaunchPadFix.dll
 Description: Certain rocket configurations "stick" to the career tier 2 launch pad.
-  - It's possible this fix isn't needed anymore, but not yet confirmed.
+  - Fixes bug where engines (mostly BACC and LV-T30/45) will stick to tier 2 launch pad.
 
 --
 
@@ -121,6 +85,42 @@ Release v0.1.7d is the last compatible version for KSP v0.90
 Release v0.1.5c is the last compatible version for KSP v0.25
 
 --
+
++ [FIXED IN KSP v1.0.2] ModuleCargoBayFix
+Description: Parts in cargo bays are inoperative when removed from the bay.
+  - When parts are place in a cargo bay, they remain marked as "shielded" even after they leave the bay, when the bay doors are re-closed. This causes some parts to be unresponsive.
+
+--
+
++ [FIXED IN KSP v1.0.2] HeatBalanceFix
+Description: Service bays block all heat flow (acting as infinte heat shields).
+  - Right now this is only a minor change to the service bays (which are blocking all heat)
+
+--
+
++ [FIXED IN KSP v1.0.2] HeatShieldFix
+Description: Heat shields cause pods to reenter at an offset angle.
+  - Resets the pod to be physics based. Fixes mass and stability issues.
+
+--
+
++ [FIXED IN KSP v1.0.2] ParachuteFix
+Description: Various fixes for chutes
+  - Fixes drag values displayed in Editor to show values useful for KSP 1.0 aero (still WIP)
+  - Fixes deployment altitude tweakable to allow more low-end altitude selection (instead of it jumping from 50 to 300/350).
+  - Lowers semi-deployed drag to be more inline with previous performance, and (importantly) to reduce opening shock
+  - Adjusts fully deployed drag slightly to match previous landing performance 
+  - Adjusts drogue chute drag to be more drogue like
+  - Unlocks tweakables for deployment time and higher altitudes (typically for drogues)
+  - Adds a couple visual effects (such as symmetric chute spread and asymmetric chute movement) 
+
+Note: Drag values for chutes are a bit high. This fix modifies drag values.
+
+  - If you do not want to use the chute numbers in this fix, delete the ParachuteDragFix.cfg file (not required, but safest way to be sure).
+  - If you want to use the chute numbers in this fix, you MUST rename or delete the KSP/PartDatabase.cfg file.
+  - If you uninstall this fix, you must also go back and delete the KSP/PartDatabase.cfg file.
+
+
 
 + [FIXED IN KSP v1.00] AnchoredDecouplerFix.dll - Fixes radial decouplers not wanting to decouple correctly at high speed (leading to boosters striking the core stack)
   - Updated for compatibility with Kerbquake
@@ -159,6 +159,7 @@ ModuleManager by Sarabian (included in the full download) is covered under a CC 
 
 Change Log
 ==========
+v1.0.2a (2 May 15) - Updated for KSP v1.0.2
 v1.0.0  (27 Apr 15) - Depricated and Added several new fixes for KSP v1.0
 v0.1.7e (28 Feb 15) - SymmetryActionFix fixes some default behaviors in the editors, prevents staging icons from separating, and includes part highlighting.
 v0.1.7d (6 Jan 15) - Rebuild of SymmetryActionFix.dll. More robust at handling nested symmetry and collecting symmetric parts / action groups.

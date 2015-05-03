@@ -6,13 +6,14 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * BandwidthFix - Written for KSP v1.00
+ * BandwidthFix - Written for KSP v1.0
  * 
  * - Fixes the bandwidth display for transmitters.
  * ModuleDataTransmitter.GetInfo() uses packetSize * packetInterval instead of packetSize / packetInterval
  * 
  * Change Log:
- * - v01.00    Initial Release
+ * - v01.01  (2 May 15)    Recompiled for KSP v1.0.2
+ * - v01.00  (27 Apr 15)   Initial Release
  * 
  */
 
@@ -24,13 +25,11 @@ namespace ClawKSP
     [KSPAddon(KSPAddon.Startup.MainMenu, false)]
     public class BandwidthFix : MonoBehaviour
     {
-        public static bool Fixed = false;
 
         public void Start()
         {
-            if (Fixed) { return; }
 
-            Debug.Log("BandwidthFix.Start(): v01.00");
+            Debug.Log("BandwidthFix.Start(): v01.01");
 
             for (int indexParts = 0; indexParts < PartLoader.LoadedPartsList.Count; indexParts++)
             {
@@ -47,7 +46,7 @@ namespace ClawKSP
                         {                            
                             if ("Data Transmitter" == currentAP.moduleInfos[indexInfo].moduleName)
                             {
-                                Debug.LogWarning("BandwidthFix: Fixing " + currentPart.name);
+                                Debug.Log("BandwidthFix: Fixing " + currentPart.name);
 
                                 ModuleDataTransmitter TransmitterModule = (ModuleDataTransmitter)currentPart.Modules[indexModules];
                                 TransmitterModule.packetInterval = 1 / TransmitterModule.packetInterval;
@@ -58,7 +57,6 @@ namespace ClawKSP
                     }
                 }
             }
-            Fixed = true;
         }
     }
 }

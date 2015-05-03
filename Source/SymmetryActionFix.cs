@@ -6,7 +6,7 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * SymmetryActionFix Written for KSP v1.00
+ * SymmetryActionFix Written for KSP v1.0
  * 
  * This plugin manages the symmetric sibilings so that they retain action gropus when pulled off
  * and replaced. As of v0.1.4, this module also manages symmetric siblings better in that they now
@@ -15,6 +15,7 @@
  * 
  * Change Log:
  * 
+ * v01.01 (1 May 15) - Recompiled and tested for KSP v1.0.2
  * v01.00 (26 Apr 15) - Updated for KSP v1.0
  * v0.1.5 (28 Feb 15) - Fixed engine icons coming apart in stage sequence. Added debug highlighting and action key toggle.
  *   Set SPH to default to mirror symmetry for singular parts. Standardized debug log entries.
@@ -47,7 +48,7 @@ namespace ClawKSP
 
         public void Start()
         {
-            Debug.Log("SAFix.Start(): v01.00");
+            Debug.Log("SymmetryActionFix.Start(): v01.01");
             GameEvents.onPartAttach.Add(onPartAttach);
 
             return;
@@ -98,11 +99,11 @@ namespace ClawKSP
                 DebugHighlightActive = !DebugHighlightActive;
                 if (true == DebugHighlightActive)
                 {
-                    ScreenMessages.PostScreenMessage("SAFix Highlight: ON", 3.0f, ScreenMessageStyle.UPPER_CENTER);
+                    ScreenMessages.PostScreenMessage("Symmetry Highlight: ON", 3.0f, ScreenMessageStyle.UPPER_CENTER);
                 }
                 else
                 {
-                    ScreenMessages.PostScreenMessage("SAFix Highlight: OFF", 3.0f, ScreenMessageStyle.UPPER_CENTER);
+                    ScreenMessages.PostScreenMessage("Symmetry Highlight: OFF", 3.0f, ScreenMessageStyle.UPPER_CENTER);
                 }
 
                 // Reset the highlighter based on the new selection
