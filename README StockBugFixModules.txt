@@ -9,9 +9,10 @@ Installation
 ============
 Please delete any old installations of KSP-Stock-Bug-Fix-Modules before installing.
 
-Unzip the zip file to the KSP/GameData directory.
+Unzip the zip file to the KSP/GameData directory. ModuleManager.X.X.X.dll should be in the root GameData directory next to a StockBugFixModules folder.
 
 The fixes are all stand alone. So if there are any that you don't want, just delete the directory inside the StockBugFixModules folder.
+
 
 
 Bug Fixes Included
@@ -53,6 +54,19 @@ Description: Rover wheel brakes are rendered ineffective and traction is low.
 
 ----
 
++ PartDragFix
+Description: Drag for the new landing gear and Mk3 cargo bays are a bit off.
+  - Landing gear drag is backwards. Gear up gives more drag than gear down.
+  - Mk3 cargo bays (should) now properly occlude parts behind them.
+
+----
+
++ PhysicsFix
+Description: Convective heating has an error in one of the constants.
+  - Fixes one of the global convective heating numbers
+
+----
+
 + StickyLaunchPadFix.dll
 Description: Certain rocket configurations "stick" to the career tier 2 launch pad.
   - Fixes bug where engines (mostly BACC and LV-T30/45) will stick to tier 2 launch pad.
@@ -73,6 +87,13 @@ Description: Various fixes for symmetry errors in the VAB/SPH
 
 So, symmetry within symmetry is still a bit buggy in stock especially when using the gizmos (I'm slowly fixing it, one step at a time). This fix can handle copying Action groups buried in symmetry within symmetry, but might still fail when encountering certain stock bugs.
 
+----
+
++ ToroidalAerospikeFix
+Description: The curves for the toroidal aerospike are a bit off due to missing tangents
+  - Atmosphere curve has been updated to include tangents
+
+----
 
 
 DEPRICATED
@@ -150,6 +171,8 @@ License
 
 Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 
 Change Log

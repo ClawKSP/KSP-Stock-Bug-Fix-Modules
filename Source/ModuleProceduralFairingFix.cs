@@ -6,13 +6,14 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * ModuleProceduralFairingFix - Written for KSP v1.01
+ * ModuleProceduralFairingFix - Written for KSP v1.0
  * 
  * - Fixes some bugs with pulling and replacing fairings.
  * - Activates a tweakable slider for the user to select the number of panels on the fairing.
  * - Activates a tweakable slider to control ejection forces on the panels.
  * 
  * Change Log:
+ * - v01.02  (3 May 15)   Moved ejection force out to Module Manager
  * - v01.01  (2 May 15)   Updated and recompiled for KSP 1.0.2
  * - v01.00  (27 Apr 15)  Initial Release
  * 
@@ -51,21 +52,21 @@ namespace ClawKSP
 
                         ModuleProceduralFairing MPF = (ModuleProceduralFairing) currentPart.Modules[indexModules];
 
-                        switch (currentPart.name)
-                        {
-                            case "fairingSize1":
-                                MPF.ejectionForce = 30;
-                                Debug.Log("MPFFix: Fixing " + currentPart.name + " | Force: " + MPF.ejectionForce);
-                                break;
-                            case "fairingSize2":
-                                MPF.ejectionForce = 100;
-                                Debug.Log("MPFFix: Fixing " + currentPart.name + " | Force: " + MPF.ejectionForce);
-                                break;
-                            case "fairingSize3":
-                                MPF.ejectionForce = 150;
-                                Debug.Log("MPFFix: Fixing " + currentPart.name + " | Force: " + MPF.ejectionForce);
-                                break;
-                        }
+                        //switch (currentPart.name)
+                        //{
+                        //    case "fairingSize1":
+                        //        MPF.ejectionForce = 30;
+                        //        Debug.Log("MPFFix: Fixing " + currentPart.name + " | Force: " + MPF.ejectionForce);
+                        //        break;
+                        //    case "fairingSize2":
+                        //        MPF.ejectionForce = 100;
+                        //        Debug.Log("MPFFix: Fixing " + currentPart.name + " | Force: " + MPF.ejectionForce);
+                        //        break;
+                        //    case "fairingSize3":
+                        //        MPF.ejectionForce = 150;
+                        //        Debug.Log("MPFFix: Fixing " + currentPart.name + " | Force: " + MPF.ejectionForce);
+                        //        break;
+                        //}
 
                         continue;
                     }
@@ -98,7 +99,7 @@ namespace ClawKSP
 
         public void Start()
         {
-            Debug.Log("ModuleProceduralFairingFix.OnStart(): v01.01");
+            Debug.Log("ModuleProceduralFairingFix.OnStart(): v01.02");
 
             GetModule();
 
