@@ -15,6 +15,7 @@
  * 
  * Change Log:
  * 
+ * v01.02 (9 May 15) - Added ability to copy procedural fairings.
  * v01.01 (1 May 15) - Recompiled and tested for KSP v1.0.2
  * v01.00 (26 Apr 15) - Updated for KSP v1.0
  * v0.1.5 (28 Feb 15) - Fixed engine icons coming apart in stage sequence. Added debug highlighting and action key toggle.
@@ -30,6 +31,7 @@
  */
 using UnityEngine;
 using KSP;
+using System.Reflection;
 
 namespace ClawKSP
 {
@@ -50,8 +52,6 @@ namespace ClawKSP
         {
             Debug.Log("SymmetryActionFix.Start(): v01.01");
             GameEvents.onPartAttach.Add(onPartAttach);
-
-            return;
 
             if (null != GameDatabase.Instance.GetConfigNodes("SAFIX_HIGHLIGHT"))
             {
@@ -232,6 +232,27 @@ namespace ClawKSP
                     // Debug.LogWarning("Module/Action " + UpdatePart.Modules[IndexModules].Actions[IndexActions].name);
                     UpdatePart.Modules[IndexModules].Actions[IndexActions].actionGroup =
                         SourcePart.Modules[IndexModules].Actions[IndexActions].actionGroup;
+                }
+
+                if ("ModuleProceduralFairing" == SourcePart.Modules[IndexModules].moduleName)
+                {
+                    Debug.Log("SymmetryActionFix: Fixing Procedural Fairing");
+
+                    ModuleProceduralFairing MPFSource = (ModuleProceduralFairing)SourcePart.Modules[IndexModules];
+                    ModuleProceduralFairing MPFUpdate = (ModuleProceduralFairing)UpdatePart.Modules[IndexModules];
+
+                    if (MPFSource.xSections.Count != 0)
+                    {
+                        MPFUpdate.xSections.AddRange(MPFSource.xSections);
+
+                        MethodInfo MPFMethod = MPFUpdate.GetType().GetMethod("SpawnMeshes", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                        if (MPFMethod != null)
+                        {
+                            MPFMethod.Invoke(MPFUpdate, new object[] { true });
+                        }
+
+                    }
                 }
             }
 

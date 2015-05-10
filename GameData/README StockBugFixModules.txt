@@ -1,8 +1,9 @@
 KSP-Stock-Bug-Fix-Modules
 =========================
 
-Stand alone fixes for common stock KSP bugs. These modules are meant to be fully stock compatible. My aim is to be able to remove them from the game at any time without causing a problem for the stock saves.
+Stand alone fixes for common stock KSP bugs. These modules are meant to be fully stock compatible. As always, my aim is to be able to remove them from the game at any time without causing a problem for the stock saves.
 
+StockPlus: The StockPlus additions are all minor polish fixes or addons that unlock stock features. The stock bug fix modules now incorporate StockPlus additions. These additions can be disabled by following the StockPlus Instructions below.
 
 
 Installation
@@ -14,9 +15,25 @@ Unzip the zip file to the KSP/GameData directory. ModuleManager.X.X.X.dll should
 The fixes are all stand alone. So if there are any that you don't want, just delete the directory inside the StockBugFixModules folder.
 
 
+StockPlus Instructions
+======================
+
+StockPlus is enabled by default. If you want to disable StockPlus
+- All of StockPlus can be disabled by deleting the "StockPlusController.cfg" file from the StockBugFixModules directory. (This disables all StockPlus additions, but none of the fixes.)
+or
+- StockPlus for any individual fixes can be selectively disabled by editing the appropriate .cfg file (inside the individual fix directory) and changing the "plusActive = True" line to "plusActive = False"
+
+Fix Modules that include StockPlus features are marked "Plus" below.
+
 
 Bug Fixes Included
 ==================
+
++ AnchoredDecouplerCrossfeedFix
+Description: Fuel feeds across radial decouplers that have parts (other than fuel tanks) attached.
+  - Disables crossfeed on all radial decouplers (decouplers that use ModuleAnchoredDecoupler).
+
+--
 
 + BandwidthFix
 Description: Transmitter bandwidth listed in the SPH/VAB is incorrect.
@@ -36,21 +53,38 @@ Description: Mk3 parts are easy to break relative to their size.
 
 --
 
-+ ModuleProceduralFairingFix
-Description: Fairings removed from craft sometimes break when reattaching in VAB/SPH.
-  - Fixes some bugs with removing/replacing interstage fairings which can cause fairings to lock up
-  - Fixes fairing decoupler force (small fairings are too high, and large fairings too low)
-  - (removed) Adds tweakable that allows adjusting the number of shell splits on the fairing
-  - (removed) Adds tweakable decoupler force range.
-  - (removed) Adds tweakable option to enable/disable fairings inside a procedural fairing
++ ModuleGimbalFix
+Description: Gimbaling engines reach their gimbal limits instantaneously.
+  - Activates gimbaling speed and sets them to match up with flight control rates (for better SAS control)
 
 --
 
-+ ModuleWheelFix
++ ModuleParachuteFix (Plus)
+Description: Minor fixes for chutes mounted 90 degrees to airflow
+  - Adds a couple minor visual bug fixes.
+  - (Plus) Adds ability to reset chutes that have been activated (staged) but haven't yet deployed.
+    -- Must move the chute icon to a new stage in order to "restage" it, or deploy with right-click (same as repack)
+  - (Plus) Adds semi deployment and deployment time tweakable
+  - (Plus) Adds a couple visual effects (such as symmetric radial chute spread and asymmetric chute movement) 
+
+--
+
++ ModuleProceduralFairingFix (Plus)
+Description: Fairings removed from craft sometimes break when reattaching in VAB/SPH.
+  - Fixes some bugs with removing/replacing interstage fairings which can cause fairings to lock up
+  - Fixes fairing decoupler force (small fairings are too high, and large fairings too low)
+  - Fairings that are children parts now properly rebuild when added with symmetry (is actually in SymmetryActionFix)
+  - (Plus) Adds tweakable that allows adjusting the number of shell splits on the fairing
+  - (Plus) Adds tweakable decoupler force range.
+  - (Not Yet Enabled) Adds tweakable option to enable/disable fairings inside a procedural fairing
+
+--
+
++ ModuleWheelFix (Plus)
 Description: Rover wheel brakes are rendered ineffective and traction is low.
   - Fixes bug with brake torque not working on rover wheels (changes tweakable range to 0 to 200)
   - Improves wheel grip for all rover wheels
-    -- (removed) Also adds tweakable "grip" multiplier (from 1 to 3x)
+    -- (Plus) Also adds tweakable "grip" multiplier (from 1 to 3x)
 
 ----
 
@@ -81,6 +115,7 @@ Description: Various fixes for symmetry errors in the VAB/SPH
   - Fixes some recursive symmetry problems
   - Prevents symmetric partners from becoming disassociated
   - Retains action groups for symmetric parts when they are removed and replaced in the editor.
+  - Fairings that are children parts now properly rebuild when added with symmetry (is actually in SymmetryActionFix)
   - Includes a toggle for my debugging highlighter tool (toggle on/off with MOD+H).
     -- Parent parts are highlighted brighter, symmetric partners are highlighted blue.
     -- If you want to change the keybinding or force it to default to ON, edit the included SymmetryActionFix.cfg.
@@ -177,6 +212,8 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2c.1 (9 May 15) - Added decoupler fuel feed fixes. Incorporates StockPlus additions.
+v1.0.2b (5 May 15) - Miscellaneous physics updates and modified some loading procedures
 v1.0.2a (2 May 15) - Updated for KSP v1.0.2
 v1.0.0  (27 Apr 15) - Depricated and Added several new fixes for KSP v1.0
 v0.1.7e (28 Feb 15) - SymmetryActionFix fixes some default behaviors in the editors, prevents staging icons from separating, and includes part highlighting.
