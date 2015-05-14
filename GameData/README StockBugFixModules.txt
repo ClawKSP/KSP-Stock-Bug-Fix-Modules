@@ -3,7 +3,7 @@ KSP-Stock-Bug-Fix-Modules
 
 Stand alone fixes for common stock KSP bugs. These modules are meant to be fully stock compatible. As always, my aim is to be able to remove them from the game at any time without causing a problem for the stock saves.
 
-StockPlus: The StockPlus additions are all minor polish fixes or addons that unlock stock features. The stock bug fix modules now incorporate StockPlus additions. These additions can be disabled by following the StockPlus Instructions below.
+StockPlus: The StockPlus additions are all minor polish fixes or addons that unlock stock features. The stock bug fix modules now incorporate StockPlus additions. These additions are disabled by default, and can be unlocked by following the StockPlus Instructions below.
 
 
 Installation
@@ -18,10 +18,16 @@ The fixes are all stand alone. So if there are any that you don't want, just del
 StockPlus Instructions
 ======================
 
-StockPlus is enabled by default. If you want to disable StockPlus
-- All of StockPlus can be disabled by deleting the "StockPlusController.cfg" file from the StockBugFixModules directory. (This disables all StockPlus additions, but none of the fixes.)
-or
-- StockPlus for any individual fixes can be selectively disabled by editing the appropriate .cfg file (inside the individual fix directory) and changing the "plusActive = True" line to "plusActive = False"
+StockPlus is disabled by default. If you want to enable StockPlus
+1) Edit the "StockPlusController.cfg" with a plain text editor (like notepad)
+2) Change the "plusActive = False" line to "plusActive = True" (or copy and paste the text below)
+
+STOCK_PLUS
+{
+	plusActive = True
+}
+
+StockPlus for any individual fixes can be selectively disabled by editing the appropriate .cfg file (inside the individual fix directory) and changing the "plusEnabled = True" line to "plusEnabled = False"
 
 Fix Modules that include StockPlus features are marked "Plus" below.
 
@@ -50,12 +56,29 @@ Description: Kerbals sometimes turn into debris when crashing in External Comman
 + Mk3StrengthFix
 Description: Mk3 parts are easy to break relative to their size.
   - Mk3 parts are rebalanced to have joint strength on par with other size 3 (SLS) parts (which might be a bit excessive).
+  - Now includes Mk3 adapter parts. Their strength is midway between Mk3 and Mk2 parts.
 
 --
 
-+ ModuleGimbalFix
++ ModuleAeroSurfaceFix
+Description: Aero Surface (Airbrakes) action groups do not work properly.
+  - Action groups fixed
+  - (Plus) When stowed (not deployed) air brakes do not contribute drag (flush with the fuselage)
+
+--
+
++ ModuleControlSurfaceFix
+Description: Control surfaces do not deploy when launched or loaded in the editor
+  - Fixes deployment of flight control surfaces on launch and in the editor (loading, cloning, etc)
+  - (Plus) Adds tweakable authority range
+  - (Plus) Disables flight controls in space, so they aren't moving around when maneuvering
+
+--
+
++ ModuleGimbalFix (still a Work In Progress)
 Description: Gimbaling engines reach their gimbal limits instantaneously.
   - Activates gimbaling speed and sets them to match up with flight control rates (for better SAS control)
+  - Still a Work In Progress, might turn into a StockPlus tweakable
 
 --
 
@@ -82,7 +105,7 @@ Description: Fairings removed from craft sometimes break when reattaching in VAB
 
 + ModuleWheelFix (Plus)
 Description: Rover wheel brakes are rendered ineffective and traction is low.
-  - Fixes bug with brake torque not working on rover wheels (changes tweakable range to 0 to 200)
+  - Fixes bug with brake torque not working on rover wheels (changes tweakable range to 0 to Max Torque for that part)
   - Improves wheel grip for all rover wheels
     -- (Plus) Also adds tweakable "grip" multiplier (from 1 to 3x)
 
@@ -212,8 +235,9 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2c.2 (9 May 15) - Fixed the StockPlus config.
 v1.0.2c.1 (9 May 15) - Added decoupler fuel feed fixes. Incorporates StockPlus additions.
-v1.0.2b (5 May 15) - Miscellaneous physics updates and modified some loading procedures
+v1.0.2b (3 May 15) - Additions include fixes to landing gear drag, Mk3 cargo bays, and a couple minor physics fixes.
 v1.0.2a (2 May 15) - Updated for KSP v1.0.2
 v1.0.0  (27 Apr 15) - Depricated and Added several new fixes for KSP v1.0
 v0.1.7e (28 Feb 15) - SymmetryActionFix fixes some default behaviors in the editors, prevents staging icons from separating, and includes part highlighting.
