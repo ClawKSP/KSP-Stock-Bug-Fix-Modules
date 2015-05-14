@@ -9,9 +9,9 @@
  * ModuleWheelFix - Written for KSP v1.0
  * 
  * - Fixes the traction and breaking torque for wheels.
- * - (Plus) Adds tweakable grip
  * 
  * Change Log:
+ * - v01.03  (11 May 15)   New UI fix, reworked loading procedures (again again) and fixed a bug
  * - v01.02  (9 May 15)    Reworked loading procedures (again) and updated for StockPlus
  * - v01.01  (1 May 15)    Reworked loading procedure and tweakables, recompiled for KSP 1.0.2
  * - v01.00  (27 Apr 15)   Initial Release
@@ -25,11 +25,7 @@ namespace ClawKSP
 {
     public class MWFix : PartModule
     {
-        [KSPField(guiName = "Brake Torque", isPersistant = true, guiActive = true)]
-        [UI_FloatRange(minValue = 0f, stepIncrement = 5f, maxValue = 200f)]
-        public float brakeTorque = -1f;
-
-        [KSPField(guiName = "Grip Multi", isPersistant = true, guiActive = false)]
+        [KSPField(guiName = "Grip Multi", isPersistant = true, guiActive = false, guiActiveEditor = false)]
         [UI_FloatRange(minValue = 1f, maxValue = 3f, stepIncrement = 0.25f)]
         public float Stiffness = 2f;
 
@@ -40,7 +36,6 @@ namespace ClawKSP
 
         [KSPField(isPersistant = false)]
         public bool plusEnabled = false;
-
 
         private PartModule GetModule(string moduleName)
         {
@@ -56,6 +51,63 @@ namespace ClawKSP
 
         }  // GetModule
 
+        private float GetMaxTorque()
+        {
+            Part prefab = PartLoader.getPartInfoByName(part.name).partPrefab;
+
+            ModuleWheel MW = (ModuleWheel) prefab.Modules["ModuleWheel"];
+
+            if (null != MW)
+            {
+                if (MW.brakeTorque > 30f)
+                {
+                    return (MW.brakeTorque);
+                }
+            }
+            return (30f);
+        }
+
+        public override void OnStart(StartState state)
+        {
+            base.OnStart(state);
+            Debug.Log(moduleName + ".Start(): v01.03");
+
+            WheelModule = (ModuleWheel)GetModule("ModuleWheel");
+
+            if (null == WheelModule)
+            {
+                Debug.LogWarning(moduleName + ".Start(): Did not find Wheel Module.");
+                return;
+            }
+
+            // fix the wheel grip
+            for (int indexWheels = 0; indexWheels < WheelModule.wheels.Count; indexWheels++)
+            {
+                WheelFrictionCurve WFC = WheelModule.wheels[indexWheels].whCollider.forwardFriction;
+                WFC.stiffness *= Stiffness;
+                WheelModule.wheels[indexWheels].whCollider.forwardFriction = WFC;
+            }
+
+            //// fix the stock slider by setting the max selectable value to the max value specified in the part.cfg
+            UI_FloatRange torqueFloat;
+
+            if (HighLogic.LoadedScene == GameScenes.EDITOR)
+            {
+                torqueFloat = (UI_FloatRange)WheelModule.Fields["brakeTorque"].uiControlEditor;
+            }
+            else
+            {
+                torqueFloat = (UI_FloatRange)WheelModule.Fields["brakeTorque"].uiControlFlight;
+            }
+            if (torqueFloat != null)
+            {
+                torqueFloat.maxValue = GetMaxTorque();
+                torqueFloat.stepIncrement = torqueFloat.maxValue / 10f;
+            }
+
+            SetupStockPlus();
+        }
+
         private void SetupStockPlus()
         {
             if (StockPlusController.plusActive == false || plusEnabled == false)
@@ -65,38 +117,7 @@ namespace ClawKSP
             }
 
             Fields["Stiffness"].guiActive = true;
-        }
-
-        public override void OnStart(StartState state)
-        {
-            base.OnStart(state);
-
-            WheelModule = (ModuleWheel)GetModule("ModuleWheel");
-
-            if (null == WheelModule)
-            {
-                Debug.LogWarning("ModuleParachuteFix.Start(): Did not find Wheel Module.");
-                return;
-            }
-
-            for (int indexWheels = 0; indexWheels < WheelModule.wheels.Count; indexWheels++)
-            {
-                Debug.Log("WFFix.Start(): " + WheelModule.wheels[indexWheels].whCollider.forwardFriction.stiffness);
-
-                WheelFrictionCurve WFC = WheelModule.wheels[indexWheels].whCollider.forwardFriction;
-                WFC.stiffness = originalStiffness * Stiffness;
-                WheelModule.wheels[indexWheels].whCollider.forwardFriction = WFC;
-            }
-
-            WheelModule.Fields["brakeTorque"].guiActive = false;
-            WheelModule.Fields["brakeTorque"].guiActiveEditor = false;
-
-            if (brakeTorque == -1)
-            {
-                brakeTorque = WheelModule.brakeTorque / 2f;
-            }
-
-            SetupStockPlus();
+            Fields["Stiffness"].guiActiveEditor = true;
         }
 
         public void FixedUpdate()
@@ -114,8 +135,6 @@ namespace ClawKSP
                     WheelModule.wheels[indexWheels].whCollider.forwardFriction = WFC;
                 }
             }
-
-            WheelModule.brakeTorque = brakeTorque;
         }
     }
 }

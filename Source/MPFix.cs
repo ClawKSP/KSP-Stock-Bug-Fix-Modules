@@ -42,7 +42,7 @@ namespace ClawKSP
         private Transform canopy;
         private ModuleParachute ParachuteModule;
 
-        [KSPEvent(guiName = "Reset Chute", active = false, guiActive = true)]
+        [KSPEvent(guiName = "Reset Chute", active = false, guiActive = false)]
         public void ResetChute()
         {
             if (ParachuteModule.deploymentState == ModuleParachute.deploymentStates.ACTIVE)
