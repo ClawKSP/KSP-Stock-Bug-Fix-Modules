@@ -13,6 +13,7 @@
  * - (Plus) Disables flight controls in space
  * 
  * Change Log:
+ * - v01.01  (14 May 15)   Added some error checking to make it more compatible with other mods
  * - v01.00  (12 May 15)   Initial Release
  * 
  */
@@ -35,8 +36,8 @@ namespace ClawKSP
         public bool plusEnabled = false;
 
         // Plus option
-        [KSPField(guiName = "Authority", isPersistant = true, guiActive = false, guiActiveEditor = false)]
-        [UI_FloatRange(minValue = 0.1f, maxValue = 1.9f, stepIncrement = 0.1f, scene = UI_Scene.All, affectSymCounterparts = UI_Scene.All)]
+        [KSPField(guiName = "Authority", isPersistant = true)]
+        [UI_FloatRange(minValue = 0.1f, maxValue = 1.9f, stepIncrement = 0.1f, affectSymCounterparts = UI_Scene.All)]
         public float Authority = 1.0f;
 
         private ModuleControlSurface ControlSurfaceModule;
@@ -45,27 +46,17 @@ namespace ClawKSP
         private float ctrlSurfaceRange;
         private float vacuumRange = 1.0f; // disables flight controls when in vacuum
 
-        private PartModule GetModule(string moduleName)
-        {
-            for (int indexModules = 0; indexModules < part.Modules.Count; indexModules++)
-            {
-                if (moduleName == part.Modules[indexModules].moduleName)
-                {
-                    return (part.Modules[indexModules]);
-                }
-            }
-
-            return (null);
-
-        }  // GetModule
-
         private void SetupStockPlus()
         {
             if (StockPlusController.plusActive == false || plusEnabled == false)
             {
                 plusEnabled = false;
+                Fields["Authority"].guiActive = false;
+                Fields["Authority"].guiActiveEditor = false;
                 return;
             }
+
+            Debug.Log(moduleName + " StockPlus Enabled");
 
             Fields["Authority"].guiActive = true;
             Fields["Authority"].guiActiveEditor = true;
@@ -80,11 +71,11 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.00");
+            Debug.Log(moduleName + ".Start(): v01.01");
 
             base.OnStart(state);
 
-            ControlSurfaceModule = (ModuleControlSurface) GetModule("ModuleControlSurface");
+            ControlSurfaceModule = part.FindModuleImplementing<ModuleControlSurface>();
 
             if (null == ControlSurfaceModule)
             {
@@ -113,7 +104,12 @@ namespace ClawKSP
 
         public void FixedUpdate ()
         {
-            if (null == ControlSurfaceModule) { return; }
+            ControlSurfaceModule = part.FindModuleImplementing<ModuleControlSurface>();
+
+            if (null == ControlSurfaceModule)
+            {
+                return;
+            }
 
             deploy = ControlSurfaceModule.deploy;
             deployInvert = ControlSurfaceModule.deployInvert;

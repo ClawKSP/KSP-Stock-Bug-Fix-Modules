@@ -11,8 +11,9 @@
  * - Fixes deployment of aero surfaces on launch and in the editor (loading, cloning, etc)
  * - Fixes Action Groups
  * - (Plus) When stowed, the airbrake doesn't generate drag.
-  * 
+ * 
  * Change Log:
+ * - v01.01  (14 May 15)   Added some error checking to make it more compatible with other mods
  * - v01.00  (12 May 15)   Initial Release
  * 
  */
@@ -55,20 +56,6 @@ namespace ClawKSP
             AeroSurfaceModule.deploy = deploy;
         }
 
-        private PartModule GetModule(string moduleName)
-        {
-            for (int indexModules = 0; indexModules < part.Modules.Count; indexModules++)
-            {
-                if (moduleName == part.Modules[indexModules].moduleName)
-                {
-                    return (part.Modules[indexModules]);
-                }
-            }
-
-            return (null);
-
-        }  // GetModule
-
         private void SetupStockPlus()
         {
             if (StockPlusController.plusActive == false || plusEnabled == false)
@@ -77,33 +64,34 @@ namespace ClawKSP
                 return;
             }
 
+            Debug.Log(moduleName + " StockPlus Enabled");
+
             deflectionLiftCoeff = AeroSurfaceModule.deflectionLiftCoeff;
         }
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.00");
+            Debug.Log(moduleName + ".Start(): v01.01");
 
             base.OnStart(state);
 
-            AeroSurfaceModule = (ModuleAeroSurface)GetModule("ModuleAeroSurface");
-
+            AeroSurfaceModule = part.FindModuleImplementing<ModuleAeroSurface>();
             if (null == AeroSurfaceModule)
             {
                 Debug.LogWarning(moduleName + ".Start(): Did not find Aero Surface Module.");
                 return;
             }
 
-            AeroSurfaceModule.deploy = deploy;
-
             // Wipe out the default actions, which always sets to the "Brakes" action group OnStart
             AeroSurfaceModule.Actions.Clear();
+            AeroSurfaceModule.deploy = deploy;
 
             SetupStockPlus();
         }
 
         public void FixedUpdate()
         {
+            AeroSurfaceModule = part.FindModuleImplementing<ModuleAeroSurface>();
             if (null == AeroSurfaceModule) { return; }
 
             deploy = AeroSurfaceModule.deploy;

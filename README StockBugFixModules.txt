@@ -12,13 +12,14 @@ Please delete any old installations of KSP-Stock-Bug-Fix-Modules before installi
 
 Unzip the zip file to the KSP/GameData directory. ModuleManager.X.X.X.dll should be in the root GameData directory next to a StockBugFixModules folder.
 
-The fixes are all stand alone. So if there are any that you don't want, just delete the directory inside the StockBugFixModules folder.
+The fixes are all stand alone. So if there are any that you don't want, just delete the directory inside the StockBugFixModules folder. For example: If you don't want to use "ModuleParachuteFix," delete that directory.
 
 
 StockPlus Instructions
 ======================
 
-StockPlus is disabled by default. If you want to enable StockPlus
+StockPlus features are disabled by default. If you want to enable the StockPlus features...
+
 1) Edit the "StockPlusController.cfg" with a plain text editor (like notepad)
 2) Change the "plusActive = False" line to "plusActive = True" (or copy and paste the text below)
 
@@ -27,9 +28,9 @@ STOCK_PLUS
 	plusActive = True
 }
 
-StockPlus for any individual fixes can be selectively disabled by editing the appropriate .cfg file (inside the individual fix directory) and changing the "plusEnabled = True" line to "plusEnabled = False"
+Additionally, StockPlus for individual fixes can be selectively disabled by editing the appropriate .cfg file (inside the individual fix directory) and changing the "plusEnabled = True" line to "plusEnabled = False"
 
-Fix Modules that include StockPlus features are marked "Plus" below.
+Fix Modules that include StockPlus features are marked (Plus) below.
 
 
 Bug Fixes Included
@@ -62,7 +63,8 @@ Description: Mk3 parts are easy to break relative to their size.
 
 + ModuleAeroSurfaceFix
 Description: Aero Surface (Airbrakes) action groups do not work properly.
-  - Action groups fixed
+  - Action groups fixed (no longer sticks to the "brake" action group)
+  - Added some error checking to make the fix compatible with other mods
   - (Plus) When stowed (not deployed) air brakes do not contribute drag (flush with the fuselage)
 
 --
@@ -70,14 +72,17 @@ Description: Aero Surface (Airbrakes) action groups do not work properly.
 + ModuleControlSurfaceFix
 Description: Control surfaces do not deploy when launched or loaded in the editor
   - Fixes deployment of flight control surfaces on launch and in the editor (loading, cloning, etc)
+  - Added some error checking to make the fix compatible with other mods
   - (Plus) Adds tweakable authority range
   - (Plus) Disables flight controls in space, so they aren't moving around when maneuvering
 
 --
 
 + ModuleGimbalFix (still a Work In Progress)
-Description: Gimbaling engines reach their gimbal limits instantaneously.
-  - Activates gimbaling speed and sets them to match up with flight control rates (for better SAS control)
+Description: Gimbals do not work on engines activated via right click, and gimbaling engines reach their gimbal limits instantaneously.
+  - Gimbals now work on engines before activation, or when activated via Right-Click->Activate
+  - (Plus) Activates gimbaling speed
+  - (Plus) Adds gimbal speed tweakable
   - Still a Work In Progress, might turn into a StockPlus tweakable
 
 --
@@ -235,6 +240,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2d.2 (14 May 15) - Improved mod compatibility, converted ModuleGimbalFix to StockPlus
 v1.0.2d.1 (13 May 15) - Added ModuleAeroSurfaceFix and ModuleControlSurfaceFix, plus some updates to disable StockPlus
 v1.0.2c.2 (9 May 15) - Fixed the StockPlus config.
 v1.0.2c.1 (9 May 15) - Added decoupler fuel feed fixes. Incorporates StockPlus additions.
