@@ -138,7 +138,7 @@ namespace ClawKSP
                         vacuumRange = 1.0f;
                     }
                 }
-                ControlSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * Authority * vacuumRange;
+                ControlSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * Authority * vacuumRange * Mathf.Sign(ControlSurfaceModule.ctrlSurfaceRange);
             }
         }
     }
