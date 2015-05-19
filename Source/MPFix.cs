@@ -12,6 +12,7 @@
  * - Plus: Adds ability to reset chutes that are active but not deployed
  * 
  * Change Log:
+ * - v01.02  (18 May 15) Fixed some minor StockPlus integration bugs
  * - v01.01  (8 May 15)  Reworked for KSP v1.0.2 and to include StockPlus code
  * - v01.00  (26 Apr 15) Initial Release
  * 
@@ -84,6 +85,10 @@ namespace ClawKSP
             if (StockPlusController.plusActive == false || plusEnabled == false)
             {
                 plusEnabled = false;
+                Fields["semiDeploymentSpeed"].guiActive = false;
+                Fields["semiDeploymentSpeed"].guiActiveEditor = false;
+                Fields["deploymentSpeed"].guiActive = false;
+                Fields["deploymentSpeed"].guiActiveEditor = false;
                 return;
             }
 
@@ -189,14 +194,18 @@ namespace ClawKSP
                     #endregion
                 }
 
-                // Applies wind drift to the chutes, using the part ID to desync canopy movement
-                float timeOffset = Time.time + (float)(part.craftID % 32);
-                canopy.Rotate(new Vector3(10f * (Mathf.PerlinNoise(timeOffset, 0f) - 0.5f),
-                          10f * (Mathf.PerlinNoise(timeOffset, 8f) - 0.5f),
-                          10f * (Mathf.PerlinNoise(timeOffset, 16f) - 0.5f)));
+                if (plusEnabled)
+                {
+                    // Applies wind drift to the chutes, using the part ID to desync canopy movement
+                    float timeOffset = Time.time + (float)(part.craftID % 32);
+                    canopy.Rotate(new Vector3(10f * (Mathf.PerlinNoise(timeOffset, 0f) - 0.5f),
+                              10f * (Mathf.PerlinNoise(timeOffset, 8f) - 0.5f),
+                              10f * (Mathf.PerlinNoise(timeOffset, 16f) - 0.5f)));
 
-                Quaternion dragVectorRotation = Quaternion.LookRotation(part.partTransform.InverseTransformDirection(canopy.forward));
-				part.DragCubes.SetDragVectorRotation(dragVectorRotation);
+                    Quaternion dragVectorRotation = Quaternion.LookRotation(part.partTransform.InverseTransformDirection(canopy.forward));
+                    part.DragCubes.SetDragVectorRotation(dragVectorRotation);
+                }
+
             }
 
         }

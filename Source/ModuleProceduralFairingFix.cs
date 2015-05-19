@@ -13,6 +13,7 @@
  * - (Plus) Activates a tweakable slider to control ejection forces on the panels.
  * 
  * Change Log:
+ * - v01.04  (18 May 15)  Fixed some minor StockPlus UI bugs
  * - v01.03  (13 May 15)  Updates and minor adjustments, incorporates StockPlus
  * - v01.02  (3 May 15)   Moved ejection force out to Module Manager
  * - v01.01  (2 May 15)   Updated and recompiled for KSP 1.0.2
@@ -60,6 +61,10 @@ namespace ClawKSP
             if (StockPlusController.plusActive == false || plusEnabled == false)
             {
                 plusEnabled = false;
+                Fields["nArcs"].guiActive = false;
+                Fields["nArcs"].guiActiveEditor = false;
+                Fields["ejectionForce"].guiActive = false;
+                Fields["ejectionForce"].guiActiveEditor = false;
                 return;
             }
 
@@ -94,6 +99,8 @@ namespace ClawKSP
             }
 
             GameEvents.onPartRemove.Add(RemovePart);
+
+            SetupStockPlus();
         }
 
         public void RemovePart(GameEvents.HostTargetAction<Part, Part> RemovedPart)

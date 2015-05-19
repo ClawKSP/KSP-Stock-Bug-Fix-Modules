@@ -11,6 +11,7 @@
  * - Fixes the traction and breaking torque for wheels.
  * 
  * Change Log:
+ * - v01.04  (18 May 15)   Fixed some minor StockPlus UI bugs
  * - v01.03  (11 May 15)   New UI fix, reworked loading procedures (again again) and fixed a bug
  * - v01.02  (9 May 15)    Reworked loading procedures (again) and updated for StockPlus
  * - v01.01  (1 May 15)    Reworked loading procedure and tweakables, recompiled for KSP 1.0.2
@@ -112,6 +113,8 @@ namespace ClawKSP
         {
             if (StockPlusController.plusActive == false || plusEnabled == false)
             {
+                Fields["Stiffness"].guiActive = false;
+                Fields["Stiffness"].guiActiveEditor = false;
                 plusEnabled = false;
                 return;
             }

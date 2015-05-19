@@ -13,6 +13,7 @@
  * - (Plus) Disables flight controls in space
  * 
  * Change Log:
+ * - v01.02  (18 May 15)   Fixed a bug that caused roll inputs to be reversed forward of CoM
  * - v01.01  (14 May 15)   Added some error checking to make it more compatible with other mods
  * - v01.00  (12 May 15)   Initial Release
  * 

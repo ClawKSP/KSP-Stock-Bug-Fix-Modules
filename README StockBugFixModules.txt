@@ -18,15 +18,19 @@ The fixes are all stand alone. So if there are any that you don't want, just del
 StockPlus Instructions
 ======================
 
+!!! IMPORTANT CHANGE !!!
+
 StockPlus features are disabled by default. If you want to enable the StockPlus features...
 
-1) Edit the "StockPlusController.cfg" with a plain text editor (like notepad)
-2) Change the "plusActive = False" line to "plusActive = True" (or copy and paste the text below)
+1) Download the "StockPlusController.cfg" or edit your own with a plain text editor (like notepad)
+  -- The file should have a "plusActive = True" (or copy and paste the text below)
 
 STOCK_PLUS
 {
 	plusActive = True
 }
+
+2) Place the StockPlusController.cfg file in your GameData director (next to ModuleManager).
 
 Additionally, StockPlus for individual fixes can be selectively disabled by editing the appropriate .cfg file (inside the individual fix directory) and changing the "plusEnabled = True" line to "plusEnabled = False"
 
@@ -73,6 +77,7 @@ Description: Aero Surface (Airbrakes) action groups do not work properly.
 Description: Control surfaces do not deploy when launched or loaded in the editor
   - Fixes deployment of flight control surfaces on launch and in the editor (loading, cloning, etc)
   - Added some error checking to make the fix compatible with other mods
+  - Fixed bug that caused reverse roll inputs with surfaces forward of CoM
   - (Plus) Adds tweakable authority range
   - (Plus) Disables flight controls in space, so they aren't moving around when maneuvering
 
@@ -83,7 +88,7 @@ Description: Gimbals do not work on engines activated via right click, and gimba
   - Gimbals now work on engines before activation, or when activated via Right-Click->Activate
   - (Plus) Activates gimbaling speed
   - (Plus) Adds gimbal speed tweakable
-  - Still a Work In Progress, might turn into a StockPlus tweakable
+  - StockPlus has been disabled by default. To enable it, edit ModuleGimbalFix.cfg and set: plusEnabled = True
 
 --
 
@@ -240,6 +245,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2d.3 (18 May 15) - Fixed reversed roll control in ModuleControlSurfaceFix, Mk3-Mk2 slanted adapter, & minor StockPlus UI bugs
 v1.0.2d.2 (14 May 15) - Improved mod compatibility, converted ModuleGimbalFix to StockPlus
 v1.0.2d.1 (13 May 15) - Added ModuleAeroSurfaceFix and ModuleControlSurfaceFix, plus some updates to disable StockPlus
 v1.0.2c.2 (9 May 15) - Fixed the StockPlus config.
