@@ -69,6 +69,7 @@ Description: Mk3 parts are easy to break relative to their size.
 Description: Aero Surface (Airbrakes) action groups do not work properly.
   - Action groups fixed (no longer sticks to the "brake" action group)
   - Added some error checking to make the fix compatible with other mods
+  - Fixed default brakes action to "toggle" vice "extend"
   - (Plus) When stowed (not deployed) air brakes do not contribute drag (flush with the fuselage)
 
 --
@@ -245,6 +246,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2d.4 (1 Jun 15) - Fixed default aero surface action group and a bug in StockPlusController (when the .cfg is missing)
 v1.0.2d.3 (18 May 15) - Fixed reversed roll control in ModuleControlSurfaceFix, Mk3-Mk2 slanted adapter, & minor StockPlus UI bugs
 v1.0.2d.2 (14 May 15) - Improved mod compatibility, converted ModuleGimbalFix to StockPlus
 v1.0.2d.1 (13 May 15) - Added ModuleAeroSurfaceFix and ModuleControlSurfaceFix, plus some updates to disable StockPlus

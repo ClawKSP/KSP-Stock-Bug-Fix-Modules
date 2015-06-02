@@ -13,6 +13,7 @@
  * - (Plus) When stowed, the airbrake doesn't generate drag.
  * 
  * Change Log:
+ * - v01.02  (1 Jun 15)    Changed brake default action to toggle
  * - v01.01  (14 May 15)   Added some error checking to make it more compatible with other mods
  * - v01.00  (12 May 15)   Initial Release
  * 
@@ -37,13 +38,20 @@ namespace ClawKSP
 
         private ModuleAeroSurface AeroSurfaceModule;
 
-        [KSPAction("Toggle", KSPActionGroup.None)]
+        [KSPAction("Toggle", KSPActionGroup.Brakes)]
         public void ActionToggle(KSPActionParam act)
         {
-            deploy = !deploy;
+            if (act.type == KSPActionType.Activate)
+            {
+                deploy = true;
+            }
+            else
+            {
+                deploy = false;
+            }
             AeroSurfaceModule.deploy = deploy;
         }
-        [KSPAction("Extend", KSPActionGroup.Brakes)]
+        [KSPAction("Extend", KSPActionGroup.None)]
         public void ActionExtend(KSPActionParam act)
         {
             deploy = true;
@@ -71,7 +79,7 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.01");
+            Debug.Log(moduleName + ".Start(): v01.02");
 
             base.OnStart(state);
 
