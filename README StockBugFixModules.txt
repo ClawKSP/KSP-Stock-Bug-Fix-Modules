@@ -246,6 +246,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2d.5 (5 Jun 15) - Deactivated ModuleGimbalFix Plus features by default.
 v1.0.2d.4 (1 Jun 15) - Fixed default aero surface action group and a bug in StockPlusController (when the .cfg is missing)
 v1.0.2d.3 (18 May 15) - Fixed reversed roll control in ModuleControlSurfaceFix, Mk3-Mk2 slanted adapter, & minor StockPlus UI bugs
 v1.0.2d.2 (14 May 15) - Improved mod compatibility, converted ModuleGimbalFix to StockPlus
