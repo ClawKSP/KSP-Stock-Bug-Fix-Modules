@@ -135,6 +135,20 @@ Description: Convective heating has an error in one of the constants.
 
 ----
 
++ PilotRSASFix
+Description: The new(ish) pilot abilities cause smaller vessels to jitter and rapidly deplete electrical charge or monopropellant.
+   - Currently does NOT try to prevent overcontrol by RSAS when moving between targets. Only the long term response.
+   - Dynamically self adjusts to reduce jitter and resource consumption.
+   - Somewhat reduces wobble for bendy craft during launch, when using pilot RSAS abilities.
+   - (Plus) Gives access to the tweakable options that control the dynamic tweaks.
+     -- The "Plus" tweakable options are available in the right-click menu of the first pod/probe core.
+     -- "Min Response" sets the lowest reaction response from the RSAS ("how far" is the initial move)
+     -- "Min Clamp" sets the lowest clamp value (how much reaction) as the RSAS nears it's target.
+     -- "Threshold" sets the angular speed where clamp and response values start to adjust.
+   - Still a bit of a work in progress, and needs testing with more types of craft.
+
+----
+
 + StickyLaunchPadFix.dll
 Description: Certain rocket configurations "stick" to the career tier 2 launch pad.
   - Fixes bug where engines (mostly BACC and LV-T30/45) will stick to tier 2 launch pad.
@@ -246,6 +260,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2e.1 (7 Jun 15) - Initial release of PilotRSASFix.
 v1.0.2d.5 (5 Jun 15) - Deactivated ModuleGimbalFix Plus features by default.
 v1.0.2d.4 (1 Jun 15) - Fixed default aero surface action group and a bug in StockPlusController (when the .cfg is missing)
 v1.0.2d.3 (18 May 15) - Fixed reversed roll control in ModuleControlSurfaceFix, Mk3-Mk2 slanted adapter, & minor StockPlus UI bugs
