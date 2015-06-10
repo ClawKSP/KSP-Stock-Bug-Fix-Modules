@@ -108,6 +108,8 @@ Description: Fairings removed from craft sometimes break when reattaching in VAB
   - Fixes some bugs with removing/replacing interstage fairings which can cause fairings to lock up
   - Fixes fairing decoupler force (small fairings are too high, and large fairings too low)
   - Fairings that are children parts now properly rebuild when added with symmetry (is actually in SymmetryActionFix)
+  - Fixes some "stuck fairing" issues when jettisoning
+  - Fairings stuck on vessel no longer cause the vessel to register as "landed" (and won't save)
   - (Plus) Adds tweakable that allows adjusting the number of shell splits on the fairing
   - (Plus) Adds tweakable decoupler force range.
   - (Not Yet Enabled) Adds tweakable option to enable/disable fairings inside a procedural fairing
@@ -260,6 +262,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2e.2 (9 Jun 15) - Additional fixes added to ModuleProceduralFairingFix.
 v1.0.2e.1 (7 Jun 15) - Initial release of PilotRSASFix.
 v1.0.2d.5 (5 Jun 15) - Deactivated ModuleGimbalFix Plus features by default.
 v1.0.2d.4 (1 Jun 15) - Fixed default aero surface action group and a bug in StockPlusController (when the .cfg is missing)

@@ -7,12 +7,14 @@
  * 
  *
  * ModuleProceduralFairingFix - Written for KSP v1.0
- * 
+ * - Fixes some "stuck fairing" issues when jettisoning
+ * - Fairings stuck on vessel no longer cause the vessel to register as "landed" (and won't save)
  * - Fixes some bugs with pulling and replacing fairings.
  * - (Plus) Activates a tweakable slider for the user to select the number of panels on the fairing.
  * - (Plus) Activates a tweakable slider to control ejection forces on the panels.
  * 
  * Change Log:
+ * - v01.05  (9 Jun 15)   Added MPFFixAddon
  * - v01.04  (18 May 15)  Fixed some minor StockPlus UI bugs
  * - v01.03  (13 May 15)  Updates and minor adjustments, incorporates StockPlus
  * - v01.02  (3 May 15)   Moved ejection force out to Module Manager
@@ -85,6 +87,9 @@ namespace ClawKSP
                 return;
             }
 
+            FairingModule.edgeWarp = 0.05f;
+            FairingModule.edgeSlide = 0.3f;
+
             if (plusEnabled == true)
             {
                 if (ejectionForce == -1)
@@ -96,6 +101,7 @@ namespace ClawKSP
                 {
                     nArcs = FairingModule.nArcs;
                 }
+
             }
 
             GameEvents.onPartRemove.Add(RemovePart);
@@ -156,6 +162,101 @@ namespace ClawKSP
         public void OnDestroy()
         {
             GameEvents.onPartRemove.Remove(RemovePart);
+        }
+    }
+
+
+    [KSPAddon(KSPAddon.Startup.Flight, false)]
+    public class MPFFixAddon : MonoBehaviour
+    {
+
+        private int gameObjectCount = 0;
+        private int collisionCounter = 0;
+
+        public void Start()
+        {
+            Debug.LogWarning("MPFFixAddon.Start()");
+        }
+
+        private void SetLayer(int layer)
+        {
+            //for (int indexObjects = 0; indexObjects < FlightGlobals.physicalObjects.Count; indexObjects++)
+            for (int indexObjects = FlightGlobals.physicalObjects.Count - 1; indexObjects >= 0; indexObjects--)
+            {
+                if (null == FlightGlobals.physicalObjects[indexObjects])
+                {
+                    //Debug.LogWarning("Removing Null Object #" + indexObjects);
+                    FlightGlobals.physicalObjects.RemoveAt(indexObjects);
+                    //indexObjects--;
+                }
+                else
+                {
+                    //Debug.LogWarning("Object #" + indexObjects + " | Name: " + FlightGlobals.physicalObjects[indexObjects].name + " | Layer: " + FlightGlobals.physicalObjects[indexObjects].layer);
+                    if (FlightGlobals.physicalObjects[indexObjects].name == "FairingPanel")
+                    {
+                        Debug.LogWarning("Resetting Layer = " + layer);
+                        FlightGlobals.physicalObjects[indexObjects].layer = layer;
+                    }
+                }
+            }
+        }
+
+        private void SetCollisions(bool detectCollisions)
+        {
+            //for (int indexObjects = 0; indexObjects < FlightGlobals.physicalObjects.Count; indexObjects++)
+            for (int indexObjects = FlightGlobals.physicalObjects.Count - 1; indexObjects >= 0; indexObjects--)
+            {
+                if (null == FlightGlobals.physicalObjects[indexObjects])
+                {
+                    FlightGlobals.physicalObjects.RemoveAt(indexObjects);
+                    //indexObjects--;
+                }
+                else
+                {
+                    if (FlightGlobals.physicalObjects[indexObjects].name == "FairingPanel")
+                    {
+                        FlightGlobals.physicalObjects[indexObjects].rigidbody.detectCollisions = detectCollisions;
+                    }
+                }
+            }
+        }
+
+        public void FixedUpdate()
+        {
+
+            if (FlightGlobals.ActiveVessel.isEVA)
+            {
+                SetLayer(15);
+                gameObjectCount = -1;
+                return;
+            }
+
+            // Fairing Name: gameObject.name = "FairingPanel"
+
+            if (gameObjectCount != FlightGlobals.physicalObjects.Count)
+            {
+                SetLayer(0);
+                SetCollisions(false);
+                collisionCounter = 2;
+                gameObjectCount = FlightGlobals.physicalObjects.Count;
+
+                return;
+            }
+
+            if (collisionCounter > 0)
+            {
+                collisionCounter--;
+            }
+            else
+            {
+                collisionCounter = -1;
+                SetCollisions(true);
+            }
+        }
+
+        public void OnDestroy()
+        {
+            FlightGlobals.physicalObjects.Clear();
         }
     }
 }
