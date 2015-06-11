@@ -262,6 +262,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.2e.3 (10 Jun 15) - Removed some WIP code that snuk into ModuleProceduralFairingFix.
 v1.0.2e.2 (9 Jun 15) - Additional fixes added to ModuleProceduralFairingFix.
 v1.0.2e.1 (7 Jun 15) - Initial release of PilotRSASFix.
 v1.0.2d.5 (5 Jun 15) - Deactivated ModuleGimbalFix Plus features by default.

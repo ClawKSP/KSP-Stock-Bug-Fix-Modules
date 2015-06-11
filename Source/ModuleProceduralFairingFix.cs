@@ -14,11 +14,12 @@
  * - (Plus) Activates a tweakable slider to control ejection forces on the panels.
  * 
  * Change Log:
- * - v01.05  (9 Jun 15)   Added MPFFixAddon
+ * - v01.06  (10 Jun 15)  Removed some WIP code that snuk in
+ * - v01.05  ( 9 Jun 15)  Added MPFFixAddon
  * - v01.04  (18 May 15)  Fixed some minor StockPlus UI bugs
  * - v01.03  (13 May 15)  Updates and minor adjustments, incorporates StockPlus
- * - v01.02  (3 May 15)   Moved ejection force out to Module Manager
- * - v01.01  (2 May 15)   Updated and recompiled for KSP 1.0.2
+ * - v01.02  ( 3 May 15)  Moved ejection force out to Module Manager
+ * - v01.01  ( 2 May 15)  Updated and recompiled for KSP 1.0.2
  * - v01.00  (27 Apr 15)  Initial Release
  * 
  */
@@ -86,9 +87,6 @@ namespace ClawKSP
                 Debug.LogWarning("ModuleProceduralFairingFix.Start(): Did not find Fairing Module.");
                 return;
             }
-
-            FairingModule.edgeWarp = 0.05f;
-            FairingModule.edgeSlide = 0.3f;
 
             if (plusEnabled == true)
             {
@@ -175,7 +173,7 @@ namespace ClawKSP
 
         public void Start()
         {
-            Debug.LogWarning("MPFFixAddon.Start()");
+            Debug.Log("MPFFixAddon.Start()");
         }
 
         private void SetLayer(int layer)
@@ -194,7 +192,7 @@ namespace ClawKSP
                     //Debug.LogWarning("Object #" + indexObjects + " | Name: " + FlightGlobals.physicalObjects[indexObjects].name + " | Layer: " + FlightGlobals.physicalObjects[indexObjects].layer);
                     if (FlightGlobals.physicalObjects[indexObjects].name == "FairingPanel")
                     {
-                        Debug.LogWarning("Resetting Layer = " + layer);
+                        //Debug.Log("Resetting Layer = " + layer);
                         FlightGlobals.physicalObjects[indexObjects].layer = layer;
                     }
                 }
