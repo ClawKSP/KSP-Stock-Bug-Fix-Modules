@@ -88,6 +88,7 @@ Description: Gimbals do not work on engines activated via right click, and gimba
 
 + ModuleParachuteFix (Plus)
 Description: Minor fixes for chutes mounted 90 degrees to airflow
+  - Fixes log spam and NREs from stock chutes
   - Adds a couple minor visual bug fixes.
   - (Plus) Adds ability to reset chutes that have been activated (staged) but haven't yet deployed.
     -- Must move the chute icon to a new stage in order to "restage" it, or deploy with right-click (same as repack)
