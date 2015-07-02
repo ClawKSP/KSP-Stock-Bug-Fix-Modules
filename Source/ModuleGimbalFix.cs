@@ -11,6 +11,7 @@
  * - (Plus) Adds tweakable gimbal rate for engines with gimbal
  * 
  * Change Log:
+ * - v00.02  (1 Jul 15)    Recompiled for KSP v1.0.4, added toggle to activate Gimbal Rate usage
  * - v00.01  (15 May 15)   Initial Experimental Release
  * 
  */
@@ -27,7 +28,11 @@ namespace ClawKSP
         public bool plusEnabled = false;
 
         [KSPField(guiName = "Gimbal Rate", isPersistant = true)]
-        [UI_FloatRange(minValue = 1f, maxValue = 30f, stepIncrement = 1f)]
+        [UI_Toggle(disabledText = "Disabled", enabledText = "Active", affectSymCounterparts = UI_Scene.All)]
+        public bool gimbalRateIsActive = false;
+
+        [KSPField(guiName = "Gimbal Rate", isPersistant = true)]
+        [UI_FloatRange(minValue = 1f, maxValue = 30f, stepIncrement = 1f, affectSymCounterparts = UI_Scene.All)]
         public float gimbalResponseSpeed = 10f;
 
         private ModuleGimbal GimbalModule;
@@ -39,6 +44,8 @@ namespace ClawKSP
                 plusEnabled = false;
                 Fields["gimbalResponseSpeed"].guiActive = false;
                 Fields["gimbalResponseSpeed"].guiActiveEditor = false;
+                Fields["gimbalRateIsActive"].guiActive = false;
+                Fields["gimbalRateIsActive"].guiActiveEditor = false;
                 return;
             }
 
@@ -46,14 +53,16 @@ namespace ClawKSP
 
             Fields["gimbalResponseSpeed"].guiActive = true;
             Fields["gimbalResponseSpeed"].guiActiveEditor = true;
+            Fields["gimbalRateIsActive"].guiActive = true;
+            Fields["gimbalRateIsActive"].guiActiveEditor = true;
 
-            GimbalModule.useGimbalResponseSpeed = true;
+            GimbalModule.useGimbalResponseSpeed = gimbalRateIsActive;
             GimbalModule.gimbalResponseSpeed = gimbalResponseSpeed;
         }
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v00.01");
+            Debug.Log(moduleName + ".Start(): v00.02");
 
             base.OnStart(state);
 
@@ -82,7 +91,15 @@ namespace ClawKSP
 
             if (plusEnabled == true)
             {
-                GimbalModule.gimbalResponseSpeed = gimbalResponseSpeed;
+                if (gimbalRateIsActive == true)
+                {
+                    GimbalModule.useGimbalResponseSpeed = true;
+                    GimbalModule.gimbalResponseSpeed = gimbalResponseSpeed;
+                }
+                else
+                {
+                    GimbalModule.useGimbalResponseSpeed = false;
+                }
             }
         }
     }

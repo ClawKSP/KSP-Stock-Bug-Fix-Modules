@@ -14,6 +14,7 @@
  * - (Plus) Activates a tweakable slider to control ejection forces on the panels.
  * 
  * Change Log:
+ * - v01.07  ( 1 Jul 15)  Recompiled for v1.0.4
  * - v01.06  (10 Jun 15)  Removed some WIP code that snuk in
  * - v01.05  ( 9 Jun 15)  Added MPFFixAddon
  * - v01.04  (18 May 15)  Fixed some minor StockPlus UI bugs
@@ -78,7 +79,7 @@ namespace ClawKSP
         public override void OnStart(StartState state)
         {
             base.OnStart(state);
-            Debug.Log("MPFPlus.OnStart(): v00.01");
+            Debug.Log("MPFFix.OnStart(): v01.07");
 
             FairingModule = (ModuleProceduralFairing) GetModule("ModuleProceduralFairing");
 

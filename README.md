@@ -58,13 +58,6 @@ Description: Kerbals sometimes turn into debris when crashing in External Comman
 
 --
 
-+ Mk3StrengthFix
-Description: Mk3 parts are easy to break relative to their size.
-  - Mk3 parts are rebalanced to have joint strength on par with other size 3 (SLS) parts (which might be a bit excessive).
-  - Now includes Mk3 adapter parts. Their strength is midway between Mk3 and Mk2 parts.
-
---
-
 + ModuleAeroSurfaceFix
 Description: Aero Surface (Airbrakes) action groups do not work properly.
   - Action groups fixed (no longer sticks to the "brake" action group)
@@ -89,7 +82,7 @@ Description: Gimbals do not work on engines activated via right click, and gimba
   - Gimbals now work on engines before activation, or when activated via Right-Click->Activate
   - (Plus) Activates gimbaling speed
   - (Plus) Adds gimbal speed tweakable
-  - StockPlus has been disabled by default. To enable it, edit ModuleGimbalFix.cfg and set: plusEnabled = True
+  - (Plus) Adds toggle to enable gimbal response speed
 
 --
 
@@ -121,19 +114,6 @@ Description: Rover wheel brakes are rendered ineffective and traction is low.
   - Fixes bug with brake torque not working on rover wheels (changes tweakable range to 0 to Max Torque for that part)
   - Improves wheel grip for all rover wheels
     -- (Plus) Also adds tweakable "grip" multiplier (from 1 to 3x)
-
-----
-
-+ PartDragFix
-Description: Drag for the new landing gear and Mk3 cargo bays are a bit off.
-  - Landing gear drag is backwards. Gear up gives more drag than gear down.
-  - Mk3 cargo bays (should) now properly occlude parts behind them.
-
-----
-
-+ PhysicsFix
-Description: Convective heating has an error in one of the constants.
-  - Fixes one of the global convective heating numbers
 
 ----
 
@@ -174,38 +154,59 @@ So, symmetry within symmetry is still a bit buggy in stock especially when using
 
 ----
 
-+ ToroidalAerospikeFix
-Description: The curves for the toroidal aerospike are a bit off due to missing tangents
-  - Atmosphere curve has been updated to include tangents
-
-----
-
 
 DEPRICATED
 =======
 
 Release v0.1.7d is the last compatible version for KSP v0.90
 Release v0.1.5c is the last compatible version for KSP v0.25
+Further releases are labeled by compatible version. Example: Release v1.0.2e.3 is compatible with KSP v1.0.2
 
---
+----
+
++ [FIXED IN KSP v1.0.4] Mk3StrengthFix
+Description: Mk3 parts are easy to break relative to their size.
+  - Mk3 parts are rebalanced to have joint strength on par with other size 3 (SLS) parts (which might be a bit excessive).
+  - Now includes Mk3 adapter parts. Their strength is midway between Mk3 and Mk2 parts.
+
+----
+
++ [FIXED IN KSP v1.0.4] PartDragFix
+Description: Drag for the new landing gear and Mk3 cargo bays are a bit off.
+  - Landing gear drag is backwards. Gear up gives more drag than gear down.
+  - Mk3 cargo bays (should) now properly occlude parts behind them.
+
+----
+
++ [FIXED IN KSP v1.0.4] PhysicsFix
+Description: Convective heating has an error in one of the constants.
+  - Fixes one of the global convective heating numbers
+
+----
+
++ [FIXED IN KSP v1.0.4] ToroidalAerospikeFix
+Description: The curves for the toroidal aerospike are a bit off due to missing tangents
+  - Atmosphere curve has been updated to include tangents
+
+----
 
 + [FIXED IN KSP v1.0.2] ModuleCargoBayFix
 Description: Parts in cargo bays are inoperative when removed from the bay.
   - When parts are place in a cargo bay, they remain marked as "shielded" even after they leave the bay, when the bay doors are re-closed. This causes some parts to be unresponsive.
 
---
+----
 
 + [FIXED IN KSP v1.0.2] HeatBalanceFix
 Description: Service bays block all heat flow (acting as infinte heat shields).
   - Right now this is only a minor change to the service bays (which are blocking all heat)
 
---
+----
 
 + [FIXED IN KSP v1.0.2] HeatShieldFix
 Description: Heat shields cause pods to reenter at an offset angle.
   - Resets the pod to be physics based. Fixes mass and stability issues.
 
---
+----
 
 + [FIXED IN KSP v1.0.2] ParachuteFix
 Description: Various fixes for chutes
@@ -262,6 +263,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.4a.1 (1 Jul 15)  - Updated for KSP v1.0.4, Fixed parachute log spam and linux crashing KSP bug, adjusted PilotRSASFix
 v1.0.2e.3 (10 Jun 15) - Removed some WIP code that snuk into ModuleProceduralFairingFix.
 v1.0.2e.2 (9 Jun 15) - Additional fixes added to ModuleProceduralFairingFix.
 v1.0.2e.1 (7 Jun 15) - Initial release of PilotRSASFix.

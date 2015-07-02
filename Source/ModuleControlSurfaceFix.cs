@@ -13,6 +13,7 @@
  * - (Plus) Disables flight controls in space
  * 
  * Change Log:
+ * - v01.03  (1 Jul 15)    Recompiled and tested for KSP v1.0.4
  * - v01.02  (18 May 15)   Fixed a bug that caused roll inputs to be reversed forward of CoM
  * - v01.01  (14 May 15)   Added some error checking to make it more compatible with other mods
  * - v01.00  (12 May 15)   Initial Release
@@ -72,7 +73,7 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.01");
+            Debug.Log(moduleName + ".Start(): v01.03");
 
             base.OnStart(state);
 

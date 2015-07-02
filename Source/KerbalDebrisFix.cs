@@ -9,13 +9,13 @@
  * KerbalDebrisFix v0.1.2 - Written for KSP v1.00
  * 
  * Change Log:
- * 
- * v01.01  (2 May 15)  Recompiled and tested for KSP v1.0.2
- * v01.00  (26 Apr 15) Recompiled and tested for KSP v1.00
- * v0.1.2  (20 Dec 14) Recompiled and tested for KSP v0.90.0
- * v0.1.1b - Added a bit of error checking.
- * v0.1.1a - Fixed names when loading an already frozen kerbal.
- * v0.1 - Initial Release
+ * - v01.02  (1 Jul 15)  Recompiled and tested for KSP v1.0.4
+ * - v01.01  (2 May 15)  Recompiled and tested for KSP v1.0.2
+ * - v01.00  (26 Apr 15) Recompiled and tested for KSP v1.00
+ * - v0.1.2  (20 Dec 14) Recompiled and tested for KSP v0.90.0
+ * - v0.1.1b             Added a bit of error checking.
+ * - v0.1.1a             Fixed names when loading an already frozen kerbal.
+ * - v0.1                Initial Release
  */
 
 using UnityEngine;
@@ -28,7 +28,7 @@ namespace ClawKSP
     {
         public void Start()
         {
-            Debug.Log("KerbalDebrisFix.Start(): v01.01");
+            Debug.Log("KerbalDebrisFix.Start(): v01.02");
 
             GameEvents.onVesselGoOffRails.Add(OffRails);
             GameEvents.onCrewOnEva.Add(OnEVA);

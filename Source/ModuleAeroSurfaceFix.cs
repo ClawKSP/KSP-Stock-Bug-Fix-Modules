@@ -13,6 +13,7 @@
  * - (Plus) When stowed, the airbrake doesn't generate drag.
  * 
  * Change Log:
+ * - v01.03  (1 Jul 15)    Recompiled and tested for KSP v1.0.4
  * - v01.02  (1 Jun 15)    Changed brake default action to toggle
  * - v01.01  (14 May 15)   Added some error checking to make it more compatible with other mods
  * - v01.00  (12 May 15)   Initial Release
@@ -79,7 +80,7 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.02");
+            Debug.Log(moduleName + ".Start(): v01.03");
 
             base.OnStart(state);
 

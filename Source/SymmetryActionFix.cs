@@ -15,10 +15,11 @@
  * 
  * Change Log:
  * 
- * v01.02 (9 May 15) - Added ability to copy procedural fairings.
- * v01.01 (1 May 15) - Recompiled and tested for KSP v1.0.2
- * v01.00 (26 Apr 15) - Updated for KSP v1.0
- * v0.1.5 (28 Feb 15) - Fixed engine icons coming apart in stage sequence. Added debug highlighting and action key toggle.
+ * v01.03  (1 Jul 15)  - Recompiled for KSP v1.0.4
+ * v01.02 (9 May 15)   - Added ability to copy procedural fairings.
+ * v01.01 (1 May 15)   - Recompiled and tested for KSP v1.0.2
+ * v01.00 (26 Apr 15)  - Updated for KSP v1.0
+ * v0.1.5 (28 Feb 15)  - Fixed engine icons coming apart in stage sequence. Added debug highlighting and action key toggle.
  *   Set SPH to default to mirror symmetry for singular parts. Standardized debug log entries.
  * v0.1.4a (12 Jan 15) - Fixed the SPH so that building one wing first, then copying with mirror symmetry doesn't
  *   cause parts to misattach to the wings. SPH defaults to mirror and the VAB defaults to radial (as in pre v0.90).

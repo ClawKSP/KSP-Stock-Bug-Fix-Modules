@@ -8,10 +8,12 @@
  *
  * ModuleParachuteFix - Written for KSP v1.0
  * - Fixes some minor graphics glitches
+ * - Fixed log spam and NREs (causing crashes in Linux) for KSP v1.0.4
  * - Plus: Adds a couple visual effects (such as symmetric chute spread for radials and asymmetric chute movement)
  * - Plus: Adds ability to reset chutes that are active but not deployed
  * 
  * Change Log:
+ * - v01.03  (1 Jul 15)  Recompiled and tested for KSP v1.0.4, Fixed log spam and NREs for KSP v1.0.4
  * - v01.02  (18 May 15) Fixed some minor StockPlus integration bugs
  * - v01.01  (8 May 15)  Reworked for KSP v1.0.2 and to include StockPlus code
  * - v01.00  (26 Apr 15) Initial Release
@@ -113,11 +115,20 @@ namespace ClawKSP
         {
             base.OnStart(state);
 
+            Debug.Log("ModuleParachuteFix.Start(): v01.03");
+
             ParachuteModule = (ModuleParachute)GetModule("ModuleParachute");
 
             if (null == ParachuteModule)
             {
                 Debug.LogWarning("ModuleParachuteFix.Start(): Did not find Parachute Module.");
+                return;
+            }
+
+            // This part fixes log spam in KSP v1.0.4
+            if (vessel == null)
+            {
+                ParachuteModule.part.packed = true;
                 return;
             }
 
@@ -129,6 +140,13 @@ namespace ClawKSP
         public void FixedUpdate ()
         {
             if (null == ParachuteModule) { return; }
+
+            // This part fixes log spam in KSP v1.0.4
+            if (vessel == null)
+            {
+                ParachuteModule.part.packed = true;
+                return;
+            }
 
             if (plusEnabled)
             {

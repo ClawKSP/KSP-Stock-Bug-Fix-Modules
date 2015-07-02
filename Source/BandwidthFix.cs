@@ -12,6 +12,7 @@
  * ModuleDataTransmitter.GetInfo() uses packetSize * packetInterval instead of packetSize / packetInterval
  * 
  * Change Log:
+ * - v01.02  (1 Jul 15)    Recompiled for KSP v1.0.4
  * - v01.01  (2 May 15)    Recompiled for KSP v1.0.2
  * - v01.00  (27 Apr 15)   Initial Release
  * 
@@ -29,7 +30,7 @@ namespace ClawKSP
         public void Start()
         {
 
-            Debug.Log("BandwidthFix.Start(): v01.01");
+            Debug.Log("BandwidthFix.Start(): v01.02");
 
             for (int indexParts = 0; indexParts < PartLoader.LoadedPartsList.Count; indexParts++)
             {

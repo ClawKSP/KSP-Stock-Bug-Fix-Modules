@@ -11,6 +11,7 @@
  * - Enables StockPlus features
  * 
  * Change Log:
+ * - v00.03  (1 Jul 15)    Recompiled for KSP v1.0.4
  * - v00.02  (1 Jun 15)    Minor bug fix
  * - v00.01  (8 May 15)    Initial Release
  * 
@@ -48,7 +49,7 @@ namespace ClawKSP
                 }
             }
 
-            Debug.Log("StockPlusController.Start(): v00.02 (Active = " + plusActive + ")");
+            Debug.Log("StockPlusController.Start(): v00.03 (Active = " + plusActive + ")");
         }
     }
 }

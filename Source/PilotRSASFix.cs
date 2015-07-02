@@ -9,10 +9,12 @@
  * ModuleRSASFix - Written for KSP v1.0
  * 
  * - Fixes overreaction by the SAS for small vessels with excess torque/RCS control.
- * - Somewhat reduces wobbly craft, but doesn't eliminate it
+ * - Improved reduction of wobbly craft
+ * - Added integral component back in and adjusted the min response
  * - (Plus) Gives tweakable RSAS adjustment parameters
  * 
  * Change Log:
+ * - v00.02  (1 Jul 15)   Recompiled and tested for KSP v1.0.4, adjusted response
  * - v00.01  (7 Jun 15)   Initial Release
  * 
  */
@@ -26,7 +28,10 @@ namespace ClawKSP
     {
         [KSPField(guiName = "Min Response", isPersistant = true, guiActive = true, guiActiveEditor = true)]
         [UI_FloatRange(minValue = 0.05f, maxValue = 1.0f, stepIncrement = 0.05f)]
-        public float minResponseLimit = 0.3f;
+        public float minResponseLimit = 0.5f;
+
+        [KSPField(isPersistant = true)]
+        public float versionNumber = 0.01f;
 
         [KSPField(guiName = "Min Clamp", isPersistant = true, guiActive = true, guiActiveEditor = true)]
         [UI_FloatRange(minValue = 0.1f, maxValue = 0.3f, stepIncrement = 0.01f)]
@@ -53,11 +58,21 @@ namespace ClawKSP
         public override void OnStart(StartState state)
         {
             base.OnStart(state);
-            Debug.Log(moduleName + ".Start(): v00.01");
+            Debug.Log(moduleName + ".Start(): v00.02");
 
             GameEvents.onVesselChange.Add(DisableGUI);
             DisableGUI(null);
             SetupStockPlus();
+
+            // fix the minResponseLimit from previous versions
+            if (versionNumber < 0.02f)
+            {
+                if (minResponseLimit == 0.3f)
+                {
+                    minResponseLimit = 0.5f;
+                }
+                versionNumber = 0.02f;
+            }
         }
 
         public void LateUpdate()
@@ -149,9 +164,9 @@ namespace ClawKSP
                     //   pitch (18.3f, 1.3f, 0.5f, 1f);
                     //   roll (6f, 0.25f, 0.025f, 1f);
                     //   yaw (18.3f, 1.3f, 0.5f, 1f);
-                    FlightGlobals.ActiveVessel.Autopilot.RSAS.pidPitch.ReinitializePIDsOnly(18.3f * responseLimit, 0f * responseLimit, 0.5f * responseLimit);
-                    FlightGlobals.ActiveVessel.Autopilot.RSAS.pidRoll.ReinitializePIDsOnly(6f * responseLimit, 0f * responseLimit, 0.025f * responseLimit);
-                    FlightGlobals.ActiveVessel.Autopilot.RSAS.pidYaw.ReinitializePIDsOnly(18.3f * responseLimit, 0f * responseLimit, 0.5f * responseLimit);
+                    FlightGlobals.ActiveVessel.Autopilot.RSAS.pidPitch.ReinitializePIDsOnly(18.3f * responseLimit, 1.3f * responseLimit, 0.5f * responseLimit);
+                    FlightGlobals.ActiveVessel.Autopilot.RSAS.pidRoll.ReinitializePIDsOnly(6f * responseLimit, 0.25f * responseLimit, 0.025f * responseLimit);
+                    FlightGlobals.ActiveVessel.Autopilot.RSAS.pidYaw.ReinitializePIDsOnly(18.3f * responseLimit, 1.3f * responseLimit, 0.5f * responseLimit);
                     setVessel.Autopilot.RSAS.pidPitch.Clamp(Clamp);
                     setVessel.Autopilot.RSAS.pidRoll.Clamp(Clamp);
                     setVessel.Autopilot.RSAS.pidYaw.Clamp(Clamp);

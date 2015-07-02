@@ -11,6 +11,7 @@
  * - Fixes the traction and breaking torque for wheels.
  * 
  * Change Log:
+ * - v01.05  (1 Jul 15)    Recompiled and tested for KSP v1.0.4
  * - v01.04  (18 May 15)   Fixed some minor StockPlus UI bugs
  * - v01.03  (11 May 15)   New UI fix, reworked loading procedures (again again) and fixed a bug
  * - v01.02  (9 May 15)    Reworked loading procedures (again) and updated for StockPlus
@@ -71,7 +72,7 @@ namespace ClawKSP
         public override void OnStart(StartState state)
         {
             base.OnStart(state);
-            Debug.Log(moduleName + ".Start(): v01.03");
+            Debug.Log(moduleName + ".Start(): v01.05");
 
             WheelModule = (ModuleWheel)GetModule("ModuleWheel");
 
