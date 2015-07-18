@@ -88,6 +88,7 @@ Description: Gimbals do not work on engines activated via right click, and gimba
 
 + ModuleParachuteFix (Plus)
 Description: Minor fixes for chutes mounted 90 degrees to airflow
+  - Fixes log spam and NREs from stock chutes
   - Adds a couple minor visual bug fixes.
   - (Plus) Adds ability to reset chutes that have been activated (staged) but haven't yet deployed.
     -- Must move the chute icon to a new stage in order to "restage" it, or deploy with right-click (same as repack)
@@ -155,7 +156,7 @@ So, symmetry within symmetry is still a bit buggy in stock especially when using
 ----
 
 
-DEPRICATED
+DEPRECATED
 =======
 
 Release v0.1.7d is the last compatible version for KSP v0.90
@@ -197,7 +198,7 @@ Description: Parts in cargo bays are inoperative when removed from the bay.
 ----
 
 + [FIXED IN KSP v1.0.2] HeatBalanceFix
-Description: Service bays block all heat flow (acting as infinte heat shields).
+Description: Service bays block all heat flow (acting as infinite heat shields).
   - Right now this is only a minor change to the service bays (which are blocking all heat)
 
 ----
@@ -235,7 +236,7 @@ Note: Drag values for chutes are a bit high. This fix modifies drag values.
 
 --
 
-+ [FIXED IN KSP v1.00] CrewRosterFreezeFix.dll - Fixes a bug where firing a kerbal who had logged Achiements caused the game to lock up and corrupt the save.
++ [FIXED IN KSP v1.00] CrewRosterFreezeFix.dll - Fixes a bug where firing a kerbal who had logged Achievements caused the game to lock up and corrupt the save.
   - Now handles firing kerbals who are MIA and works when managing kerbals from the Editors.
 
 --
@@ -248,7 +249,7 @@ Note: Drag values for chutes are a bit high. This fix modifies drag values.
 + [FIXED IN KSP v0.90] LargeCraftLaunchFix.dll - Fixes launch pad and runway explosions when launching large vessels.
   - Now works through quickloads, scene transitions, and when approaching a craft on the pad/runway from outside physics range.
   - Functions correctly with Kerbal Joint Reinforcement installed.
-  - DEPRICATED: This bug is now fixed in stock KSP.
+  - DEPRECATED: This bug is now fixed in stock KSP.
 
 
 
@@ -264,7 +265,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 Change Log
 ==========
 v1.0.4a.1 (1 Jul 15)  - Updated for KSP v1.0.4, Fixed parachute log spam and linux crashing KSP bug, adjusted PilotRSASFix
-v1.0.2e.3 (10 Jun 15) - Removed some WIP code that snuk into ModuleProceduralFairingFix.
+v1.0.2e.3 (10 Jun 15) - Removed some WIP code that snuck into ModuleProceduralFairingFix.
 v1.0.2e.2 (9 Jun 15) - Additional fixes added to ModuleProceduralFairingFix.
 v1.0.2e.1 (7 Jun 15) - Initial release of PilotRSASFix.
 v1.0.2d.5 (5 Jun 15) - Deactivated ModuleGimbalFix Plus features by default.
@@ -276,15 +277,15 @@ v1.0.2c.2 (9 May 15) - Fixed the StockPlus config.
 v1.0.2c.1 (9 May 15) - Added decoupler fuel feed fixes. Incorporates StockPlus additions.
 v1.0.2b (3 May 15) - Additions include fixes to landing gear drag, Mk3 cargo bays, and a couple minor physics fixes.
 v1.0.2a (2 May 15) - Updated for KSP v1.0.2
-v1.0.0  (27 Apr 15) - Depricated and Added several new fixes for KSP v1.0
+v1.0.0  (27 Apr 15) - Deprecated and Added several new fixes for KSP v1.0
 v0.1.7e (28 Feb 15) - SymmetryActionFix fixes some default behaviors in the editors, prevents staging icons from separating, and includes part highlighting.
 v0.1.7d (6 Jan 15) - Rebuild of SymmetryActionFix.dll. More robust at handling nested symmetry and collecting symmetric parts / action groups.
 v0.1.7c (4 Jan 15) - Regressed SymmetryActionFix.dll again. Found further bugs that break new KSP symmetry features.
 v0.1.7b (29 Dec 14) - Reinstated SymmetryActionFix.dll for KSP v0.90.0.705.
 v0.1.7a (29 Dec 14) - Updated CrewRosterFreezeFix.dll to be a bit more robust. Reduced StickyLaunchPadFix.dll log spam.
 v0.1.7 (23 Dec 14) - Initial release StickyLaunchPadFix.dll.
-v0.1.6 (20 Dec 14) - Initial release CrewRosterFreezeFix.dll, regressed SymmetryActionFix.dll (broken in KSP v0.90), depricated LargeCraftLaunchFix.dll
-v0.1.5c (10 Dec 14) - AnchoredDecouplerFix.dll updated for compatilibity with Kerbquake.
+v0.1.6 (20 Dec 14) - Initial release CrewRosterFreezeFix.dll, regressed SymmetryActionFix.dll (broken in KSP v0.90), deprecated LargeCraftLaunchFix.dll
+v0.1.5c (10 Dec 14) - AnchoredDecouplerFix.dll updated for compatibility with Kerbquake.
 v0.1.5b (23 Nov 14) - EVAEjectionFix now nullifies ladder slide bug for initial EVA, and added minor error checking for KerbalDebrsFix.
 v0.1.5a (22 Nov 14) - KerbalDebrisFix now properly recovers names for already frozen kerbals.
 v0.1.5 (22 Nov 14) - Initial release of KerbalDebrisFix.dll
@@ -294,7 +295,7 @@ v0.1.4b (5 Nov 14) - Added some error checking to SymmetryActionFix.dll
 v0.1.4a (3 Nov 14) - Updated LargeCraftLaunchFix.dll to be a bit more robust. Now works through quickloads, scene transitions, and coming within physics range.
 v0.1.4 (2 Nov 14) - Initial release of LargeCraftLaunchFix.dll
 v0.1.3 & v0.1.3a (1 Nov 14) - Initial release of SymmetryActionFix.dll
-v0.1.2a (27 Oct 14) - Removed "Reset" message from ChuteQuickloadFixer.dll and recompiled for .NET 3.5, updated readme to accomodate releases
+v0.1.2a (27 Oct 14) - Removed "Reset" message from ChuteQuickloadFixer.dll and recompiled for .NET 3.5, updated readme to accommodate releases
 v0.1.2 (21 Oct 14) - Reworked AnchoredDecouplerFix to better handle struts and prevent decouplers from ripping off. (Should work like pre KSP v0.24.2)
 v0.1.1a (21 Oct 14) - Updated error handling in EVAEjectionFix to prevent log spam and kerbal lockup with incompatible mod
 v0.1.1 (19 Oct 14) - Release of EVAEjectionFix.dll and reduced some log spam with ChuteQuickloadFixer and AnchoredDecouplerFix
