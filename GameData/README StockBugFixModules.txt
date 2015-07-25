@@ -249,7 +249,7 @@ Note: Drag values for chutes are a bit high. This fix modifies drag values.
 
 --
 
-+ [FIXED IN KSP v1.00] CrewRosterFreezeFix.dll - Fixes a bug where firing a kerbal who had logged Achiements caused the game to lock up and corrupt the save.
++ [FIXED IN KSP v1.00] CrewRosterFreezeFix.dll - Fixes a bug where firing a kerbal who had logged Achievements caused the game to lock up and corrupt the save.
   - Now handles firing kerbals who are MIA and works when managing kerbals from the Editors.
 
 --
