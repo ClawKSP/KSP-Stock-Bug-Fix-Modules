@@ -89,7 +89,6 @@ namespace ClawKSP
             {
                 HighlighterHook(EditorLogic.fetch.ship.parts[0]);
             }
-
         }
 
         public void Update()
@@ -202,10 +201,15 @@ namespace ClawKSP
 
             // Propagates symmetry method throughout the branch. If it ever hits radial symmetry, the rest of the 
             // branch needs to be listed as symmetry to prevent editor breakage with nested mirror symmetry.
-            if(SourcePart.symMethod == SymmetryMethod.Radial)
+            if (SourcePart.symmetryCounterparts.Count > 1)
             {
                 SymMethod = SymmetryMethod.Radial;
             }
+            //if(SourcePart.symMethod == SymmetryMethod.Radial)
+            //{
+            //    SymMethod = SymmetryMethod.Radial;
+            //}
+
             // Debug.LogWarning("SymmMethod: " + SymMethod);
             SourcePart.symMethod = SymMethod;
             UpdatePart.symMethod = SymMethod;
