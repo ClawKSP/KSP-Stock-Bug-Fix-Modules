@@ -11,6 +11,7 @@
  * - (Plus) Adds tweakable gimbal rate for engines with gimbal
  * 
  * Change Log:
+ * - v00.03  (28 Jul 15)   Attempted fixes for mod compatibility
  * - v00.02  (1 Jul 15)    Recompiled for KSP v1.0.4, added toggle to activate Gimbal Rate usage
  * - v00.01  (15 May 15)   Initial Experimental Release
  * 
@@ -62,11 +63,12 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v00.02");
+            Debug.Log(moduleName + ".Start(): v00.03");
 
-            base.OnStart(state);
+            //base.OnStart(state);
 
-            GimbalModule = part.FindModuleImplementing<ModuleGimbal>();
+            //GimbalModule = part.FindModuleImplementing<ModuleGimbal>();
+            GimbalModule = (ModuleGimbal) GetModule("ModuleGimbal");
             if (null == GimbalModule)
             {
                 Debug.LogWarning(moduleName + ".Start(): Did not find Gimbal Module.");
@@ -76,11 +78,26 @@ namespace ClawKSP
             SetupStockPlus();
         }
 
+        private PartModule GetModule(string moduleName)
+        {
+            for (int indexModules = 0; indexModules < part.Modules.Count; indexModules++)
+            {
+                if (moduleName == part.Modules[indexModules].moduleName)
+                {
+                    return (part.Modules[indexModules]);
+                }
+            }
+
+            return (null);
+
+        }  // GetModule
+
         public void FixedUpdate()
         {
-            GimbalModule = part.FindModuleImplementing<ModuleGimbal>();
+            //GimbalModule = part.FindModuleImplementing<ModuleGimbal>();
             if (null == GimbalModule)
             {
+                GimbalModule = (ModuleGimbal)GetModule("ModuleGimbal");
                 return;
             }
 

@@ -14,6 +14,7 @@
  * - Plus: Adds safe/risky/unsafe indicator to staging icons
  * 
  * Change Log:
+ * - v01.06  (1 Aug 15)  No code change, but updating version number for re-release (previous .dll was wrong compiled version).
  * - v01.05  (20 Jul 15) Reworked symmetry flare (includes stack chutes), added safe/unsafe indicator
  * - v01.04  (4 Jul 15)  Recompiled and tested for KSP v1.0.4, Fixed log spam and NREs for KSP v1.0.4
  * - v01.02  (18 May 15) Fixed some minor StockPlus integration bugs
@@ -137,7 +138,7 @@ namespace ClawKSP
         {
             base.OnStart(state);
 
-            Debug.Log("ModuleParachuteFix.Start(): v01.03");
+            Debug.Log("ModuleParachuteFix.Start(): v01.06");
 
             ParachuteModule = (ModuleParachute)GetModule("ModuleParachute");
 

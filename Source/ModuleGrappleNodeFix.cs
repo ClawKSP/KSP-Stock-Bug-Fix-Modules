@@ -8,9 +8,11 @@
  *
  * ModuleGrappleNodeFix - Written for KSP v1.0
  * - Fixes bug when clawing onto the active vessel
- * - Prevents kraken eating ship during time warp failure
+ * - Fixes bug which prevents activation of time warp
+ * - Fail Safe prevents kraken eating ship during time warp failure
  * 
  * Change Log:
+ * - v01.00  (1 Aug 15)  Initial Release
  * - v00.01  (21 Jul 15) Initial Experimental Release
  * 
  */
@@ -23,14 +25,14 @@ namespace ClawKSP
 {
 
     [KSPAddon(KSPAddon.Startup.Flight, false)]
-    public class MGNFixAddon : MonoBehaviour
+    public class MGNFailSafe : MonoBehaviour
     {
+        private bool lastKinematic = true;
 
         public void Start()
         {
-            Debug.LogWarning("MGNFixAddon.Start(): v00.01");
+            Debug.Log("MGNFailSafe.Start(): v01.00");
         }
-
 
         public void FixedUpdate()
         {
@@ -40,7 +42,7 @@ namespace ClawKSP
                 return;
             }
 
-            if (null != FlightGlobals.ActiveVessel.parts)
+            if (null != FlightGlobals.ActiveVessel.parts && FlightGlobals.ActiveVessel.parts.Count > 0)
             {
                 if (null == FlightGlobals.ActiveVessel.parts[0].rigidbody)
                 {
@@ -49,20 +51,24 @@ namespace ClawKSP
 
                 bool isKinematicRoot = FlightGlobals.ActiveVessel.parts[0].rigidbody.isKinematic;
 
-                for (int IndexParts = 0; IndexParts < FlightGlobals.ActiveVessel.parts.Count; IndexParts++)
+                if (lastKinematic != isKinematicRoot)
                 {
-                    Part TempPart = FlightGlobals.ActiveVessel.parts[IndexParts];
+                    lastKinematic = isKinematicRoot;
 
-                    if (null != TempPart.rigidbody)
+                    for (int IndexParts = 0; IndexParts < FlightGlobals.ActiveVessel.parts.Count; IndexParts++)
                     {
-                        if (TempPart.rigidbody.isKinematic != isKinematicRoot)
-                        {
-                            Debug.LogError("Kinematic Mismatch: #" + IndexParts);
-                            TempPart.rigidbody.isKinematic = isKinematicRoot;
+                        Part TempPart = FlightGlobals.ActiveVessel.parts[IndexParts];
 
-                            ScreenMessages.PostScreenMessage("ERROR: Time Warp Claw Bug", 20.0f, ScreenMessageStyle.UPPER_CENTER);
-                            ScreenMessages.PostScreenMessage("Quicksave and Restart NOW", 20.0f, ScreenMessageStyle.LOWER_CENTER);
-                            // TempPart.Pack();
+                        if (null != TempPart.rigidbody)
+                        {
+                            if (TempPart.rigidbody.isKinematic != isKinematicRoot)
+                            {
+                                Debug.LogError("Enacting Failsafe: Kinematic Mismatch: #" + IndexParts);
+                                TempPart.rigidbody.isKinematic = isKinematicRoot;
+
+                                ScreenMessages.PostScreenMessage("ERROR: Time Warp Claw Bug", 20.0f, ScreenMessageStyle.UPPER_CENTER);
+                                ScreenMessages.PostScreenMessage("Quicksave and Restart NOW", 20.0f, ScreenMessageStyle.LOWER_CENTER);
+                            }
                         }
                     }
                 }
@@ -71,7 +77,6 @@ namespace ClawKSP
 
         public void OnDestroy()
         {
-
         }
     }
 
@@ -83,7 +88,7 @@ namespace ClawKSP
 
         public void Start()
         {
-            Debug.Log(moduleName + ".Start(): v00.01");
+            Debug.Log(moduleName + ".Start(): v01.00");
 
             GrappleNodeModule = (ModuleGrappleNode)GetModule("ModuleGrappleNode");
 
@@ -97,32 +102,69 @@ namespace ClawKSP
 
         public void OnDestroy()
         {
+            if (GrappleNodeModule == null) { return; }
+
             FieldInfo[] MGNField = GrappleNodeModule.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (MGNField == null) { return; }
 
             for (int i = 0; i < MGNField.Length; i++)
             {
                 if (MGNField[i].FieldType == typeof(ActiveJointPivot))
                 {
                     AJP = (ActiveJointPivot)MGNField[i].GetValue(GrappleNodeModule);
-                    AJP.SetDriveMode(ActiveJoint.DriveMode.NoJoint);
 
-                    FieldInfo TempField = AJP.GetType().GetField("driveMode", BindingFlags.NonPublic | BindingFlags.Instance);
-                    ActiveJoint.DriveMode DM = (ActiveJoint.DriveMode)TempField.GetValue(AJP);
-                    DM = ActiveJoint.DriveMode.NoJoint;
+                    if (AJP != null)
+                    {
+                        if (AJP.joint != null)
+                        {
+                            Debug.LogWarning("MGNFix: Joint Found.");
 
-                    AJP.Terminate();
+                            PropertyInfo TempProp = AJP.GetType().GetProperty("driveMode", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                            if (TempProp != null)
+                            {
+                                TempProp.SetValue(AJP, ActiveJoint.DriveMode.NoJoint, null);
+
+                                try
+                                {
+                                    AJP.Terminate();
+                                    Debug.LogWarning("MGNFix: Joint terminated.");
+                                    return;
+                                }
+                                catch
+                                {
+                                    Debug.LogError("MGNFix: Termination Failed.");
+                                }
+                            }
+
+                            try
+                            {
+                                Debug.LogWarning("MGNFix: Attempting secondary fix.");
+                                AJP.SetDriveMode(ActiveJoint.DriveMode.NoJoint);
+                            }
+                            catch { }
+
+                        }
+                        return;
+                    }
                 }
             }
         }
 
         public void FixedUpdate()
         {
+            if (GrappleNodeModule == null)
+            {
+                GrappleNodeModule = (ModuleGrappleNode)GetModule("ModuleGrappleNode");
+                return;
+            }
             if (FlightGlobals.ActiveVessel == null)
             {
                 FieldInfo[] MGNField = GrappleNodeModule.GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
                 Part TempPart;
 
-                Debug.LogError("Null Active Vessel");
+                Debug.LogError("MGNFix: Null Active Vessel");
 
                 for (int i = 0; i < MGNField.Length; i++)
                 {
@@ -137,7 +179,7 @@ namespace ClawKSP
 
                         if (part.vessel == TempPart.vessel)
                         {
-                            Debug.LogWarning("Found Target Vessel");
+                            Debug.LogWarning("MGNFix: Found Target Vessel");
                             FlightGlobals.ForceSetActiveVessel(part.vessel);
                             FlightInputHandler.SetNeutralControls();
                             break;
