@@ -14,6 +14,7 @@
  * - Plus: Adds safe/risky/unsafe indicator to staging icons
  * 
  * Change Log:
+ * - v01.07  (3 Aug 15)  Added some more chute flare cases.
  * - v01.06  (1 Aug 15)  No code change, but updating version number for re-release (previous .dll was wrong compiled version).
  * - v01.05  (20 Jul 15) Reworked symmetry flare (includes stack chutes), added safe/unsafe indicator
  * - v01.04  (4 Jul 15)  Recompiled and tested for KSP v1.0.4, Fixed log spam and NREs for KSP v1.0.4
@@ -56,6 +57,7 @@ namespace ClawKSP
         private string currentDeploySafe;
         private int flashCounter = 0;
         private bool iconOn = true;
+        private int siblingCount = 0;
 
         //private bool rotateY = false;
         //private bool rotateZ = false;
@@ -158,6 +160,13 @@ namespace ClawKSP
             canopy = part.FindModelTransform(ParachuteModule.canopyName);
 
             SetupStockPlus();
+            GameEvents.onVesselWasModified.Add(CountSiblings);
+            CountSiblings(vessel);
+        }
+
+        public void OnDestroy()
+        {
+            GameEvents.onVesselWasModified.Remove(CountSiblings);
         }
 
         public void FixedUpdate ()
@@ -268,21 +277,10 @@ namespace ClawKSP
                     #region Symmetric Flare
                     // Applies flare to multiple chute arrangements, 7 degrees per counterpart plus initial offset of 7 degrees
 
-                    if (part.symmetryCounterparts != null && part.symmetryCounterparts.Count > 0)
+                    if (siblingCount > 2)
                     {
-                        int counterparts = part.symmetryCounterparts.Count + 2;
+                        float flareAngle = (siblingCount) * 7f * Mathf.Sqrt(1f - Mathf.Abs(dot));
 
-                        // do not deflect more than ~45 degrees
-                        //if (counterparts > 5)
-                        //{
-                        //    counterparts = 5;
-                        //}
-
-                        //Quaternion flare = Quaternion.Euler(counterparts * 10f * (1f - Mathf.Abs(dot)), 0, 0);
-                        //Quaternion flare = Quaternion.Euler(counterparts * 10f * (1f - Mathf.Abs(dot)), rotateY?10:0, 0);
-
-                        float flareAngle = counterparts * 7f * Mathf.Sqrt(1f - Mathf.Abs(dot));
-                        
                         // max flare of 45 degrees
                         if (flareAngle > 45)
                         {
@@ -300,6 +298,39 @@ namespace ClawKSP
                             canopy.rotation = canopy.rotation * flare;
                         }
                     }
+
+                    //if (part.symmetryCounterparts != null && part.symmetryCounterparts.Count > 0)
+                    //{
+                    //    int counterparts = part.symmetryCounterparts.Count + 2;
+
+                    //    // do not deflect more than ~45 degrees
+                    //    //if (counterparts > 5)
+                    //    //{
+                    //    //    counterparts = 5;
+                    //    //}
+
+                    //    //Quaternion flare = Quaternion.Euler(counterparts * 10f * (1f - Mathf.Abs(dot)), 0, 0);
+                    //    //Quaternion flare = Quaternion.Euler(counterparts * 10f * (1f - Mathf.Abs(dot)), rotateY?10:0, 0);
+
+                    //    float flareAngle = counterparts * 7f * Mathf.Sqrt(1f - Mathf.Abs(dot));
+                        
+                    //    // max flare of 45 degrees
+                    //    if (flareAngle > 45)
+                    //    {
+                    //        flareAngle = 45;
+                    //    }
+
+                    //    if (flareAngle >= 0.0001f)
+                    //    {
+
+                    //        float xTwist = Mathf.Cos((part.attRotation.eulerAngles.y * 2 * 3.141592f) / 360);
+                    //        float yTwist = Mathf.Sin((part.attRotation.eulerAngles.y * 2 * 3.141592f) / 360);
+
+                    //        Quaternion flare = Quaternion.Euler(xTwist * flareAngle, yTwist * flareAngle, 0);
+
+                    //        canopy.rotation = canopy.rotation * flare;
+                    //    }
+                    //}
                     #endregion
 
 
@@ -334,6 +365,36 @@ namespace ClawKSP
 
             }
 
+        }
+
+        private void CountSiblings (Vessel V)
+        {
+            siblingCount = 0;
+
+            if (part.parent != null)
+            {
+
+                // if there are symmetric counterparts, count those
+                if (part.symmetryCounterparts != null && part.symmetryCounterparts.Count > 0)
+                {
+                    siblingCount = part.symmetryCounterparts.Count + 1; // need to also count self
+                }
+                else // if no symmetric counterparts, see if there are similar parts on this parent
+                {
+                    string tempName = part.name;
+
+                    for (int IndexParts = 0; IndexParts < part.parent.children.Count; IndexParts++)
+                    {
+                        if (tempName == part.parent.children[IndexParts].name)
+                        {
+                            siblingCount++;
+                        }
+                    }
+                }
+
+                siblingCount++; // add one more for initial spread
+                //Debug.LogWarning("Count: " + siblingCount);
+            }
         }
 
     }

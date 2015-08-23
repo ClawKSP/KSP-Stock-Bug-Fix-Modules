@@ -10,9 +10,11 @@ Installation
 ============
 Please delete any old installations of KSP-Stock-Bug-Fix-Modules before installing.
 
-Unzip the zip file to the KSP/GameData directory. ModuleManager.X.X.X.dll should be in the root GameData directory next to a StockBugFixModules folder.
+Unzip the zip file to the KSP/GameData directory. ModuleManager.X.X.X.dll and StockPlusController.dll should be in the root GameData directory next to a StockBugFixModules folder.
 
 The fixes are all stand alone. So if there are any that you don't want, just delete the directory inside the StockBugFixModules folder. For example: If you don't want to use "ModuleParachuteFix," delete that directory.
+
+IMPORTANT: Do NOT delete StockPlusController.dll. You can delete any of the sub-folders, but must have StockPlusController.dll installed so that the modules can talk to it correctly. StockPlus is disabled by default, even with StockPlusController.dll installed (read below for activating StockPlus).
 
 
 StockPlus Instructions
@@ -42,26 +44,33 @@ Bug Fixes Included
 Description: Fuel feeds across radial decouplers that have parts (other than fuel tanks) attached.
   - Disables crossfeed on all radial decouplers (decouplers that use ModuleAnchoredDecoupler).
 
---
+----
 
 + BandwidthFix
 Description: Transmitter bandwidth listed in the SPH/VAB is incorrect.
   - An incredibly minor fix, but fixes incorrect calculation/display of transmitter bandwidth in the editors Info Box.
 
---
+----
 
 + HighestSpeedFix
 Description: The "Highest Speed Achieved" reading in the F3 Flight Log maxes out at 750 m/s.
   - The highest speed achieved is now uncapped, and the Flight Log will display the highest speed achieved.
     -- Note: Because of when KSP calculates and displays values in the background, the speed on the NAV ball won't always coincide with the speed in the Flight Log, but both will register the highest speed achieved.
 
---
+----
 
 + KerbalDebrisFix
 Description: Kerbals sometimes turn into debris when crashing in External Command Seats.
   - Also recovers kerbals who have been previous frozen by this bug.
 
---
+----
+
++ LaunchClampFix (Experimental)
+Description: Sometimes launch clamps follow a craft around, causing collisions and craft explosions.
+  - Launch clamps should still auto-cleanup when flying far enough away
+  - There may be some strange side effects still from the clamp cleanup if leaving physics range and flying back too close.
+
+----
 
 + ModuleAeroSurfaceFix
 Description: Aero Surface (Airbrakes) action groups do not work properly.
@@ -70,7 +79,7 @@ Description: Aero Surface (Airbrakes) action groups do not work properly.
   - Fixed default brakes action to "toggle" vice "extend"
   - (Plus) When stowed (not deployed) air brakes do not contribute drag (flush with the fuselage)
 
---
+----
 
 + ModuleControlSurfaceFix
 Description: Control surfaces do not deploy when launched or loaded in the editor
@@ -80,7 +89,7 @@ Description: Control surfaces do not deploy when launched or loaded in the edito
   - (Plus) Adds tweakable authority range
   - (Plus) Disables flight controls in space, so they aren't moving around when maneuvering
 
---
+----
 
 + ModuleGimbalFix (still a Work In Progress)
 Description: Gimbals do not work on engines activated via right click, and gimbaling engines reach their gimbal limits instantaneously.
@@ -89,7 +98,7 @@ Description: Gimbals do not work on engines activated via right click, and gimba
   - (Plus) Adds gimbal speed tweakable
   - (Plus) Adds toggle to enable gimbal response speed
 
---
+----
 
 + ModuleGrappleNodeFix
 Description: The claw part causes a variety of issues, the worst of which results in shredding of ships in orbit.
@@ -97,7 +106,7 @@ Description: The claw part causes a variety of issues, the worst of which result
   - Fixes bug which prevents activation of time warp
   - Fail Safe prevents kraken eating ship during time warp failure
 
---
+----
 
 + ModuleParachuteFix (Plus)
 Description: Minor fixes for chutes mounted 90 degrees to airflow
@@ -109,7 +118,7 @@ Description: Minor fixes for chutes mounted 90 degrees to airflow
   - (Plus) Adds a couple visual effects (such as symmetric chute spread and asynchronous chute movement)
   - (Plus) Adds a safe/risky/unsafe indicator to staging icons
 
---
+----
 
 + ModuleProceduralFairingFix (Plus)
 Description: Fairings removed from craft sometimes break when reattaching in VAB/SPH.
@@ -122,13 +131,19 @@ Description: Fairings removed from craft sometimes break when reattaching in VAB
   - (Plus) Adds tweakable decoupler force range.
   - (Not Yet Enabled) Adds tweakable option to enable/disable fairings inside a procedural fairing
 
---
+----
 
 + ModuleWheelFix (Plus)
 Description: Rover wheel brakes are rendered ineffective and traction is low.
   - Fixes bug with brake torque not working on rover wheels (changes tweakable range to 0 to Max Torque for that part)
   - Improves wheel grip for all rover wheels
     -- (Plus) Also adds tweakable "grip" multiplier (from 1 to 3x)
+
+----
+
++ OverheatFix (Experimental)
+Description: Some parts (especially cubic and octagonal struts) overheat and explode, often associated with time warp.
+  - Prevents feedback looping overheat for smaller parts.
 
 ----
 
@@ -150,7 +165,7 @@ Description: The new(ish) pilot abilities cause smaller vessels to jitter and ra
 Description: Certain rocket configurations "stick" to the career tier 2 launch pad.
   - Fixes bug where engines (mostly BACC and LV-T30/45) will stick to tier 2 launch pad.
 
---
+----
 
 + SymmetryActionFix.dll
 Description: Various fixes for symmetry errors in the VAB/SPH
@@ -278,6 +293,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.4c.1 (22 Aug 15) - Added OverheatFix and LaunchClampFix. Some minor updates to other modules.
 v1.0.4b.2 (1 Aug 15)  - Major update to ModuleGrappleNodeFix. Minor updates to ModuleParachuteFix and ModuleGimbalFix
 v1.0.4b.1 (24 Jul 15) - Initial release of HighestSpeedFix, ModuleGrappleNodeFix. Minor updates to ModuleParachuteFix and SymmetryActionFix.
 v1.0.4a.1 (1 Jul 15)  - Updated for KSP v1.0.4, Fixed parachute log spam and linux crashing KSP bug, adjusted PilotRSASFix
