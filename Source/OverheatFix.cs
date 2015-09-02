@@ -10,6 +10,7 @@
  * - Fixes overheat bug with small parts, causing a thermal feedback and exploding parts.
  * 
  * Change Log:
+ * - v00.02  (1 Sep 15)   Added thermal check when the vessel changes (mostly for docking).
  * - v00.01  (22 Aug 15)  Initial Experimental Release.
  * 
  */
@@ -24,14 +25,16 @@ namespace ClawKSP
     {
         public void Start()
         {
-            Debug.Log("OverheatFix.Start(): v0.01 (Experimental)");
+            Debug.Log("OverheatFix.Start(): v0.02 (Experimental)");
 
             GameEvents.onVesselGoOffRails.Add(CheckThermalMass);
+            GameEvents.onVesselWasModified.Add(CheckThermalMass);
         }
 
         public void OnDestroy()
         {
             GameEvents.onVesselGoOffRails.Remove(CheckThermalMass);
+            GameEvents.onVesselWasModified.Remove(CheckThermalMass);
         }
 
 

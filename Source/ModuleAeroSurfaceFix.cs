@@ -13,6 +13,7 @@
  * - (Plus) When stowed, the airbrake doesn't generate drag.
  * 
  * Change Log:
+ * - v01.04  (1 Sep 15)    Added plus function to disable movement in space
  * - v01.03  (1 Jul 15)    Recompiled and tested for KSP v1.0.4
  * - v01.02  (1 Jun 15)    Changed brake default action to toggle
  * - v01.01  (14 May 15)   Added some error checking to make it more compatible with other mods
@@ -38,6 +39,10 @@ namespace ClawKSP
         private float deflectionLiftCoeff;
 
         private ModuleAeroSurface AeroSurfaceModule;
+
+        // plus options
+        private float ctrlSurfaceRange;
+        private float vacuumRange = 1.0f; // disables flight controls when in vacuum
 
         [KSPAction("Toggle", KSPActionGroup.Brakes)]
         public void ActionToggle(KSPActionParam act)
@@ -76,6 +81,13 @@ namespace ClawKSP
             Debug.Log(moduleName + " StockPlus Enabled");
 
             deflectionLiftCoeff = AeroSurfaceModule.deflectionLiftCoeff;
+
+            if (FlightGlobals.getStaticPressure(part.transform.position) < 0.001f)
+            {
+                vacuumRange = 0.01f;
+            }
+            ctrlSurfaceRange = AeroSurfaceModule.ctrlSurfaceRange;
+            AeroSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * vacuumRange;
         }
 
         public override void OnStart(StartState state)
@@ -105,16 +117,50 @@ namespace ClawKSP
 
             deploy = AeroSurfaceModule.deploy;
 
-            if (plusEnabled)
+            if (true == plusEnabled)
             {
                 if (false == deploy)
                 {
-                    AeroSurfaceModule.deflectionLiftCoeff = 0f;
+                    if (part.vessel.ctrlState.pitch > 0.01 || part.vessel.ctrlState.pitch < -0.01)
+                    {
+                        if (part.vessel.ctrlState.yaw > 0.01 || part.vessel.ctrlState.yaw < -0.01)
+                        {
+                            AeroSurfaceModule.deflectionLiftCoeff = deflectionLiftCoeff;
+                        }
+                    }
+                    else
+                    {
+                        AeroSurfaceModule.deflectionLiftCoeff = 0f;
+                    }
                 }
                 else
                 {
                     AeroSurfaceModule.deflectionLiftCoeff = deflectionLiftCoeff;
                 }
+
+                if (FlightGlobals.getStaticPressure(part.transform.position) < 0.0001f)
+                {
+                    if (vacuumRange > 0.01f)
+                    {
+                        vacuumRange -= 0.05f;
+                    }
+                    else
+                    {
+                        vacuumRange = 0.01f;
+                    }
+                }
+                else
+                {
+                    if (vacuumRange < 1.0f)
+                    {
+                        vacuumRange += 0.05f;
+                    }
+                    else
+                    {
+                        vacuumRange = 1.0f;
+                    }
+                }
+                AeroSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * vacuumRange;
             }
         }
 

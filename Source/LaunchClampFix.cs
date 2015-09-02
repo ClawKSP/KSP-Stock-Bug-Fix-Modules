@@ -11,6 +11,7 @@
  * - Refunds clamp cost and allows the aero-cleanup to auto delete.
  * 
  * Change Log:
+ * - v00.02  (1 Sep 15)   Fixed log spam in the editor
  * - v00.01  (22 Aug 15)  Initial Experimental Release.
  * 
  */
@@ -27,7 +28,7 @@ namespace ClawKSP
         {
             if (HighLogic.LoadedScene != GameScenes.FLIGHT) { return; }
 
-            Debug.Log(moduleName + ".Start(): v00.01 (Experimental)");
+            Debug.Log(moduleName + ".Start(): v00.02 (Experimental)");
         }
 
         public void OnDestroy()
@@ -50,7 +51,8 @@ namespace ClawKSP
         public void FixedUpdate()
         {
             //Debug.LogWarning("Situation: " + vessel.situation);
-
+            if (HighLogic.LoadedScene != GameScenes.FLIGHT) { return; }
+            
             // Vessels that are flying are automatically deleted when going on rails.
             if (vessel.situation == Vessel.Situations.FLYING)
             {

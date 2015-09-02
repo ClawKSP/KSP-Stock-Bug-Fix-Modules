@@ -32,7 +32,7 @@ STOCK_PLUS
 
 2) Place the StockPlusController.cfg file in your GameData director (next to ModuleManager).
 
-Additionally, StockPlus for individual fixes can be selectively disabled by editing the appropriate .cfg file (inside the individual fix directory) and changing the "plusEnabled = True" line to "plusEnabled = False"
+Additionally, StockPlus for individual fixes can be selectively disabled by editing the .cfg file (inside the individual fix directory) and changing the "plusEnabled = True" line to "plusEnabled = False"
 
 Fix Modules that include StockPlus features are marked (Plus) below.
 
@@ -78,6 +78,7 @@ Description: Aero Surface (Airbrakes) action groups do not work properly.
   - Added some error checking to make the fix compatible with other mods
   - Fixed default brakes action to "toggle" vice "extend"
   - (Plus) When stowed (not deployed) air brakes do not contribute drag (flush with the fuselage)
+  - (Plus) Disables airbrakes in space, so they aren't moving around when maneuvering
 
 ----
 
@@ -144,6 +145,7 @@ Description: Rover wheel brakes are rendered ineffective and traction is low.
 + OverheatFix (Experimental)
 Description: Some parts (especially cubic and octagonal struts) overheat and explode, often associated with time warp.
   - Prevents feedback looping overheat for smaller parts.
+  - Still does not fix overheating parts inside cargo/service bays.
 
 ----
 
@@ -161,7 +163,7 @@ Description: The new(ish) pilot abilities cause smaller vessels to jitter and ra
 
 ----
 
-+ StickyLaunchPadFix.dll
++ StickyLaunchPadFix.dll  (NOTE: Undergoing rework)
 Description: Certain rocket configurations "stick" to the career tier 2 launch pad.
   - Fixes bug where engines (mostly BACC and LV-T30/45) will stick to tier 2 launch pad.
 
@@ -293,6 +295,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.4c.2 (1 Sep 15)  - Fixed LaunchClamp NREs in editor, added (Plus) disabling airbrake movement/deployment in space, added another overheat case
 v1.0.4c.1 (22 Aug 15) - Added OverheatFix and LaunchClampFix. Some minor updates to other modules.
 v1.0.4b.2 (1 Aug 15)  - Major update to ModuleGrappleNodeFix. Minor updates to ModuleParachuteFix and ModuleGimbalFix
 v1.0.4b.1 (24 Jul 15) - Initial release of HighestSpeedFix, ModuleGrappleNodeFix. Minor updates to ModuleParachuteFix and SymmetryActionFix.
