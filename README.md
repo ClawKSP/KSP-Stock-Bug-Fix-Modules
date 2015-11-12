@@ -8,116 +8,68 @@ StockPlus: The StockPlus additions are all minor polish fixes or add-ons that un
 
 Installation
 ============
-Please delete any old installations of KSP-Stock-Bug-Fix-Modules before installing.
+IMPORTANT: With the release of KSP 1.0.5, StockBugFixModules and StockPlus has undergone a major overhaul. Many of the fixes from the last StockBugFixModules release have been incorporated into Stock KSP.
 
-Unzip the zip file to the KSP/GameData directory. ModuleManager.X.X.X.dll and StockPlusController.dll should be in the root GameData directory next to a StockBugFixModules folder.
+!!! Please delete any old installations of KSP-Stock-Bug-Fix-Modules before installing. !!!
 
-The fixes are all stand alone. So if there are any that you don't want, just delete the directory inside the StockBugFixModules folder. For example: If you don't want to use "ModuleParachuteFix," delete that directory.
-
-IMPORTANT: Do NOT delete StockPlusController.dll. You can delete any of the sub-folders, but must have StockPlusController.dll installed so that the modules can talk to it correctly. StockPlus is disabled by default, even with StockPlusController.dll installed (read below for activating StockPlus).
+1) Unzip the zip file to the KSP/GameData directory.
+2) During the first launch of KSP after StockBugFixPlus installation, a GUI will pop up asking you to configure the StockPlus options.
+3) Save your settings and enjoy.
+NOTE: Do NOT delete StockBugFixPlusController.dll. None of the modules (including fixes) will function without it.
 
 
 StockPlus Instructions
 ======================
 
+MOD+F8 to bring up the GUI
+
 StockPlus features are disabled by default. If you want to enable the StockPlus features...
+- Configure the StockPlus settings during first launch (after installing)
+      -or-
+- Press MOD+F8 at any time in game to bring up the GUI to configure. Some setting changes will require a scene change, but (as of yet) none require a KSP restart.
 
-1) Download the "StockPlusController.cfg" or edit your own with a plain text editor (like notepad)
-  -- The file should have a "plusActive = True" (or copy and paste the text below)
+** Ensure you save your settings. **
 
-STOCK_PLUS
-{
-	plusActive = True
-}
+Settings should not be persistent across StockBugFixPlus updates.
 
-2) Place the StockPlusController.cfg file in your GameData director (next to ModuleManager).
-
-Additionally, StockPlus for individual fixes can be selectively disabled by editing the .cfg file (inside the individual fix directory) and changing the "plusEnabled = True" line to "plusEnabled = False"
-
-Fix Modules that include StockPlus features are marked (Plus) below.
+Fix Modules that include StockPlus features are marked (Plus) below. After the release of KSP 1.0.5, many of these modules are Plus only (because all fixes have been incorporated into Stock KSP).
 
 
-Bug Fixes Included
-==================
+Bug Fixes and Stock Plus Included in this Release
+=================================================
 
-+ AnchoredDecouplerCrossfeedFix
-Description: Fuel feeds across radial decouplers that have parts (other than fuel tanks) attached.
-  - Disables crossfeed on all radial decouplers (decouplers that use ModuleAnchoredDecoupler).
++ InFlightHighlightOff (Plus)
+Description: Disables the green highlighting while in-flight (no StockFixes required)
+  - (Plus) Toggle the setting on/off via the GUI.
 
 ----
 
-+ BandwidthFix
-Description: Transmitter bandwidth listed in the SPH/VAB is incorrect.
-  - An incredibly minor fix, but fixes incorrect calculation/display of transmitter bandwidth in the editors Info Box.
-
-----
-
-+ HighestSpeedFix
-Description: The "Highest Speed Achieved" reading in the F3 Flight Log maxes out at 750 m/s.
-  - The highest speed achieved is now uncapped, and the Flight Log will display the highest speed achieved.
-    -- Note: Because of when KSP calculates and displays values in the background, the speed on the NAV ball won't always coincide with the speed in the Flight Log, but both will register the highest speed achieved.
-
-----
-
-+ KerbalDebrisFix
-Description: Kerbals sometimes turn into debris when crashing in External Command Seats.
-  - Also recovers kerbals who have been previous frozen by this bug.
-
-----
-
-+ LaunchClampFix (Experimental)
-Description: Sometimes launch clamps follow a craft around, causing collisions and craft explosions.
-  - Launch clamps should still auto-cleanup when flying far enough away
-  - There may be some strange side effects still from the clamp cleanup if leaving physics range and flying back too close.
-
-----
-
-+ ModuleAeroSurfaceFix
-Description: Aero Surface (Airbrakes) action groups do not work properly.
-  - Action groups fixed (no longer sticks to the "brake" action group)
-  - Added some error checking to make the fix compatible with other mods
-  - Fixed default brakes action to "toggle" vice "extend"
++ ModuleAeroSurfacePlus (Plus)
+Description: Currently contains the following Plus options (no StockFixes required)
   - (Plus) When stowed (not deployed) air brakes do not contribute drag (flush with the fuselage)
   - (Plus) Disables airbrakes in space, so they aren't moving around when maneuvering
 
 ----
 
-+ ModuleControlSurfaceFix
-Description: Control surfaces do not deploy when launched or loaded in the editor
-  - Fixes deployment of flight control surfaces on launch and in the editor (loading, cloning, etc)
-  - Added some error checking to make the fix compatible with other mods
-  - Fixed bug that caused reverse roll inputs with surfaces forward of CoM
++ ModuleControlSurfacePlus (Plus)
+Description: Currently contains the following Plus options (no StockFixes required)
   - (Plus) Adds tweakable authority range
   - (Plus) Disables flight controls in space, so they aren't moving around when maneuvering
 
 ----
 
-+ ModuleGimbalFix (still a Work In Progress)
-Description: Gimbals do not work on engines activated via right click, and gimbaling engines reach their gimbal limits instantaneously.
-  - Gimbals now work on engines before activation, or when activated via Right-Click->Activate
++ ModuleGimbalPlus (Plus)
+Description: Currently contains the following Plus options (no StockFixes required)
   - (Plus) Activates gimbaling speed
   - (Plus) Adds gimbal speed tweakable
   - (Plus) Adds toggle to enable gimbal response speed
 
 ----
 
-+ ModuleGrappleNodeFix
-Description: The claw part causes a variety of issues, the worst of which results in shredding of ships in orbit.
-  - Fixes bug when clawing onto the active vessel.
-  - Fixes bug which prevents activation of time warp
-  - Fail Safe prevents kraken eating ship during time warp failure
-
-----
-
-+ ModuleParachuteFix (Plus)
-Description: Minor fixes for chutes mounted 90 degrees to airflow
-  - Fixes log spam and NREs from stock chutes
-  - Adds a couple minor visual bug fixes.
-  - (Plus) Adds ability to reset chutes that have been activated (staged) but haven't yet deployed.
-    -- Must move the chute icon to a new stage in order to "restage" it, or deploy with right-click (same as repack)
++ ModuleParachutePlus (Plus)
+Description: Currently contains the following Plus options (no StockFixes required)
   - (Plus) Adds semi deployment and deployment time tweakable
   - (Plus) Adds a couple visual effects (such as symmetric chute spread and asynchronous chute movement)
-  - (Plus) Adds a safe/risky/unsafe indicator to staging icons
 
 ----
 
@@ -130,15 +82,12 @@ Description: Fairings removed from craft sometimes break when reattaching in VAB
   - Fairings stuck on vessel no longer cause the vessel to register as "landed" (and won't save)
   - (Plus) Adds tweakable that allows adjusting the number of shell splits on the fairing
   - (Plus) Adds tweakable decoupler force range.
-  - (Not Yet Enabled) Adds tweakable option to enable/disable fairings inside a procedural fairing
 
 ----
 
-+ ModuleWheelFix (Plus)
-Description: Rover wheel brakes are rendered ineffective and traction is low.
-  - Fixes bug with brake torque not working on rover wheels (changes tweakable range to 0 to Max Torque for that part)
-  - Improves wheel grip for all rover wheels
-    -- (Plus) Also adds tweakable "grip" multiplier (from 1 to 3x)
++ ModuleWheelPlus (Plus)
+Description: Currently contains the following Plus options (no StockFixes required)
+  - (Plus) Adds tweakable "grip" multiplier (from 0.1 to 3x)
 
 ----
 
@@ -163,13 +112,13 @@ Description: The new(ish) pilot abilities cause smaller vessels to jitter and ra
 
 ----
 
-+ StickyLaunchPadFix.dll  (NOTE: Undergoing rework)
++ StickyLaunchPadFix.dll - Currently not included (NOTE: I still cannot replicate this issue anymore.)
 Description: Certain rocket configurations "stick" to the career tier 2 launch pad.
   - Fixes bug where engines (mostly BACC and LV-T30/45) will stick to tier 2 launch pad.
 
 ----
 
-+ SymmetryActionFix.dll
++ SymmetryActionFix.dll (Plus)
 Description: Various fixes for symmetry errors in the VAB/SPH
 *** I continue to advise caution with this, although it seems pretty stable now. This unlocks more potential within the editor, but also causes more of the stock bugs to surface (which I've been trying to squish).***
 
@@ -178,7 +127,7 @@ Description: Various fixes for symmetry errors in the VAB/SPH
   - Prevents symmetric partners from becoming disassociated
   - Retains action groups for symmetric parts when they are removed and replaced in the editor.
   - Fairings that are children parts now properly rebuild when added with symmetry (is actually in SymmetryActionFix)
-  - Includes a toggle for my debugging highlighter tool (toggle on/off with MOD+H).
+  - (Plus) Includes a toggle for my debugging highlighter tool (toggle on/off with the GUI).
     -- Parent parts are highlighted brighter, symmetric partners are highlighted blue.
     -- If you want to change the keybinding or force it to default to ON, edit the included SymmetryActionFix.cfg.
 
@@ -193,6 +142,88 @@ DEPRECATED
 Release v0.1.7d is the last compatible version for KSP v0.90
 Release v0.1.5c is the last compatible version for KSP v0.25
 Further releases are labeled by compatible version. Example: Release v1.0.2e.3 is compatible with KSP v1.0.2
+
+----
+
++ [FIXED IN KSP v1.0.5] AnchoredDecouplerCrossfeedFix
+Description: Fuel feeds across radial decouplers that have parts (other than fuel tanks) attached.
+  - Disables crossfeed on all radial decouplers (decouplers that use ModuleAnchoredDecoupler).
+
+----
+
++ [FIXED IN KSP v1.0.5] BandwidthFix
+Description: Transmitter bandwidth listed in the SPH/VAB is incorrect.
+  - An incredibly minor fix, but fixes incorrect calculation/display of transmitter bandwidth in the editors Info Box.
+
+----
+
++ [FIXED IN KSP v1.0.5] HighestSpeedFix
+Description: The "Highest Speed Achieved" reading in the F3 Flight Log maxes out at 750 m/s.
+  - The highest speed achieved is now uncapped, and the Flight Log will display the highest speed achieved.
+    -- Note: Because of when KSP calculates and displays values in the background, the speed on the NAV ball won't always coincide with the speed in the Flight Log, but both will register the highest speed achieved.
+
+----
+
++ [FIXED IN KSP v1.0.5] KerbalDebrisFix
+Description: Kerbals sometimes turn into debris when crashing in External Command Seats.
+  - Also recovers kerbals who have been previous frozen by this bug.
+
+----
+
++ [FIXED IN KSP v1.0.5] LaunchClampFix (Experimental)
+Description: Sometimes launch clamps follow a craft around, causing collisions and craft explosions.
+  - Launch clamps should still auto-cleanup when flying far enough away
+  - There may be some strange side effects still from the clamp cleanup if leaving physics range and flying back too close.
+
+----
+
++ [FIXED IN KSP v1.0.5] ModuleAeroSurfaceFix
+Description: Aero Surface (Airbrakes) action groups do not work properly.
+  - Action groups fixed (no longer sticks to the "brake" action group)
+  - Added some error checking to make the fix compatible with other mods
+  - Fixed default brakes action to "toggle" vice "extend"
+
+----
+
++ [FIXED IN KSP v1.0.5] ModuleControlSurfaceFix
+Description: Control surfaces do not deploy when launched or loaded in the editor
+  - Fixes deployment of flight control surfaces on launch and in the editor (loading, cloning, etc)
+  - Added some error checking to make the fix compatible with other mods
+  - Fixed bug that caused reverse roll inputs with surfaces forward of CoM
+
+----
+
++ [FIXED IN KSP v1.0.5] ModuleGimbalFix (still a Work In Progress)
+Description: Gimbals do not work on engines activated via right click.
+  - Gimbals now work on engines before activation, or when activated via Right-Click->Activate
+
+----
+
++ [FIXED IN KSP v1.0.5] ModuleGrappleNodeFix
+Description: The claw part causes a variety of issues, the worst of which results in shredding of ships in orbit.
+  - Fixes bug when clawing onto the active vessel.
+  - Fixes bug which prevents activation of time warp
+  - Fail Safe prevents kraken eating ship during time warp failure
+
+----
+
++ [FIXED IN KSP v1.0.5] ModuleParachuteFix (Plus)
+Description: Minor fixes for chutes mounted 90 degrees to airflow and log spam in the editor
+  - Fixes log spam and NREs from stock chutes
+
+----
+
++ [FIXED IN KSP v1.0.5] ModuleWheelFix (Plus)
+Description: Rover wheel brakes are rendered ineffective and traction is low.
+  - Fixes bug with brake torque not working on rover wheels (changes tweakable range to 0 to Max Torque for that part)
+  - Improves wheel grip for all rover wheels
+
+----
+
++ [FIXED IN KSP v1.0.5] OverheatFix (Experimental)
+Description: Some parts (especially cubic and octagonal struts) overheat and explode, often associated with time warp.
+  - Prevents feedback looping overheat for smaller parts.
+  - Still does not fix overheating parts inside cargo/service bays.
 
 ----
 
@@ -295,6 +326,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.5a.1 (11 Nov 15) - Deprecated all fixes that are now in Stock. Overhauled the Controller to include a GUI. Updated all modules.
 v1.0.4c.2 (1 Sep 15)  - Fixed LaunchClamp NREs in editor, added (Plus) disabling airbrake movement/deployment in space, added another overheat case
 v1.0.4c.1 (22 Aug 15) - Added OverheatFix and LaunchClampFix. Some minor updates to other modules.
 v1.0.4b.2 (1 Aug 15)  - Major update to ModuleGrappleNodeFix. Minor updates to ModuleParachuteFix and ModuleGimbalFix
