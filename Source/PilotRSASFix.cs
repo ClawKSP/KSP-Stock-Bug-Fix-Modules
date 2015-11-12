@@ -24,6 +24,16 @@ using KSP;
 
 namespace ClawKSP
 {
+
+    [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+    public class PilotRSASFixHook : MonoBehaviour
+    {
+        public void Start()
+        {
+            StockBugFixPlusController.HookModule("ModuleCommand", "PilotRSASFix");
+        }
+    }
+
     public class PilotRSASFix : PartModule
     {
         [KSPField(guiName = "Min Response", isPersistant = true, guiActive = true, guiActiveEditor = true)]
@@ -93,7 +103,7 @@ namespace ClawKSP
 
         private void SetupStockPlus()
         {
-            if (StockPlusController.plusActive == false || plusEnabled == false)
+            if (StockBugFixPlusController.plusActive == false || StockBugFixPlusController.pilotRSASPlus == false)
             {
                 plusEnabled = false;
                 return;

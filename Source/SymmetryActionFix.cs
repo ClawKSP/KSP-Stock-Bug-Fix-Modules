@@ -14,17 +14,17 @@
  * symmetry on symmetry bugs.
  * 
  * Change Log:
- * 
- * v01.03  (1 Jul 15)  - Recompiled for KSP v1.0.4
- * v01.02 (9 May 15)   - Added ability to copy procedural fairings.
- * v01.01 (1 May 15)   - Recompiled and tested for KSP v1.0.2
- * v01.00 (26 Apr 15)  - Updated for KSP v1.0
- * v0.1.5 (28 Feb 15)  - Fixed engine icons coming apart in stage sequence. Added debug highlighting and action key toggle.
+ * v01.04  (10 Nov 15)  - Recompiled for KSP v1.0.5. Integrated into StockBugFixPlusController.
+ * v01.03  ( 1 Jul 15)  - Recompiled for KSP v1.0.4
+ * v01.02  ( 9 May 15)  - Added ability to copy procedural fairings.
+ * v01.01  ( 1 May 15)  - Recompiled and tested for KSP v1.0.2
+ * v01.00  (26 Apr 15)  - Updated for KSP v1.0
+ * v0.1.5  (28 Feb 15)  - Fixed engine icons coming apart in stage sequence. Added debug highlighting and action key toggle.
  *   Set SPH to default to mirror symmetry for singular parts. Standardized debug log entries.
  * v0.1.4a (12 Jan 15) - Fixed the SPH so that building one wing first, then copying with mirror symmetry doesn't
  *   cause parts to misattach to the wings. SPH defaults to mirror and the VAB defaults to radial (as in pre v0.90).
- * v0.1.4 (6 Jan 15) - Fixed several serious bugs. SAFix is much more robust and cleans up some more stock symmetry bugs
- * v0.1.3 (29 Dec 14) - Updated, recompiled, and tested for KSP v0.90.0
+ * v0.1.4  (6 Jan 15) - Fixed several serious bugs. SAFix is much more robust and cleans up some more stock symmetry bugs
+ * v0.1.3  (29 Dec 14) - Updated, recompiled, and tested for KSP v0.90.0
  * v0.1.2 - Updated to handle symmetry within symmetry
  * v0.1.1 - Added some error checking to ensure parts don't become mismatched.
  * v0.1.0 - Initial release
@@ -41,7 +41,7 @@ namespace ClawKSP
     {
 
         private bool DebugHighlightActive = false;
-        private KeyCode BoundKey = KeyCode.H;
+        //private KeyCode BoundKey = KeyCode.H;
 
         public void Awake()
         {
@@ -51,37 +51,9 @@ namespace ClawKSP
 
         public void Start()
         {
-            Debug.Log("SymmetryActionFix.Start(): v01.01");
+            Debug.Log("SymmetryActionFix.Start(): v01.04");
             GameEvents.onPartAttach.Add(onPartAttach);
-
-            if (null != GameDatabase.Instance.GetConfigNodes("SAFIX_HIGHLIGHT"))
-            {
-                ConfigNode CNBinding = new ConfigNode();
-                CNBinding = GameDatabase.Instance.GetConfigNodes("SAFIX_HIGHLIGHT")[0];
-
-                if (null != CNBinding)
-                {
-                    string BindingString = CNBinding.GetValue("primary");
-                    if (!string.IsNullOrEmpty(BindingString))
-                    {
-                        KeyCode BoundKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), BindingString);
-                        if (KeyCode.None == BoundKey)
-                        {
-                            BoundKey = KeyCode.H;
-                        }
-                    }
-                    BindingString = CNBinding.GetValue("active");
-                    if (!string.IsNullOrEmpty(BindingString))
-                    {
-                        bool Result;
-                        DebugHighlightActive = System.Boolean.TryParse(BindingString, out Result);// (bool)System.Enum.Parse(typeof(bool), BindingString);
-                        if (false == Result)
-                        {
-                            DebugHighlightActive = false;
-                        }
-                    }
-                }
-            }
+            GameEvents.onEditorLoad.Add(HookLoad);
 
             if (null != EditorLogic.fetch.ship
                 && null != EditorLogic.fetch.ship.parts
@@ -91,34 +63,70 @@ namespace ClawKSP
             }
         }
 
+        public void HookLoad(ShipConstruct SC, CraftBrowser.LoadType LT)
+        {
+            if (null != EditorLogic.RootPart)
+            {
+                DeactivateHighlight(EditorLogic.RootPart);
+                HighlighterHook(EditorLogic.RootPart);
+            }
+        }
+
         public void Update()
         {
-            // MOD+H toggles the debug highlighter
-            if (GameSettings.MODIFIER_KEY.GetKey() && Input.GetKeyDown(BoundKey))
+            if (StockBugFixPlusController.plusActive)
             {
-                DebugHighlightActive = !DebugHighlightActive;
-                if (true == DebugHighlightActive)
+                // Toggle the highlight setting, if the controller is updated
+                if (StockBugFixPlusController.editorSymmetryHighlight != DebugHighlightActive)
                 {
-                    ScreenMessages.PostScreenMessage("Symmetry Highlight: ON", 3.0f, ScreenMessageStyle.UPPER_CENTER);
+                    DebugHighlightActive = !DebugHighlightActive;
+                    // Reset the highlighter based on the new selection
+                    if (null != EditorLogic.RootPart)
+                    {
+                        DeactivateHighlight(EditorLogic.RootPart);
+                        HighlighterHook(EditorLogic.RootPart);
+                    }
+                    //if (DebugHighlightActive)
+                    //{
+                    //    ScreenMessages.PostScreenMessage("Symmetry Highlight: ON", 3.0f, ScreenMessageStyle.UPPER_CENTER);
+                    //}
+                    //else
+                    //{
+                    //    ScreenMessages.PostScreenMessage("Symmetry Highlight: OFF", 3.0f, ScreenMessageStyle.UPPER_CENTER);
+                    //}
                 }
-                else
-                {
-                    ScreenMessages.PostScreenMessage("Symmetry Highlight: OFF", 3.0f, ScreenMessageStyle.UPPER_CENTER);
-                }
-
-                // Reset the highlighter based on the new selection
+            }
+            else if (DebugHighlightActive)
+            {
+                DebugHighlightActive = false;
                 if (null != EditorLogic.RootPart)
                 {
                     DeactivateHighlight(EditorLogic.RootPart);
                     HighlighterHook(EditorLogic.RootPart);
                 }
             }
+
+            //// Reset the highlighter based on the new selection
+            //if (null != EditorLogic.RootPart)
+            //{
+            //    if (!highlightHooked)
+            //    {
+            //        DeactivateHighlight(EditorLogic.RootPart);
+            //        HighlighterHook(EditorLogic.RootPart);
+            //        highlightHooked = true;
+            //    }
+            //}
+            //else
+            //{
+            //    highlightHooked = false;
+            //}
         }
 
         public void OnDestroy()
         {
             Debug.Log("SAFix.OnDestroy()");
             GameEvents.onPartAttach.Remove(onPartAttach);
+            GameEvents.onEditorLoad.Remove(HookLoad);
         } // OnDestroy
 
         void onPartAttach(GameEvents.HostTargetAction<Part, Part> AttachedPart)
@@ -305,6 +313,8 @@ namespace ClawKSP
         // Recurse through a branch and attach the highlighter function to each part.
         public void HighlighterHook(Part AttachedPart)
         {
+            //if (AttachedPart = null) { return; }
+
             // Remove the highlighter whenever called. Prevents highlighter stacking.
             AttachedPart.RemoveOnMouseEnter(ActivateHighlight);
             AttachedPart.RemoveOnMouseExit(DeactivateHighlight);

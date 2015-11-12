@@ -14,6 +14,7 @@
  * - (Plus) Activates a tweakable slider to control ejection forces on the panels.
  * 
  * Change Log:
+ * - v01.08  (11 Nov 15)  Updated for KSP v1.0.5. Integrated into StockBugFixPlusController.
  * - v01.07  ( 1 Jul 15)  Recompiled for v1.0.4
  * - v01.06  (10 Jun 15)  Removed some WIP code that snuk in
  * - v01.05  ( 9 Jun 15)  Added MPFFixAddon
@@ -31,6 +32,16 @@ using System.Reflection;
 
 namespace ClawKSP
 {
+
+    [KSPAddon(KSPAddon.Startup.MainMenu, false)]
+    public class MPPlusHook : MonoBehaviour
+    {
+        public void Start()
+        {
+            StockBugFixPlusController.HookModule("ModuleProceduralFairing", "MPFFix");
+        }
+    }
+
     public class MPFFix : PartModule
     {
         [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false, guiName = "Panels")]
@@ -43,7 +54,6 @@ namespace ClawKSP
 
         ModuleProceduralFairing FairingModule;
 
-        [KSPField(isPersistant = false)]
         public bool plusEnabled = false;
 
         private PartModule GetModule(string moduleName)
@@ -62,7 +72,7 @@ namespace ClawKSP
 
         private void SetupStockPlus()
         {
-            if (StockPlusController.plusActive == false || plusEnabled == false)
+            if (StockBugFixPlusController.plusActive == false || StockBugFixPlusController.proceduralFairingPlus == false)
             {
                 plusEnabled = false;
                 Fields["nArcs"].guiActive = false;
@@ -72,6 +82,7 @@ namespace ClawKSP
                 return;
             }
 
+            plusEnabled = true;
             Fields["nArcs"].guiActiveEditor = true;
             Fields["ejectionForce"].guiActiveEditor = true;
         }
@@ -79,6 +90,7 @@ namespace ClawKSP
         public override void OnStart(StartState state)
         {
             base.OnStart(state);
+
             Debug.Log("MPFFix.OnStart(): v01.07");
 
             FairingModule = (ModuleProceduralFairing) GetModule("ModuleProceduralFairing");
@@ -89,9 +101,11 @@ namespace ClawKSP
                 return;
             }
 
+            SetupStockPlus();
+
             if (plusEnabled == true)
             {
-                if (ejectionForce == -1)
+                if (ejectionForce < 0)
                 {
                     ejectionForce = FairingModule.ejectionForce;
                 }
@@ -104,8 +118,6 @@ namespace ClawKSP
             }
 
             GameEvents.onPartRemove.Add(RemovePart);
-
-            SetupStockPlus();
         }
 
         public void RemovePart(GameEvents.HostTargetAction<Part, Part> RemovedPart)
@@ -165,97 +177,98 @@ namespace ClawKSP
     }
 
 
-    [KSPAddon(KSPAddon.Startup.Flight, false)]
-    public class MPFFixAddon : MonoBehaviour
-    {
+    // MPFFixAddon shouldn't be needed anymore in KSP 1.0.5
+    //[KSPAddon(KSPAddon.Startup.Flight, false)]
+    //public class MPFFixAddon : MonoBehaviour
+    //{
 
-        private int gameObjectCount = 0;
-        private int collisionCounter = 0;
+    //    private int gameObjectCount = 0;
+    //    private int collisionCounter = 0;
 
-        public void Start()
-        {
-            Debug.Log("MPFFixAddon.Start()");
-        }
+    //    public void Start()
+    //    {
+    //        Debug.Log("MPFFixAddon.Start()");
+    //    }
 
-        private void SetLayer(int layer)
-        {
-            //for (int indexObjects = 0; indexObjects < FlightGlobals.physicalObjects.Count; indexObjects++)
-            for (int indexObjects = FlightGlobals.physicalObjects.Count - 1; indexObjects >= 0; indexObjects--)
-            {
-                if (null == FlightGlobals.physicalObjects[indexObjects])
-                {
-                    //Debug.LogWarning("Removing Null Object #" + indexObjects);
-                    FlightGlobals.physicalObjects.RemoveAt(indexObjects);
-                    //indexObjects--;
-                }
-                else
-                {
-                    //Debug.LogWarning("Object #" + indexObjects + " | Name: " + FlightGlobals.physicalObjects[indexObjects].name + " | Layer: " + FlightGlobals.physicalObjects[indexObjects].layer);
-                    if (FlightGlobals.physicalObjects[indexObjects].name == "FairingPanel")
-                    {
-                        //Debug.Log("Resetting Layer = " + layer);
-                        FlightGlobals.physicalObjects[indexObjects].layer = layer;
-                    }
-                }
-            }
-        }
+    //    private void SetLayer(int layer)
+    //    {
+    //        //for (int indexObjects = 0; indexObjects < FlightGlobals.physicalObjects.Count; indexObjects++)
+    //        for (int indexObjects = FlightGlobals.physicalObjects.Count - 1; indexObjects >= 0; indexObjects--)
+    //        {
+    //            if (null == FlightGlobals.physicalObjects[indexObjects])
+    //            {
+    //                //Debug.LogWarning("Removing Null Object #" + indexObjects);
+    //                FlightGlobals.physicalObjects.RemoveAt(indexObjects);
+    //                //indexObjects--;
+    //            }
+    //            else
+    //            {
+    //                //Debug.LogWarning("Object #" + indexObjects + " | Name: " + FlightGlobals.physicalObjects[indexObjects].name + " | Layer: " + FlightGlobals.physicalObjects[indexObjects].layer);
+    //                if (FlightGlobals.physicalObjects[indexObjects].name == "FairingPanel")
+    //                {
+    //                    //Debug.Log("Resetting Layer = " + layer);
+    //                    FlightGlobals.physicalObjects[indexObjects].layer = layer;
+    //                }
+    //            }
+    //        }
+    //    }
 
-        private void SetCollisions(bool detectCollisions)
-        {
-            //for (int indexObjects = 0; indexObjects < FlightGlobals.physicalObjects.Count; indexObjects++)
-            for (int indexObjects = FlightGlobals.physicalObjects.Count - 1; indexObjects >= 0; indexObjects--)
-            {
-                if (null == FlightGlobals.physicalObjects[indexObjects])
-                {
-                    FlightGlobals.physicalObjects.RemoveAt(indexObjects);
-                    //indexObjects--;
-                }
-                else
-                {
-                    if (FlightGlobals.physicalObjects[indexObjects].name == "FairingPanel")
-                    {
-                        FlightGlobals.physicalObjects[indexObjects].rigidbody.detectCollisions = detectCollisions;
-                    }
-                }
-            }
-        }
+    //    private void SetCollisions(bool detectCollisions)
+    //    {
+    //        //for (int indexObjects = 0; indexObjects < FlightGlobals.physicalObjects.Count; indexObjects++)
+    //        for (int indexObjects = FlightGlobals.physicalObjects.Count - 1; indexObjects >= 0; indexObjects--)
+    //        {
+    //            if (null == FlightGlobals.physicalObjects[indexObjects])
+    //            {
+    //                FlightGlobals.physicalObjects.RemoveAt(indexObjects);
+    //                //indexObjects--;
+    //            }
+    //            else
+    //            {
+    //                if (FlightGlobals.physicalObjects[indexObjects].name == "FairingPanel")
+    //                {
+    //                    FlightGlobals.physicalObjects[indexObjects].rigidbody.detectCollisions = detectCollisions;
+    //                }
+    //            }
+    //        }
+    //    }
 
-        public void FixedUpdate()
-        {
+    //    public void FixedUpdate()
+    //    {
 
-            if (FlightGlobals.ActiveVessel.isEVA)
-            {
-                SetLayer(15);
-                gameObjectCount = -1;
-                return;
-            }
+    //        if (FlightGlobals.ActiveVessel.isEVA)
+    //        {
+    //            SetLayer(15);
+    //            gameObjectCount = -1;
+    //            return;
+    //        }
 
-            // Fairing Name: gameObject.name = "FairingPanel"
+    //        // Fairing Name: gameObject.name = "FairingPanel"
 
-            if (gameObjectCount != FlightGlobals.physicalObjects.Count)
-            {
-                SetLayer(0);
-                SetCollisions(false);
-                collisionCounter = 2;
-                gameObjectCount = FlightGlobals.physicalObjects.Count;
+    //        if (gameObjectCount != FlightGlobals.physicalObjects.Count)
+    //        {
+    //            SetLayer(0);
+    //            SetCollisions(false);
+    //            collisionCounter = 2;
+    //            gameObjectCount = FlightGlobals.physicalObjects.Count;
 
-                return;
-            }
+    //            return;
+    //        }
 
-            if (collisionCounter > 0)
-            {
-                collisionCounter--;
-            }
-            else
-            {
-                collisionCounter = -1;
-                SetCollisions(true);
-            }
-        }
+    //        if (collisionCounter > 0)
+    //        {
+    //            collisionCounter--;
+    //        }
+    //        else
+    //        {
+    //            collisionCounter = -1;
+    //            SetCollisions(true);
+    //        }
+    //    }
 
-        public void OnDestroy()
-        {
-            FlightGlobals.physicalObjects.Clear();
-        }
-    }
+    //    public void OnDestroy()
+    //    {
+    //        FlightGlobals.physicalObjects.Clear();
+    //    }
+    //}
 }
