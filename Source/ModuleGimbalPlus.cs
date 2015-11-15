@@ -11,6 +11,7 @@
  * - (Plus) Adds tweakable gimbal rate for engines with gimbal
  * 
  * Change Log:
+ * - v01.01  (14 Nov 15)   Made moduleGimbal
  * - v01.00  (11 Nov 15)   Updated for KSP 1.0.5. Renamed from ModuleGimbalFix. Integrated into StockBugFixPlus controller.
  * - v00.03  (28 Jul 15)   Attempted fixes for mod compatibility
  * - v00.02  (1 Jul 15)    Recompiled for KSP v1.0.4, added toggle to activate Gimbal Rate usage
@@ -40,7 +41,7 @@ namespace ClawKSP
 
         [KSPField(guiName = "Gimbal Rate", isPersistant = true)]
         [UI_Toggle(disabledText = "Disabled", enabledText = "Active", affectSymCounterparts = UI_Scene.All)]
-        public bool gimbalRateIsActive = false;
+        public bool gimbalRateIsActive = true;
 
         [KSPField(guiName = "Gimbal Rate", isPersistant = true)]
         [UI_FloatRange(minValue = 1f, maxValue = 30f, stepIncrement = 1f, affectSymCounterparts = UI_Scene.All)]
@@ -73,7 +74,7 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v00.03");
+            Debug.Log(moduleName + ".Start(): v01.01");
 
             //base.OnStart(state);
 

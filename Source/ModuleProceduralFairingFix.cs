@@ -14,6 +14,7 @@
  * - (Plus) Activates a tweakable slider to control ejection forces on the panels.
  * 
  * Change Log:
+ * - v01.09  (14 Nov 15)  Fixed body lift location for ProcFairings. Added overlay fix, but currently disabled.
  * - v01.08  (11 Nov 15)  Updated for KSP v1.0.5. Integrated into StockBugFixPlusController.
  * - v01.07  ( 1 Jul 15)  Recompiled for v1.0.4
  * - v01.06  (10 Jun 15)  Removed some WIP code that snuk in
@@ -55,6 +56,8 @@ namespace ClawKSP
         ModuleProceduralFairing FairingModule;
 
         public bool plusEnabled = false;
+        //private int cycleOverlay = 0;
+        //private int xSectionCount = -1;
 
         private PartModule GetModule(string moduleName)
         {
@@ -86,12 +89,12 @@ namespace ClawKSP
             Fields["nArcs"].guiActiveEditor = true;
             Fields["ejectionForce"].guiActiveEditor = true;
         }
-
+        
         public override void OnStart(StartState state)
         {
             base.OnStart(state);
 
-            Debug.Log("MPFFix.OnStart(): v01.07");
+            Debug.Log("MPFFix.OnStart(): v01.09");
 
             FairingModule = (ModuleProceduralFairing) GetModule("ModuleProceduralFairing");
 
@@ -118,6 +121,11 @@ namespace ClawKSP
             }
 
             GameEvents.onPartRemove.Add(RemovePart);
+
+            //part.CoPOffset /= 2;
+            //part.CoLOffset = part.CoPOffset;
+            part.CoPOffset = Vector3.zero;
+            part.CoLOffset = Vector3.zero;
         }
 
         public void RemovePart(GameEvents.HostTargetAction<Part, Part> RemovedPart)
@@ -143,6 +151,25 @@ namespace ClawKSP
         public void FixedUpdate()
         {
             if (FairingModule == null) { return; }
+
+            //if (xSectionCount != FairingModule.xSections.Count)
+            //{
+            //    if (PhysicsGlobals.AeroForceDisplay)
+            //    {
+            //        cycleOverlay = 2;
+            //        PhysicsGlobals.AeroForceDisplay = false;
+            //    }
+            //    xSectionCount = FairingModule.xSections.Count;
+            //}
+            //else if (cycleOverlay == 1)
+            //{
+            //    cycleOverlay = 0;
+            //    PhysicsGlobals.AeroForceDisplay = true;
+            //}
+            //else if (cycleOverlay > 0)
+            //{
+            //    cycleOverlay--;
+            //}
 
             if (plusEnabled == true)
             {

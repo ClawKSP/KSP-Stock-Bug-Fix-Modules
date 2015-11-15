@@ -60,7 +60,7 @@ Description: Currently contains the following Plus options (no StockFixes requir
 
 + ModuleGimbalPlus (Plus)
 Description: Currently contains the following Plus options (no StockFixes required)
-  - (Plus) Activates gimbaling speed
+  - (Plus) Activates gimbaling speed (gimbal speed is ENABLED by default, when ModuleGimbalPlus is active).
   - (Plus) Adds gimbal speed tweakable
   - (Plus) Adds toggle to enable gimbal response speed
 
@@ -78,8 +78,7 @@ Description: Fairings removed from craft sometimes break when reattaching in VAB
   - Fixes some bugs with removing/replacing interstage fairings which can cause fairings to lock up
   - Fixes fairing decoupler force (small fairings are too high, and large fairings too low)
   - Fairings that are children parts now properly rebuild when added with symmetry (is actually in SymmetryActionFix)
-  - Fixes some "stuck fairing" issues when jettisoning
-  - Fairings stuck on vessel no longer cause the vessel to register as "landed" (and won't save)
+  - Center of Body Lift and Center of Drag bugs fixed
   - (Plus) Adds tweakable that allows adjusting the number of shell splits on the fairing
   - (Plus) Adds tweakable decoupler force range.
 
@@ -326,6 +325,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.5a.2 (14 Nov 15) - Fixed a bug in the hooking routines (due to stock code). Fixed fairing CoL and CoP via MPFFix. Engine gimbal rates default to enabled when StockPlus ModuleGimbalPlus is active.
 v1.0.5a.1 (11 Nov 15) - Deprecated all fixes that are now in Stock. Overhauled the Controller to include a GUI. Updated all modules.
 v1.0.4c.2 (1 Sep 15)  - Fixed LaunchClamp NREs in editor, added (Plus) disabling airbrake movement/deployment in space, added another overheat case
 v1.0.4c.1 (22 Aug 15) - Added OverheatFix and LaunchClampFix. Some minor updates to other modules.
