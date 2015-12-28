@@ -11,6 +11,7 @@
  * - Enables StockPlus features
  * 
  * Change Log:
+ * - v00.12  (27 Dec 15)    Added support for user configurable gimbal defaults
  * - v00.11  (14 Nov 15)    Fixed a bug loading fixes multiple times, due to Part.AddModule not adding the moduleName correctly
  * - v00.10  (10 Nov 15)    Rewritten to support in-game configuration (includes GUI), Renamed from StockPlusController to StockBugFixPlusController.
  *                          Supports persistent configuration across version updates.
@@ -55,6 +56,8 @@ namespace ClawKSP
         public static bool aeroSurfacePlus = false;
         public static bool controlSurfacePlus = false;
         public static bool gimbalPlus = false;
+        public static bool gimbalRateIsActive = false;
+        public static float gimbalResponseSpeed = 10f;
         public static bool parachutePlus = false;
         public static bool pilotRSASPlus = false;
         public static bool proceduralFairingPlus = false;
@@ -81,6 +84,8 @@ namespace ClawKSP
             {
                 GUIActive = true;
             }
+
+            Debug.Log("StockBugFixPlusController.Start(): v00.12");
         }
 
         public void Update()
@@ -352,7 +357,7 @@ namespace ClawKSP
                 GUI.color = currentColor;
                 if (GUILayout.Button("Info", GUILayout.Width(35)))
                 {
-                    InfoToggle(true, "Gimbal Plus \n\nDescription: Adds tweakable engine gimbal response speed. \n\nRequires a scene change to activate.");
+                    InfoToggle(true, "Gimbal Plus \n\nDescription: Adds tweakable engine gimbal response speed. \n\nRequires a scene change to activate. \n\nDefaults are configurable by editing StockBugFixPlusController.cfg");
                 }
                 GUILayout.EndHorizontal();
                 GUILayout.EndVertical();
@@ -568,6 +573,10 @@ namespace ClawKSP
                     else if (FI.FieldType == typeof(bool))
                     {
                         FI.SetValue(this, bool.Parse(value.value));
+                    }
+                    else if (FI.FieldType == typeof(float))
+                    {
+                        FI.SetValue(this, float.Parse(value.value, CultureInfo.InvariantCulture));
                     }
                 }
             }

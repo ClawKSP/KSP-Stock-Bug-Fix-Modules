@@ -11,6 +11,7 @@
  * - (Plus) When stowed, the airbrake doesn't generate drag.
  * 
  * Change Log:
+ * - v01.07  (27 Dec 15)   Fixed bug that would lock speedbrakes when returning from space. Fixed a stock bug where deploy state is not persistent.
  * - v01.06  (10 Nov 15)   Updated for v1.0.5. Integrated into StockPlus. Renamed from ModuleAeroSurfaceFix to ModuleAeroSurfacePlus
  * - v01.05  (1 Nov 15)    Fixed some log spam in the editor
  * - v01.04  (1 Sep 15)    Added plus function to disable movement in space
@@ -45,6 +46,9 @@ namespace ClawKSP
         [KSPField(isPersistant = false)]
         public bool plusEnabled = false;
 
+        [KSPField(isPersistant = true)]
+        public bool deploy = false;
+
         [KSPField(isPersistant = false)]
         private float deflectionLiftCoeff;
 
@@ -62,21 +66,30 @@ namespace ClawKSP
                 return;
             }
 
+            plusEnabled = true;
             Debug.Log(moduleName + " StockPlus Enabled");
 
             deflectionLiftCoeff = AeroSurfaceModule.deflectionLiftCoeff;
 
-            if (FlightGlobals.getStaticPressure(part.transform.position) < 0.001f)
+            if (FlightGlobals.getStaticPressure(part.transform.position) < 0.0001f)
             {
-                vacuumRange = 0.01f;
+                vacuumRange = 0.001f;
             }
+
+            //ModuleAeroSurface MAS = part.partInfo.partPrefab.FindModuleImplementing<ModuleAeroSurface>();
+            //if (MAS)
+            //{
+            //    ctrlSurfaceRange = MAS.ctrlSurfaceRange;
+            //    Debug.LogWarning("Range: " + ctrlSurfaceRange);
+            //}
+
             ctrlSurfaceRange = AeroSurfaceModule.ctrlSurfaceRange;
             AeroSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * vacuumRange;
         }
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.06");
+            Debug.Log(moduleName + ".Start(): v01.07");
 
             base.OnStart(state);
 
@@ -87,15 +100,19 @@ namespace ClawKSP
                 return;
             }
 
+            AeroSurfaceModule.deploy = deploy;
+
             SetupStockPlus();
         }
 
         public void FixedUpdate()
         {
-            if (HighLogic.LoadedScene != GameScenes.FLIGHT) { return; }
-
             AeroSurfaceModule = part.FindModuleImplementing<ModuleAeroSurface>();
             if (null == AeroSurfaceModule) { return; }
+
+            deploy = AeroSurfaceModule.deploy;
+
+            if (HighLogic.LoadedScene != GameScenes.FLIGHT) { return; }
 
             if (true == plusEnabled)
             {
@@ -126,7 +143,7 @@ namespace ClawKSP
                     }
                     else
                     {
-                        vacuumRange = 0.01f;
+                        vacuumRange = 0.001f;
                     }
                 }
                 else
@@ -142,6 +159,7 @@ namespace ClawKSP
                 }
                 AeroSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * vacuumRange;
             }
+            
         }
 
     }

@@ -14,6 +14,8 @@
  * - (Plus) Gives tweakable RSAS adjustment parameters
  * 
  * Change Log:
+ * - v00.04  (27 Dec 15)  Fixed a bug causing the Plus features to be disabled
+ * - v00.03  (10 Nov 15)  Updated for KSP v1.0.5, integrated into new StockBugFixPlusController
  * - v00.02  (1 Jul 15)   Recompiled and tested for KSP v1.0.4, adjusted response
  * - v00.01  (7 Jun 15)   Initial Release
  * 
@@ -68,7 +70,7 @@ namespace ClawKSP
         public override void OnStart(StartState state)
         {
             base.OnStart(state);
-            Debug.Log(moduleName + ".Start(): v00.02");
+            Debug.Log(moduleName + ".Start(): v00.04");
 
             GameEvents.onVesselChange.Add(DisableGUI);
             DisableGUI(null);
@@ -109,6 +111,7 @@ namespace ClawKSP
                 return;
             }
 
+            plusEnabled = true;
             Debug.Log(moduleName + " StockPlus Enabled");
         }
 

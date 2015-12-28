@@ -11,6 +11,7 @@
  * - (Plus) Adds tweakable gimbal rate for engines with gimbal
  * 
  * Change Log:
+ * - v01.02  (27 Dec 15)   Added support for user configurable gimbal rates
  * - v01.01  (14 Nov 15)   Made moduleGimbal
  * - v01.00  (11 Nov 15)   Updated for KSP 1.0.5. Renamed from ModuleGimbalFix. Integrated into StockBugFixPlus controller.
  * - v00.03  (28 Jul 15)   Attempted fixes for mod compatibility
@@ -45,7 +46,19 @@ namespace ClawKSP
 
         [KSPField(guiName = "Gimbal Rate", isPersistant = true)]
         [UI_FloatRange(minValue = 1f, maxValue = 30f, stepIncrement = 1f, affectSymCounterparts = UI_Scene.All)]
-        public float gimbalResponseSpeed = 10f;
+        public float gimbalResponseSpeed = -1f;
+
+        //[KSPField(guiName = "Gimbal Yaw", isPersistant = true)]
+        //[UI_Toggle(disabledText = "Disabled", enabledText = "Active", affectSymCounterparts = UI_Scene.All)]
+        //public bool gimbalAngleYaw = true;
+
+        //[KSPField(guiName = "Gimbal Pitch", isPersistant = true)]
+        //[UI_Toggle(disabledText = "Disabled", enabledText = "Active", affectSymCounterparts = UI_Scene.All)]
+        //public bool gimbalAnglePitch = true;
+
+        //[KSPField(guiName = "Gimbal Roll", isPersistant = true)]
+        //[UI_Toggle(disabledText = "Disabled", enabledText = "Active", affectSymCounterparts = UI_Scene.All)]
+        //public bool gimbalAngleRoll = true;
 
         private ModuleGimbal GimbalModule;
 
@@ -58,15 +71,34 @@ namespace ClawKSP
                 Fields["gimbalResponseSpeed"].guiActiveEditor = false;
                 Fields["gimbalRateIsActive"].guiActive = false;
                 Fields["gimbalRateIsActive"].guiActiveEditor = false;
+                //Fields["gimbalAngleYaw"].guiActive = false;
+                //Fields["gimbalAngleYaw"].guiActiveEditor = false;
+                //Fields["gimbalAnglePitch"].guiActive = false;
+                //Fields["gimbalAnglePitch"].guiActiveEditor = false;
+                //Fields["gimbalAngleRoll"].guiActive = false;
+                //Fields["gimbalAngleRoll"].guiActiveEditor = false;
                 return;
             }
 
             Debug.Log(moduleName + " StockPlus Enabled");
 
+            plusEnabled = true;
             Fields["gimbalResponseSpeed"].guiActive = true;
             Fields["gimbalResponseSpeed"].guiActiveEditor = true;
             Fields["gimbalRateIsActive"].guiActive = true;
             Fields["gimbalRateIsActive"].guiActiveEditor = true;
+            //Fields["gimbalAngleYaw"].guiActive = true;
+            //Fields["gimbalAngleYaw"].guiActiveEditor = true;
+            //Fields["gimbalAnglePitch"].guiActive = true;
+            //Fields["gimbalAnglePitch"].guiActiveEditor = true;
+            //Fields["gimbalAngleRoll"].guiActive = true;
+            //Fields["gimbalAngleRoll"].guiActiveEditor = true;
+
+            if (gimbalResponseSpeed == -1)
+            {
+                gimbalResponseSpeed = StockBugFixPlusController.gimbalResponseSpeed;
+                gimbalRateIsActive = StockBugFixPlusController.gimbalRateIsActive;
+            }
 
             GimbalModule.useGimbalResponseSpeed = gimbalRateIsActive;
             GimbalModule.gimbalResponseSpeed = gimbalResponseSpeed;
@@ -74,7 +106,7 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.01");
+            Debug.Log(moduleName + ".Start(): v01.02");
 
             //base.OnStart(state);
 
@@ -128,6 +160,18 @@ namespace ClawKSP
                 {
                     GimbalModule.useGimbalResponseSpeed = false;
                 }
+                //if (!gimbalAngleYaw)
+                //{
+                //    GimbalModule.gimbalAngleYaw = 0f;
+                //}
+                //if (!gimbalAnglePitch)
+                //{
+                //    GimbalModule.gimbalAnglePitch = 0f;
+                //}
+                //if (!gimbalAngleRoll)
+                //{
+                //    GimbalModule.gimbalAngleRoll = 0f;
+                //}
             }
         }
     }

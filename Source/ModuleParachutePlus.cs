@@ -27,6 +27,7 @@
 
 using UnityEngine;
 using KSP;
+using System;
 
 namespace ClawKSP
 {
@@ -55,6 +56,10 @@ namespace ClawKSP
         [KSPField(isPersistant = true, guiActive = false, guiActiveEditor = false, guiName = "Spread Angle")]
         [UI_FloatRange(minValue = 0f, maxValue = 10f, stepIncrement = 1f)]
         public float spreadAngle = 7f;
+
+        //[KSPField(isPersistant = true, guiActive = true, guiActiveEditor = true, guiName = "Risky Seconds")]
+        //[UI_FloatRange(minValue = 0f, maxValue = 1f, stepIncrement = 0.05f)]
+        //public float secondsForRisky = 0.35f;
 
         [KSPField(isPersistant = false)]
         public bool plusEnabled = false;
@@ -103,6 +108,7 @@ namespace ClawKSP
             }
 
             plusEnabled = true;
+            Debug.Log(moduleName + " StockPlus Enabled");
 
             //if ((part.attachMode == AttachModes.SRF_ATTACH) && (part.attachMode != AttachModes.STACK))
             //{
@@ -153,6 +159,8 @@ namespace ClawKSP
                 ParachuteModule.semiDeploymentSpeed = 1 / semiDeploymentSpeed;
                 ParachuteModule.deploymentSpeed = 1 / deploymentSpeed;
             }
+
+            //ParachuteModule.secondsForRisky = secondsForRisky;
 
             if (ParachuteModule.deploymentState == ModuleParachute.deploymentStates.SEMIDEPLOYED || ParachuteModule.deploymentState == ModuleParachute.deploymentStates.DEPLOYED)
             {
@@ -308,6 +316,35 @@ namespace ClawKSP
                 //Debug.LogWarning("Count: " + siblingCount);
             }
         }
+
+        //private void Stuff ()
+        //{
+        //    if (!base.part.ShieldedFromAirstream && (ParachuteModule.deploymentState == ModuleParachute.deploymentStates.SEMIDEPLOYED || ParachuteModule.deploymentState == ModuleParachute.deploymentStates.DEPLOYED))
+        //    {
+        //        if (ParachuteModule.chuteTemp < PhysicsGlobals.SpaceTemperature)
+        //        {
+        //            ParachuteModule.chuteTemp = ParachuteModule.startingTemp;
+        //        }
+
+        //        double num = ParachuteModule.shockTemp - ParachuteModule.chuteTemp;
+
+        //        ParachuteModule.chuteTemp += num * UtilMath.Clamp01(ParachuteModule.convectivekW * ParachuteModule.invThermalMass * (double)TimeWarp.fixedDeltaTime);
+
+        //        if (ParachuteModule.chuteTemp > 0.0)
+        //        {
+        //            double num2 = ParachuteModule.chuteTemp * ParachuteModule.chuteTemp;
+        //            ParachuteModule.chuteTemp -= 0.002 * ParachuteModule.invThermalMass * PhysicsGlobals.StefanBoltzmanConstant * ParachuteModule.areaDeployed * ParachuteModule.chuteEmissivity * PhysicsGlobals.RadiationFactor * (double)TimeWarp.fixedDeltaTime * num2 * num2;
+        //        }
+        //        if (double.IsNaN(ParachuteModule.chuteTemp) || ParachuteModule.chuteTemp < PhysicsGlobals.SpaceTemperature)
+        //        {
+        //            ParachuteModule.chuteTemp = PhysicsGlobals.SpaceTemperature;
+        //        }
+        //        if (ParachuteModule.chuteTemp > ParachuteModule.chuteMaxTemp)
+        //        {
+        //            ParachuteModule.deploymentSafeState = ModuleParachute.deploymentSafeStates.UNSAFE;
+        //        }
+        //    }
+        //}
 
     }
 }

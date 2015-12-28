@@ -61,6 +61,7 @@ namespace ClawKSP
                 return;
             }
 
+            plusEnabled = true;
             Debug.Log(moduleName + " StockPlus Enabled");
 
             Fields["Authority"].guiActive = true;

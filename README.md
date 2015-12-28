@@ -325,6 +325,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
 
 Change Log
 ==========
+v1.0.5a.3 (27 Dec 15) - Fixed some bugs with a few modules causing StockPlus options to not show correctly. Added user configurable ModuleGimal options to the StockBugFixPlusSettings.cfg.
 v1.0.5a.2 (14 Nov 15) - Fixed a bug in the hooking routines (due to stock code). Fixed fairing CoL and CoP via MPFFix. Engine gimbal rates default to enabled when StockPlus ModuleGimbalPlus is active.
 v1.0.5a.1 (11 Nov 15) - Deprecated all fixes that are now in Stock. Overhauled the Controller to include a GUI. Updated all modules.
 v1.0.4c.2 (1 Sep 15)  - Fixed LaunchClamp NREs in editor, added (Plus) disabling airbrake movement/deployment in space, added another overheat case
