@@ -12,6 +12,7 @@
  * - (Plus) Disables flight controls in space
  * 
  * Change Log:
+ * - v01.05  (25 Jan 16)   Added actuator speed tweakable.
  * - v01.04  (10 Nov 15)   Updated for KSP v1.0.5. Renamed from ModuleControlSurfaceFix. Integrated into StockBugFixPlusController
  * - v01.03  (1 Jul 15)    Recompiled and tested for KSP v1.0.4
  * - v01.02  (18 May 15)   Fixed a bug that caused roll inputs to be reversed forward of CoM
@@ -40,10 +41,14 @@ namespace ClawKSP
     {
         private bool plusEnabled = true;
 
-        // Plus option
+        // Plus options
         [KSPField(guiName = "Authority", isPersistant = true)]
         [UI_FloatRange(minValue = 0.1f, maxValue = 1.9f, stepIncrement = 0.1f, affectSymCounterparts = UI_Scene.All)]
         public float Authority = 1.0f;
+
+        [KSPField(guiName = "Speed", isPersistant = true)]
+        [UI_FloatRange(minValue = 1f, maxValue = 50f, stepIncrement = 0.5f, affectSymCounterparts = UI_Scene.All)]
+        public float actuatorSpeed = -1f;
 
         private ModuleControlSurface ControlSurfaceModule;
 
@@ -58,6 +63,8 @@ namespace ClawKSP
                 plusEnabled = false;
                 Fields["Authority"].guiActive = false;
                 Fields["Authority"].guiActiveEditor = false;
+                Fields["actuatorSpeed"].guiActive = false;
+                Fields["actuatorSpeed"].guiActiveEditor = false;
                 return;
             }
 
@@ -66,6 +73,8 @@ namespace ClawKSP
 
             Fields["Authority"].guiActive = true;
             Fields["Authority"].guiActiveEditor = true;
+            Fields["actuatorSpeed"].guiActive = true;
+            Fields["actuatorSpeed"].guiActiveEditor = true;
 
             if (FlightGlobals.getStaticPressure(part.transform.position) < 0.001f)
             {
@@ -73,11 +82,20 @@ namespace ClawKSP
             }
             ctrlSurfaceRange = ControlSurfaceModule.ctrlSurfaceRange;
             ControlSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * Authority * vacuumRange;
+
+            if (actuatorSpeed < 0f)
+            {
+                actuatorSpeed = ControlSurfaceModule.actuatorSpeed;
+            }
+            else
+            {
+                ControlSurfaceModule.actuatorSpeed = actuatorSpeed;
+            }
         }
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.04");
+            Debug.Log(moduleName + ".Start(): v01.05");
 
             base.OnStart(state);
 
@@ -133,6 +151,7 @@ namespace ClawKSP
                     }
                 }
                 ControlSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * Authority * vacuumRange * Mathf.Sign(ControlSurfaceModule.ctrlSurfaceRange);
+                ControlSurfaceModule.actuatorSpeed = actuatorSpeed;
             }
         }
     }

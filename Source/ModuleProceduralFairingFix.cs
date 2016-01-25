@@ -14,6 +14,7 @@
  * - (Plus) Activates a tweakable slider to control ejection forces on the panels.
  * 
  * Change Log:
+ * - v01.10  (25 Jan 16)  Fixed body lift when respawning meshes when StockPlus active.
  * - v01.09  (14 Nov 15)  Fixed body lift location for ProcFairings. Added overlay fix, but currently disabled.
  * - v01.08  (11 Nov 15)  Updated for KSP v1.0.5. Integrated into StockBugFixPlusController.
  * - v01.07  ( 1 Jul 15)  Recompiled for v1.0.4
@@ -54,8 +55,11 @@ namespace ClawKSP
         public float ejectionForce = -1f;
 
         ModuleProceduralFairing FairingModule;
+        ModuleCargoBay CargoBayModule;
 
         public bool plusEnabled = false;
+        private Part interstagePart = null;
+
         //private int cycleOverlay = 0;
         //private int xSectionCount = -1;
 
@@ -85,6 +89,7 @@ namespace ClawKSP
                 return;
             }
 
+            Debug.Log("MPFFix: StockPlus active.");
             plusEnabled = true;
             Fields["nArcs"].guiActiveEditor = true;
             Fields["ejectionForce"].guiActiveEditor = true;
@@ -94,7 +99,7 @@ namespace ClawKSP
         {
             base.OnStart(state);
 
-            Debug.Log("MPFFix.OnStart(): v01.09");
+            Debug.Log("MPFFix.OnStart(): v01.10");
 
             FairingModule = (ModuleProceduralFairing) GetModule("ModuleProceduralFairing");
 
@@ -103,6 +108,11 @@ namespace ClawKSP
                 Debug.LogWarning("ModuleProceduralFairingFix.Start(): Did not find Fairing Module.");
                 return;
             }
+
+            //part.CoPOffset /= 2;
+            //part.CoLOffset = part.CoPOffset;
+            part.CoPOffset = Vector3.zero;
+            part.CoLOffset = Vector3.zero;
 
             SetupStockPlus();
 
@@ -122,10 +132,26 @@ namespace ClawKSP
 
             GameEvents.onPartRemove.Add(RemovePart);
 
-            //part.CoPOffset /= 2;
-            //part.CoLOffset = part.CoPOffset;
-            part.CoPOffset = Vector3.zero;
-            part.CoLOffset = Vector3.zero;
+            try { CargoBayModule = part.FindModuleImplementing<ModuleCargoBay>(); }
+            catch { }
+            interstagePart = GetInterstage();
+            if (null != interstagePart)
+            {
+                Debug.LogWarning("interstagePart name = " + interstagePart.name + " partName = " + interstagePart.partName);
+            }
+        }
+
+        private Part GetInterstage ()
+        {
+            FieldInfo MPFInfo = FairingModule.GetType().GetField("", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            if (null != MPFInfo)
+            {
+                //Debug.LogWarning("Found");
+                return ((Part)MPFInfo.GetValue(FairingModule));
+            }
+
+            return (null);
         }
 
         public void RemovePart(GameEvents.HostTargetAction<Part, Part> RemovedPart)
@@ -139,6 +165,7 @@ namespace ClawKSP
                     Debug.LogWarning("Deleting Fairing");
                     FairingModule.DeleteFairing();
                 }
+
                 MethodInfo MPFMethod = FairingModule.GetType().GetMethod("DumpInterstage", BindingFlags.NonPublic | BindingFlags.Instance);
 
                 if (MPFMethod != null)
@@ -151,6 +178,7 @@ namespace ClawKSP
         public void FixedUpdate()
         {
             if (FairingModule == null) { return; }
+            
 
             //if (xSectionCount != FairingModule.xSections.Count)
             //{
@@ -191,6 +219,9 @@ namespace ClawKSP
                     {
                         MPFMethod.Invoke(FairingModule, new object[] { true });
                     }
+
+                    part.CoPOffset = Vector3.zero;
+                    part.CoLOffset = Vector3.zero;
                 }
 
                 FairingModule.ejectionForce = ejectionForce;
