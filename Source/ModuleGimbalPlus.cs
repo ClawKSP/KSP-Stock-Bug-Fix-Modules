@@ -6,16 +6,17 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * ModuleGimbalPlus - Written for KSP v1.0.5
+ * ModuleGimbalPlus - Written for KSP v1.1.2
  * 
  * - (Plus) Adds tweakable gimbal rate for engines with gimbal
  * 
  * Change Log:
+ * - v01.03  ( 8 May 16)   Updated for KSP v1.1.2
  * - v01.02  (27 Dec 15)   Added support for user configurable gimbal rates
  * - v01.01  (14 Nov 15)   Made moduleGimbal
  * - v01.00  (11 Nov 15)   Updated for KSP 1.0.5. Renamed from ModuleGimbalFix. Integrated into StockBugFixPlus controller.
  * - v00.03  (28 Jul 15)   Attempted fixes for mod compatibility
- * - v00.02  (1 Jul 15)    Recompiled for KSP v1.0.4, added toggle to activate Gimbal Rate usage
+ * - v00.02  ( 1 Jul 15)    Recompiled for KSP v1.0.4, added toggle to activate Gimbal Rate usage
  * - v00.01  (15 May 15)   Initial Experimental Release
  * 
  */
@@ -106,7 +107,7 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.02");
+            Debug.Log(moduleName + ".Start(): v01.03");
 
             //base.OnStart(state);
 
@@ -144,10 +145,10 @@ namespace ClawKSP
                 return;
             }
 
-            if (HighLogic.LoadedScene == GameScenes.FLIGHT && part.State == PartStates.IDLE)
-            {
-                GimbalModule.OnFixedUpdate();
-            }
+            //if (HighLogic.LoadedScene == GameScenes.FLIGHT && part.State == PartStates.IDLE)
+            //{
+            //    GimbalModule.OnFixedUpdate();
+            //}
 
             if (plusEnabled == true)
             {

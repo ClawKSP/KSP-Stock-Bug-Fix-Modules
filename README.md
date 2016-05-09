@@ -8,14 +8,15 @@ StockPlus: The StockPlus additions are all minor polish fixes or add-ons that un
 
 Installation
 ============
-IMPORTANT: With the release of KSP 1.0.5, StockBugFixModules and StockPlus has undergone a major overhaul. Many of the fixes from the last StockBugFixModules release have been incorporated into Stock KSP.
+IMPORTANT: With the release of KSP 1.0.5, StockBugFixModules and StockPlus has undergone a major overhaul. Many of the fixes from the last StockBugFixModules release have been incorporated into Stock KSP. Many more were incorporated into KSP 1.1.0.
 
 !!! Please delete any old installations of KSP-Stock-Bug-Fix-Modules before installing. !!!
 
 1) Unzip the zip file to the KSP/GameData directory.
 2) During the first launch of KSP after StockBugFixPlus installation, a GUI will pop up asking you to configure the StockPlus options.
 3) Save your settings and enjoy.
-NOTE: Do NOT delete StockBugFixPlusController.dll. None of the modules (including fixes) will function without it.
+
+NOTE: Do NOT delete StockBugFixPlusController.dll. None of the modules (including fixes) will function without it. Additionally, you may carry forward your settings file (called StockBugFixPlusController.cfg).
 
 
 StockPlus Instructions
@@ -32,22 +33,15 @@ StockPlus features are disabled by default. If you want to enable the StockPlus 
 
 Settings should not be persistent across StockBugFixPlus updates.
 
-Fix Modules that include StockPlus features are marked (Plus) below. After the release of KSP 1.0.5, many of these modules are Plus only (because all fixes have been incorporated into Stock KSP).
+Fix Modules that include StockPlus features are marked (Plus) below. After the release of KSP 1.0.5 and KSP 1.1.0, many of these modules are Plus only (because all fixes have been incorporated into Stock KSP).
 
 
 Bug Fixes and Stock Plus Included in this Release
 =================================================
 
-+ InFlightHighlightOff (Plus)
-Description: Disables the green highlighting while in-flight (no StockFixes required)
-  - (Plus) Toggle the setting on/off via the GUI.
-
-----
-
-+ ModuleAeroSurfacePlus (Plus)
-Description: Currently contains the following Plus options (no StockFixes required)
-  - (Plus) When stowed (not deployed) air brakes do not contribute drag (flush with the fuselage)
-  - (Plus) Disables airbrakes in space, so they aren't moving around when maneuvering
++ GameSettingsPlus (Plus)
+Description: Provides GUI Access to some of the stock settings in settings.cfg
+  - (Plus) Access to in-flight highlight, save count, save interval, conic patch mode, and wheel clipping settings
 
 ----
 
@@ -55,6 +49,7 @@ Description: Currently contains the following Plus options (no StockFixes requir
 Description: Currently contains the following Plus options (no StockFixes required)
   - (Plus) Adds tweakable authority range
   - (Plus) Disables flight controls in space, so they aren't moving around when maneuvering
+  - (Plus) Adds tweakable to toggle deploy direction of individual flight control surfaces (by part)
 
 ----
 
@@ -64,36 +59,14 @@ Description: Currently contains the following Plus options (no StockFixes requir
   - (Plus) Adds gimbal speed tweakable
   - (Plus) Adds toggle to enable gimbal response speed
 
+Default Gimbal settings can be edited in the StockBugFixPlusController.cfg file.
+
 ----
 
 + ModuleParachutePlus (Plus)
 Description: Currently contains the following Plus options (no StockFixes required)
   - (Plus) Adds semi deployment and deployment time tweakable
   - (Plus) Adds a couple visual effects (such as symmetric chute spread and asynchronous chute movement)
-
-----
-
-+ ModuleProceduralFairingFix (Plus)
-Description: Fairings removed from craft sometimes break when reattaching in VAB/SPH.
-  - Fixes some bugs with removing/replacing interstage fairings which can cause fairings to lock up
-  - Fixes fairing decoupler force (small fairings are too high, and large fairings too low)
-  - Fairings that are children parts now properly rebuild when added with symmetry (is actually in SymmetryActionFix)
-  - Center of Body Lift and Center of Drag bugs fixed
-  - (Plus) Adds tweakable that allows adjusting the number of shell splits on the fairing
-  - (Plus) Adds tweakable decoupler force range.
-
-----
-
-+ ModuleWheelPlus (Plus)
-Description: Currently contains the following Plus options (no StockFixes required)
-  - (Plus) Adds tweakable "grip" multiplier (from 0.1 to 3x)
-
-----
-
-+ OverheatFix (Experimental)
-Description: Some parts (especially cubic and octagonal struts) overheat and explode, often associated with time warp.
-  - Prevents feedback looping overheat for smaller parts.
-  - Still does not fix overheating parts inside cargo/service bays.
 
 ----
 
@@ -111,13 +84,60 @@ Description: The new(ish) pilot abilities cause smaller vessels to jitter and ra
 
 ----
 
-+ StickyLaunchPadFix.dll - Currently not included (NOTE: I still cannot replicate this issue anymore.)
+
+DEPRECATED
+=======
+
+Release v0.1.7d is the last compatible version for KSP v0.90
+Release v0.1.5c is the last compatible version for KSP v0.25
+Further releases are labeled by compatible version. Example: Release v1.0.2e.3 is compatible with KSP v1.0.2
+
+----
+
++ [ADDED IN KSP v1.1.0] InFlightHighlightOff (Plus)
+Description: Disables the green highlighting while in-flight (no StockFixes required)
+  - (Plus) Toggle the setting on/off via the GUI.
+
+----
+
++ [DEPRECATED IN KSP v1.1.0] ModuleAeroSurfacePlus (Plus)
+Description: Currently contains the following Plus options (no StockFixes required)
+  - (Plus) When stowed (not deployed) air brakes do not contribute drag (flush with the fuselage)
+  - (Plus) Disables airbrakes in space, so they aren't moving around when maneuvering
+
+----
+
++ [FIXED IN KSP v1.1.0] ModuleProceduralFairingFix (Plus)
+Description: Fairings removed from craft sometimes break when reattaching in VAB/SPH.
+  - Fixes some bugs with removing/replacing interstage fairings which can cause fairings to lock up
+  - Fixes fairing decoupler force (small fairings are too high, and large fairings too low)
+  - Fairings that are children parts now properly rebuild when added with symmetry (is actually in SymmetryActionFix)
+  - Center of Body Lift and Center of Drag bugs fixed
+  - (Plus) Adds tweakable that allows adjusting the number of shell splits on the fairing
+  - (Plus) Adds tweakable decoupler force range.
+
+----
+
++ [DEPRECATED IN KSP v1.1.0] ModuleWheelPlus (Plus)
+Description: Currently contains the following Plus options (no StockFixes required)
+  - (Plus) Adds tweakable "grip" multiplier (from 0.1 to 3x)
+
+----
+
++ [FIXED IN KSP v1.1.0] OverheatFix (Experimental)
+Description: Some parts (especially cubic and octagonal struts) overheat and explode, often associated with time warp.
+  - Prevents feedback looping overheat for smaller parts.
+  - Still does not fix overheating parts inside cargo/service bays.
+
+----
+
++ [DEPRECATED IN KSP v1.1.0] StickyLaunchPadFix.dll - Currently not included (NOTE: I still cannot replicate this issue anymore.)
 Description: Certain rocket configurations "stick" to the career tier 2 launch pad.
   - Fixes bug where engines (mostly BACC and LV-T30/45) will stick to tier 2 launch pad.
 
 ----
 
-+ SymmetryActionFix.dll (Plus)
++ [FIXED IN KSP V1.1.0, except the highlighting] SymmetryActionFix.dll (Plus)
 Description: Various fixes for symmetry errors in the VAB/SPH
 *** I continue to advise caution with this, although it seems pretty stable now. This unlocks more potential within the editor, but also causes more of the stock bugs to surface (which I've been trying to squish).***
 
@@ -131,16 +151,6 @@ Description: Various fixes for symmetry errors in the VAB/SPH
     -- If you want to change the keybinding or force it to default to ON, edit the included SymmetryActionFix.cfg.
 
 So, symmetry within symmetry is still a bit buggy in stock especially when using the gizmos (I'm slowly fixing it, one step at a time). This fix can handle copying Action groups buried in symmetry within symmetry, but might still fail when encountering certain stock bugs.
-
-----
-
-
-DEPRECATED
-=======
-
-Release v0.1.7d is the last compatible version for KSP v0.90
-Release v0.1.5c is the last compatible version for KSP v0.25
-Further releases are labeled by compatible version. Example: Release v1.0.2e.3 is compatible with KSP v1.0.2
 
 ----
 
@@ -320,11 +330,12 @@ License
 Covered under the CC-BY-NC-SA license. See the license.txt for more details.
 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-ModuleManager by Sarbian (bundled) is covered under a CC share-alike license.
+ModuleManager by Sarbian (bundled) is covered under a CC share-alike license. (Currently not in use.)
 
 
 Change Log
 ==========
+v1.1.2a.1 ( 8 May 16) - Updated for KSP v1.1.2. Depredcated several modules and added GameSettingsPlus.
 v1.0.5a.4 (25 Jan 16) - Fixed bug in MPFFix and added actuator speed tweakable to MCSPlus.
 v1.0.5a.3 (27 Dec 15) - Fixed some bugs with a few modules causing StockPlus options to not show correctly. Added user configurable ModuleGimal options to the StockBugFixPlusSettings.cfg.
 v1.0.5a.2 (14 Nov 15) - Fixed a bug in the hooking routines (due to stock code). Fixed fairing CoL and CoP via MPFFix. Engine gimbal rates default to enabled when StockPlus ModuleGimbalPlus is active.

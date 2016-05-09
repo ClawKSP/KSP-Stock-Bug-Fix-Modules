@@ -6,12 +6,14 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * ModuleControlSurfacePlus - Written for KSP v1.0
+ * ModuleControlSurfacePlus - Written for KSP v1.1.2
  * 
- * - (Plus) Adds tweakable authority
- * - (Plus) Disables flight controls in space
+ * - (Plus) Adds tweakable actuator speed
+ * - (Plus) Adds tweakable to independently invert deployment
  * 
  * Change Log:
+ * - v01.07  ( 8 May 16)   Updated for KSP v1.1.2
+ * - v01.06  (21 Apr 16)   Updated for KSP v1.1.0
  * - v01.05  (25 Jan 16)   Added actuator speed tweakable.
  * - v01.04  (10 Nov 15)   Updated for KSP v1.0.5. Renamed from ModuleControlSurfaceFix. Integrated into StockBugFixPlusController
  * - v01.03  (1 Jul 15)    Recompiled and tested for KSP v1.0.4
@@ -42,60 +44,38 @@ namespace ClawKSP
         private bool plusEnabled = true;
 
         // Plus options
-        [KSPField(guiName = "Authority", isPersistant = true)]
-        [UI_FloatRange(minValue = 0.1f, maxValue = 1.9f, stepIncrement = 0.1f, affectSymCounterparts = UI_Scene.All)]
-        public float Authority = 1.0f;
-
-        [KSPField(guiName = "Speed", isPersistant = true)]
+        [KSPField(guiName = "Actuator Speed", isPersistant = true)]
         [UI_FloatRange(minValue = 1f, maxValue = 50f, stepIncrement = 0.5f, affectSymCounterparts = UI_Scene.All)]
         public float actuatorSpeed = -1f;
 
         private ModuleControlSurface ControlSurfaceModule;
-
-        // Plus option
-        private float ctrlSurfaceRange;
-        private float vacuumRange = 1.0f; // disables flight controls when in vacuum
 
         private void SetupStockPlus()
         {
             if (StockBugFixPlusController.plusActive == false || StockBugFixPlusController.controlSurfacePlus == false)
             {
                 plusEnabled = false;
-                Fields["Authority"].guiActive = false;
-                Fields["Authority"].guiActiveEditor = false;
                 Fields["actuatorSpeed"].guiActive = false;
                 Fields["actuatorSpeed"].guiActiveEditor = false;
+                ControlSurfaceModule.Fields["partDeployInvert"].guiActive = false;
+                ControlSurfaceModule.Fields["partDeployInvert"].guiActiveEditor = false;
                 return;
             }
 
             plusEnabled = true;
             Debug.Log(moduleName + " StockPlus Enabled");
 
-            Fields["Authority"].guiActive = true;
-            Fields["Authority"].guiActiveEditor = true;
             Fields["actuatorSpeed"].guiActive = true;
             Fields["actuatorSpeed"].guiActiveEditor = true;
+            ControlSurfaceModule.Fields["partDeployInvert"].guiActive = true;
+            ControlSurfaceModule.Fields["partDeployInvert"].guiActiveEditor = true;
 
-            if (FlightGlobals.getStaticPressure(part.transform.position) < 0.001f)
-            {
-                vacuumRange = 0.01f;
-            }
-            ctrlSurfaceRange = ControlSurfaceModule.ctrlSurfaceRange;
-            ControlSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * Authority * vacuumRange;
-
-            if (actuatorSpeed < 0f)
-            {
-                actuatorSpeed = ControlSurfaceModule.actuatorSpeed;
-            }
-            else
-            {
-                ControlSurfaceModule.actuatorSpeed = actuatorSpeed;
-            }
+            if (actuatorSpeed < 0) { actuatorSpeed = ControlSurfaceModule.actuatorSpeed; }
         }
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.05");
+            Debug.Log(moduleName + ".Start(): v01.07");
 
             base.OnStart(state);
 
@@ -126,31 +106,8 @@ namespace ClawKSP
                 return;
             }
 
-            if (true == plusEnabled)
+            if (plusEnabled)
             {
-                if (FlightGlobals.getStaticPressure(part.transform.position) < 0.001f)
-                {
-                    if (vacuumRange > 0.01f)
-                    {
-                        vacuumRange -= 0.05f;
-                    }
-                    else
-                    {
-                        vacuumRange = 0.01f;
-                    }
-                }
-                else
-                {
-                    if (vacuumRange < 1.0f)
-                    {
-                        vacuumRange += 0.05f;
-                    }
-                    else
-                    {
-                        vacuumRange = 1.0f;
-                    }
-                }
-                ControlSurfaceModule.ctrlSurfaceRange = ctrlSurfaceRange * Authority * vacuumRange * Mathf.Sign(ControlSurfaceModule.ctrlSurfaceRange);
                 ControlSurfaceModule.actuatorSpeed = actuatorSpeed;
             }
         }

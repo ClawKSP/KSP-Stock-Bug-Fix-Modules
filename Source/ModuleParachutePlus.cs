@@ -6,14 +6,15 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * ModuleParachutePlus - Written for KSP v1.0
+ * ModuleParachutePlus - Written for KSP v1.1.2
  * - Fixes some minor graphics glitches
- * - Fixed log spam and NREs (causing crashes in Linux) for KSP v1.0.4
  * - Plus: Adds a couple visual effects (such as symmetric chute spread and asynchronous chute movement)
  * - Plus: Adds ability to reset chutes that are active but not deployed
  * - Plus: Adds safe/risky/unsafe indicator to staging icons
  * 
  * Change Log:
+ * - v01.10  ( 8 May 16) Updated for KSP v1.1.2
+ * - v01.09  (21 Apr 16) Updated for KSP v1.1.0
  * - v01.08  (9 Nov 15)  Renamed from ModuleParachuteFix to ModuleParachutePlus. Integrated into new StockBugFixPlusController
  * - v01.07  (3 Aug 15)  Added some more chute flare cases.
  * - v01.06  (1 Aug 15)  No code change, but updating version number for re-release (previous .dll was wrong compiled version).
@@ -128,7 +129,7 @@ namespace ClawKSP
         {
             base.OnStart(state);
 
-            Debug.Log("ModuleParachutePlus.Start(): v01.08");
+            Debug.Log("ModuleParachutePlus.Start(): v01.10");
 
             ParachuteModule = (ModuleParachute)GetModule("ModuleParachute");
 
@@ -166,7 +167,7 @@ namespace ClawKSP
             {
                 Vector3 chuteDirection = transform.forward;
 
-                float dot = Vector3.Dot((rigidbody.velocity + Krakensbane.GetFrameVelocity()).normalized, transform.forward);
+                float dot = Vector3.Dot((part.Rigidbody.velocity + Krakensbane.GetFrameVelocity()).normalized, transform.forward);
 
                 // Attempts to prevent the transforms from blowing up when chutes are rotated 90 degrees
                 if (Mathf.Abs(dot) > 0.99f)
@@ -176,11 +177,11 @@ namespace ClawKSP
 
                 if (ParachuteModule.invertCanopy)
                 {
-                    canopy.rotation = Quaternion.LookRotation(-(rigidbody.velocity + Krakensbane.GetFrameVelocity()).normalized, chuteDirection);
+                    canopy.rotation = Quaternion.LookRotation(-(part.Rigidbody.velocity + Krakensbane.GetFrameVelocity()).normalized, chuteDirection);
                 }
                 else
                 {
-                    canopy.rotation = Quaternion.LookRotation((rigidbody.velocity + Krakensbane.GetFrameVelocity()).normalized, chuteDirection);
+                    canopy.rotation = Quaternion.LookRotation((part.Rigidbody.velocity + Krakensbane.GetFrameVelocity()).normalized, chuteDirection);
                 }
 
                 if (plusEnabled)
@@ -210,8 +211,8 @@ namespace ClawKSP
                         if (flareAngle >= 0.0001f)
                         {
 
-                            float xTwist = Mathf.Cos((part.attRotation.eulerAngles.y * 2 * 3.141592f) / 360);
-                            float yTwist = Mathf.Sin((part.attRotation.eulerAngles.y * 2 * 3.141592f) / 360);
+                            float xTwist = Mathf.Cos((part.attRotation.eulerAngles.y * 2 * 3.1415926535f) / 360);
+                            float yTwist = Mathf.Sin((part.attRotation.eulerAngles.y * 2 * 3.1415926535f) / 360);
 
                             Quaternion flare = Quaternion.Euler(xTwist * flareAngle, yTwist * flareAngle, 0);
 
@@ -289,6 +290,8 @@ namespace ClawKSP
 
         private void CountSiblings(Vessel V)
         {
+            if (V != vessel) { return; }
+
             siblingCount = 0;
 
             if (part.parent != null)
@@ -316,35 +319,6 @@ namespace ClawKSP
                 //Debug.LogWarning("Count: " + siblingCount);
             }
         }
-
-        //private void Stuff ()
-        //{
-        //    if (!base.part.ShieldedFromAirstream && (ParachuteModule.deploymentState == ModuleParachute.deploymentStates.SEMIDEPLOYED || ParachuteModule.deploymentState == ModuleParachute.deploymentStates.DEPLOYED))
-        //    {
-        //        if (ParachuteModule.chuteTemp < PhysicsGlobals.SpaceTemperature)
-        //        {
-        //            ParachuteModule.chuteTemp = ParachuteModule.startingTemp;
-        //        }
-
-        //        double num = ParachuteModule.shockTemp - ParachuteModule.chuteTemp;
-
-        //        ParachuteModule.chuteTemp += num * UtilMath.Clamp01(ParachuteModule.convectivekW * ParachuteModule.invThermalMass * (double)TimeWarp.fixedDeltaTime);
-
-        //        if (ParachuteModule.chuteTemp > 0.0)
-        //        {
-        //            double num2 = ParachuteModule.chuteTemp * ParachuteModule.chuteTemp;
-        //            ParachuteModule.chuteTemp -= 0.002 * ParachuteModule.invThermalMass * PhysicsGlobals.StefanBoltzmanConstant * ParachuteModule.areaDeployed * ParachuteModule.chuteEmissivity * PhysicsGlobals.RadiationFactor * (double)TimeWarp.fixedDeltaTime * num2 * num2;
-        //        }
-        //        if (double.IsNaN(ParachuteModule.chuteTemp) || ParachuteModule.chuteTemp < PhysicsGlobals.SpaceTemperature)
-        //        {
-        //            ParachuteModule.chuteTemp = PhysicsGlobals.SpaceTemperature;
-        //        }
-        //        if (ParachuteModule.chuteTemp > ParachuteModule.chuteMaxTemp)
-        //        {
-        //            ParachuteModule.deploymentSafeState = ModuleParachute.deploymentSafeStates.UNSAFE;
-        //        }
-        //    }
-        //}
 
     }
 }

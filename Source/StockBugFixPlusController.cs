@@ -6,11 +6,13 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * StockPlusController - Written for KSP v1.0
+ * StockPlusController - Written for KSP v1.1.0
  * 
  * - Enables StockPlus features
  * 
  * Change Log:
+ * - v00.14  ( 8 May 16)    Updated for KSP v1.1.2
+ * - v00.13  (21 Apr 16)    Updated for KSP v1.1.0
  * - v00.12  (27 Dec 15)    Added support for user configurable gimbal defaults
  * - v00.11  (14 Nov 15)    Fixed a bug loading fixes multiple times, due to Part.AddModule not adding the moduleName correctly
  * - v00.10  (10 Nov 15)    Rewritten to support in-game configuration (includes GUI), Renamed from StockPlusController to StockBugFixPlusController.
@@ -42,7 +44,8 @@ namespace ClawKSP
         private static bool GUIActive = false;
         private static bool infoActive = false;
         private static bool changesDetected = false;
-        private bool sceneChangeRequired = false;
+        private static bool sceneChangeRequired = false;
+        private static bool remoteSave = false;
         private static string infoText;
         private static Vector2 infoScrollPos = Vector2.zero;
 
@@ -51,20 +54,43 @@ namespace ClawKSP
         public static int windowPosY = 20;
         private static Vector2 scrollPos = Vector2.zero;
 
-        public static bool inFlightHighlightOff = false;
+        public static bool gameSettingsPlus = false;
+        public static bool inFlightUIScalePlus = false;
+        public static float inFlightUIScale = 1.0f;
+        public static bool overrideUIScalePlus = false;
+        public static float overrideUIScale = 1.0f;
+        private static bool settingsOpen = false;
+
+        //public static bool inFlightHighlightOff = false;
         public static bool editorSymmetryHighlight = false;
-        public static bool aeroSurfacePlus = false;
+        //public static bool aeroSurfacePlus = false;
         public static bool controlSurfacePlus = false;
         public static bool gimbalPlus = false;
         public static bool gimbalRateIsActive = false;
         public static float gimbalResponseSpeed = 10f;
         public static bool parachutePlus = false;
         public static bool pilotRSASPlus = false;
-        public static bool proceduralFairingPlus = false;
+        //public static bool proceduralFairingPlus = false;
         public static bool wheelPlus = false;
         
-        private static Rect plusWindowPos = new Rect(20, 20, 320, 320);
-        private static Rect infoWindowPos = new Rect(370, 20, 300, 300);
+        private static Rect plusWindowPos = new Rect(20, 20, 350, 320);
+        private static Rect infoWindowPos = new Rect(400, 20, 300, 300);
+
+        public static Rect InfoWindowPos ()
+        {
+            return infoWindowPos;
+        }
+
+        public static void SetInfoWindowPos (Rect setInfo)
+        {
+            infoWindowPos = setInfo;
+        }
+
+        public static void SettingsChanged(bool changed = true, bool sceneChangeIsRequired = false)
+        {
+            changesDetected |= changed;
+            sceneChangeRequired |= sceneChangeIsRequired;
+        }
 
         public void Awake()
         {
@@ -79,13 +105,15 @@ namespace ClawKSP
 
             plusWindowPos.x = windowPosX;
             plusWindowPos.y = windowPosY;
+            sceneChangeRequired = false;
+            remoteSave = false;
 
             if (!userConfigured)
             {
                 GUIActive = true;
             }
 
-            Debug.Log("StockBugFixPlusController.Start(): v00.12");
+            Debug.Log("StockBugFixPlusController.Start(): v00.14");
         }
 
         public void Update()
@@ -93,7 +121,18 @@ namespace ClawKSP
             if (GameSettings.MODIFIER_KEY.GetKey() && Input.GetKeyDown(KeyCode.F8))
             {
                 GUIActive = !GUIActive;
+                CloseSettings();
             }
+        }
+
+        public static void CloseSettings()
+        {
+            settingsOpen = false;
+        }
+
+        public static bool SettingsIsOpen()
+        {
+            return settingsOpen;
         }
 
         public void OnGUI()
@@ -109,9 +148,13 @@ namespace ClawKSP
                 {
                     infoWindowPos = GUILayout.Window(1000002, infoWindowPos, DrawInfo, "Stock Plus Info", GUILayout.ExpandWidth(true), GUILayout.ExpandHeight(true));
                 }
-                else
+
+                if (remoteSave)
                 {
-                    InfoToggle(false, "");
+                    remoteSave = false;
+                    userConfigured = true;
+                    changesDetected = false;
+                    SaveSettings();
                 }
             }
         }
@@ -156,6 +199,7 @@ namespace ClawKSP
             }
             if (GUILayout.Button("Close"))
             {
+                settingsOpen = false;
                 GUIActive = false;
             }
             GUILayout.EndHorizontal();
@@ -194,6 +238,7 @@ namespace ClawKSP
             // End Toggle Line 
             #endregion
 
+            #region Change Required
             GUILayout.BeginHorizontal();
             if (sceneChangeRequired)
             {
@@ -205,18 +250,19 @@ namespace ClawKSP
             {
                 GUILayout.Label(" ");
             }
-            GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal(); 
+            #endregion
 
             if (plusActive)
             {
                 scrollPos = GUILayout.BeginScrollView(scrollPos);
 
-                #region inFlightHighlightOff
+                #region GameSettingsPlus
                 // Begin Toggle Line
                 GUILayout.BeginVertical();
                 GUILayout.BeginHorizontal();
-                buttonText = "In-Flight Highlight Disabler: ";
-                if (inFlightHighlightOff)
+                buttonText = "Game Settings Plus: ";
+                if (gameSettingsPlus)
                 {
                     buttonText += "Active";
                     GUI.color = Color.green;
@@ -228,13 +274,22 @@ namespace ClawKSP
                 }
                 if (GUILayout.Button(buttonText))
                 {
-                    inFlightHighlightOff = !inFlightHighlightOff;
+                    gameSettingsPlus = !gameSettingsPlus;
                     changesDetected = true;
                 }
                 GUI.color = currentColor;
-                if (GUILayout.Button("Info", GUILayout.Width(35)))
+                if (GUILayout.Button((gameSettingsPlus ? "Set." : "Info"), GUILayout.Width(35)))
                 {
-                    InfoToggle(true, "In-Flight Highlight Disabler \n\nDescription: Turns off the green shader while in the flight scene. \n\nWhen Active: Disables the green shader. \nWhen Disabled: In-flight highlighting is stock standard.");
+                    if (!gameSettingsPlus)
+                    {
+                        InfoToggle(true, "Description: Provides an interface to several of the game's settings that are unavailable in the Main Settings Menu. /n/nYou must save the settings from the settings menu for them to persist. /n/nSome settings require a scene change to activate.");
+                        settingsOpen = false;
+                    }
+                    else
+                    {
+                        InfoToggle(false, "");
+                        settingsOpen = true;
+                    }
                 }
                 GUILayout.EndHorizontal();
                 GUILayout.EndVertical();
@@ -242,64 +297,33 @@ namespace ClawKSP
                 #endregion
 
                 #region editorSymmetryHighlight
-                // Begin Toggle Line
-                GUILayout.BeginVertical();
-                GUILayout.BeginHorizontal();
-                buttonText = "Editor Symmetry Highlight: ";
-                if (editorSymmetryHighlight)
-                {
-                    buttonText += "Active";
-                    GUI.color = Color.green;
-                }
-                else
-                {
-                    buttonText += "Disabled";
-                    GUI.color = Color.yellow;
-                }
-                if (GUILayout.Button(buttonText))
-                {
-                    editorSymmetryHighlight = !editorSymmetryHighlight;
-                    changesDetected = true;
-                }
-                GUI.color = currentColor;
-                if (GUILayout.Button("Info", GUILayout.Width(35)))
-                {
-                    InfoToggle(true, "Editor Symmetry Highlight \n\nDescription: Activates additional highlighting in the editors, which highlights symmetric partners in blue, and primary part branches as green (when hovering over with the mouse). \n\nWhen Active: Highlighting is turned on. \nWhen Disabled: Highlighting is stock standard. \n\nThis can be toggled this while in the editor. \n\nRequires SymmetryActionFix installed to work.");
-                }
-                GUILayout.EndHorizontal();
-                GUILayout.EndVertical();
-                // End Toggle Line 
-                #endregion
-
-                #region aeroSurfacePlus
-                // Begin Toggle Line
-                GUILayout.BeginVertical();
-                GUILayout.BeginHorizontal();
-                buttonText = "AeroSurface Plus: ";
-                if (aeroSurfacePlus)
-                {
-                    buttonText += "Active";
-                    GUI.color = Color.green;
-                }
-                else
-                {
-                    buttonText += "Disabled";
-                    GUI.color = Color.yellow;
-                }
-                if (GUILayout.Button(buttonText))
-                {
-                    aeroSurfacePlus = !aeroSurfacePlus;
-                    changesDetected = true;
-                    sceneChangeRequired = true;
-                }
-                GUI.color = currentColor;
-                if (GUILayout.Button("Info", GUILayout.Width(35)))
-                {
-                    InfoToggle(true, "AeroSurface Plus \n\nDescription: Disables off-axis drag when airbrake is stowed. Locks airbrakes in space. \n\nRequires a scene change to activate.");
-                }
-                GUILayout.EndHorizontal();
-                GUILayout.EndVertical();
-                // End Toggle Line 
+                //// Begin Toggle Line
+                //GUILayout.BeginVertical();
+                //GUILayout.BeginHorizontal();
+                //buttonText = "Editor Symmetry Highlight: ";
+                //if (editorSymmetryHighlight)
+                //{
+                //    buttonText += "Active";
+                //    GUI.color = Color.green;
+                //}
+                //else
+                //{
+                //    buttonText += "Disabled";
+                //    GUI.color = Color.yellow;
+                //}
+                //if (GUILayout.Button(buttonText))
+                //{
+                //    editorSymmetryHighlight = !editorSymmetryHighlight;
+                //    changesDetected = true;
+                //}
+                //GUI.color = currentColor;
+                //if (GUILayout.Button("Info", GUILayout.Width(35)))
+                //{
+                //    InfoToggle(true, "Editor Symmetry Highlight \n\nDescription: Activates additional highlighting in the editors, which highlights symmetric partners in blue, and primary part branches as green (when hovering over with the mouse). \n\nWhen Active: Highlighting is turned on. \nWhen Disabled: Highlighting is stock standard. \n\nThis can be toggled this while in the editor.");
+                //}
+                //GUILayout.EndHorizontal();
+                //GUILayout.EndVertical();
+                //// End Toggle Line 
                 #endregion
 
                 #region controlSurfacePlus
@@ -326,7 +350,7 @@ namespace ClawKSP
                 GUI.color = currentColor;
                 if (GUILayout.Button("Info", GUILayout.Width(35)))
                 {
-                    InfoToggle(true, "ControlSurface Plus \n\nDescription: Adds tweakable flight control authority. Locks airbrakes in space. \n\nRequires a scene change to activate.");
+                    InfoToggle(true, "ControlSurface Plus \n\nDescription: Adds a tweakable to flight controls that allows deployment by individual control surface.");
                 }
                 GUILayout.EndHorizontal();
                 GUILayout.EndVertical();
@@ -426,66 +450,129 @@ namespace ClawKSP
                 // End Toggle Line 
                 #endregion
 
-                #region proceduralFairingPlus
-                // Begin Toggle Line
-                GUILayout.BeginVertical();
-                GUILayout.BeginHorizontal();
-                buttonText = "Procedural Fairing Plus: ";
-                if (proceduralFairingPlus)
-                {
-                    buttonText += "Active";
-                    GUI.color = Color.green;
-                }
-                else
-                {
-                    buttonText += "Disabled";
-                    GUI.color = Color.yellow;
-                }
-                if (GUILayout.Button(buttonText))
-                {
-                    proceduralFairingPlus = !proceduralFairingPlus;
-                    changesDetected = true;
-                    sceneChangeRequired = true;
-                }
-                GUI.color = currentColor;
-                if (GUILayout.Button("Info", GUILayout.Width(35)))
-                {
-                    InfoToggle(true, "Procedural Fairing Plus \n\nDescription: Activates tweakable panel counts and decoupling force. \n\nRequires a scene change to activate.");
-                }
-                GUILayout.EndHorizontal();
-                GUILayout.EndVertical();
-                // End Toggle Line 
-                #endregion
-
                 #region wheelPlus
-                // Begin Toggle Line
-                GUILayout.BeginVertical();
-                GUILayout.BeginHorizontal();
-                buttonText = "Wheel Plus: ";
-                if (wheelPlus)
-                {
-                    buttonText += "Active";
-                    GUI.color = Color.green;
-                }
-                else
-                {
-                    buttonText += "Disabled";
-                    GUI.color = Color.yellow;
-                }
-                if (GUILayout.Button(buttonText))
-                {
-                    wheelPlus = !wheelPlus;
-                    changesDetected = true;
-                    sceneChangeRequired = true;
-                }
-                GUI.color = currentColor;
-                if (GUILayout.Button("Info", GUILayout.Width(35)))
-                {
-                    InfoToggle(true, "Wheel Plus \n\nDescription: Adds tweakable grip multiplier, which allows for differential traction. \n\nRequires a scene change to activate.");
-                }
-                GUILayout.EndHorizontal();
-                GUILayout.EndVertical();
-                // End Toggle Line 
+                //// Begin Toggle Line
+                //GUILayout.BeginVertical();
+                //GUILayout.BeginHorizontal();
+                //buttonText = "Wheel Plus: ";
+                //if (wheelPlus)
+                //{
+                //    buttonText += "Active";
+                //    GUI.color = Color.green;
+                //}
+                //else
+                //{
+                //    buttonText += "Disabled";
+                //    GUI.color = Color.yellow;
+                //}
+                //if (GUILayout.Button(buttonText))
+                //{
+                //    wheelPlus = !wheelPlus;
+                //    changesDetected = true;
+                //    sceneChangeRequired = true;
+                //}
+                //GUI.color = currentColor;
+                //if (GUILayout.Button("Info", GUILayout.Width(35)))
+                //{
+                //    InfoToggle(true, "Wheel Plus \n\nDescription: Adds tweakable grip multiplier, which allows for differential traction. \n\nRequires a scene change to activate.");
+                //}
+                //GUILayout.EndHorizontal();
+                //GUILayout.EndVertical();
+                //// End Toggle Line 
+                #endregion 
+
+                #region Legacy
+                //#region inFlightHighlightOff
+                //// Begin Toggle Line
+                //GUILayout.BeginVertical();
+                //GUILayout.BeginHorizontal();
+                //buttonText = "In-Flight Highlight Disabler: ";
+                //if (inFlightHighlightOff)
+                //{
+                //    buttonText += "Active";
+                //    GUI.color = Color.green;
+                //}
+                //else
+                //{
+                //    buttonText += "Disabled";
+                //    GUI.color = Color.yellow;
+                //}
+                //if (GUILayout.Button(buttonText))
+                //{
+                //    inFlightHighlightOff = !inFlightHighlightOff;
+                //    changesDetected = true;
+                //}
+                //GUI.color = currentColor;
+                //if (GUILayout.Button("Info", GUILayout.Width(35)))
+                //{
+                //    InfoToggle(true, "In-Flight Highlight Disabler \n\nDescription: Turns off the green shader while in the flight scene. \n\nWhen Active: Disables the green shader. \nWhen Disabled: In-flight highlighting is stock standard.");
+                //}
+                //GUILayout.EndHorizontal();
+                //GUILayout.EndVertical();
+                //// End Toggle Line 
+                //#endregion
+
+                //#region aeroSurfacePlus
+                //// Begin Toggle Line
+                //GUILayout.BeginVertical();
+                //GUILayout.BeginHorizontal();
+                //buttonText = "AeroSurface Plus: ";
+                //if (aeroSurfacePlus)
+                //{
+                //    buttonText += "Active";
+                //    GUI.color = Color.green;
+                //}
+                //else
+                //{
+                //    buttonText += "Disabled";
+                //    GUI.color = Color.yellow;
+                //}
+                //if (GUILayout.Button(buttonText))
+                //{
+                //    aeroSurfacePlus = !aeroSurfacePlus;
+                //    changesDetected = true;
+                //    sceneChangeRequired = true;
+                //}
+                //GUI.color = currentColor;
+                //if (GUILayout.Button("Info", GUILayout.Width(35)))
+                //{
+                //    InfoToggle(true, "AeroSurface Plus \n\nDescription: Disables off-axis drag when airbrake is stowed. Locks airbrakes in space. \n\nRequires a scene change to activate.");
+                //}
+                //GUILayout.EndHorizontal();
+                //GUILayout.EndVertical();
+                //// End Toggle Line 
+                //#endregion
+
+                //#region proceduralFairingPlus
+                //// Begin Toggle Line
+                //GUILayout.BeginVertical();
+                //GUILayout.BeginHorizontal();
+                //buttonText = "Procedural Fairing Plus: ";
+                //if (proceduralFairingPlus)
+                //{
+                //    buttonText += "Active";
+                //    GUI.color = Color.green;
+                //}
+                //else
+                //{
+                //    buttonText += "Disabled";
+                //    GUI.color = Color.yellow;
+                //}
+                //if (GUILayout.Button(buttonText))
+                //{
+                //    proceduralFairingPlus = !proceduralFairingPlus;
+                //    changesDetected = true;
+                //    sceneChangeRequired = true;
+                //}
+                //GUI.color = currentColor;
+                //if (GUILayout.Button("Info", GUILayout.Width(35)))
+                //{
+                //    InfoToggle(true, "Procedural Fairing Plus \n\nDescription: Activates tweakable panel counts and decoupling force. \n\nRequires a scene change to activate.");
+                //}
+                //GUILayout.EndHorizontal();
+                //GUILayout.EndVertical();
+                //// End Toggle Line 
+                //#endregion
                 #endregion
 
                 GUILayout.EndScrollView();
@@ -499,6 +586,7 @@ namespace ClawKSP
             infoText = infoTextInput;
             infoScrollPos = Vector2.zero;
             infoActive = isInfoActive;
+            if (settingsOpen) settingsOpen = false;
         }
 
         public void DrawInfo(int id)
@@ -514,6 +602,11 @@ namespace ClawKSP
             GUILayout.EndScrollView();
 
             GUI.DragWindow();
+        }
+
+        public static void RemoteSave()
+        {
+            remoteSave = true;
         }
 
         private void SaveSettings()
