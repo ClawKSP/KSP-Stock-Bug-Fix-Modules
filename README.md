@@ -39,6 +39,11 @@ Fix Modules that include StockPlus features are marked (Plus) below. After the r
 Bug Fixes and Stock Plus Included in this Release
 =================================================
 
++ BodyLiftFix
+Description: Fixes missing body lift in KSP v1.1.2
+
+-----
+
 + GameSettingsPlus (Plus)
 Description: Provides GUI Access to some of the stock settings in settings.cfg
   - (Plus) Access to in-flight highlight, save count, save interval, conic patch mode, and wheel clipping settings
@@ -335,7 +340,8 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license. (C
 
 Change Log
 ==========
-v1.1.2a.1 ( 8 May 16) - Updated for KSP v1.1.2. Depredcated several modules and added GameSettingsPlus.
+v1.1.2b.1 ( 9 May 16) - Added BodyLiftFix, which fixes broken body lift in 1.1.2.
+v1.1.2a.1 ( 8 May 16) - Updated for KSP v1.1.2. Deprecated several modules and added GameSettingsPlus.
 v1.0.5a.4 (25 Jan 16) - Fixed bug in MPFFix and added actuator speed tweakable to MCSPlus.
 v1.0.5a.3 (27 Dec 15) - Fixed some bugs with a few modules causing StockPlus options to not show correctly. Added user configurable ModuleGimal options to the StockBugFixPlusSettings.cfg.
 v1.0.5a.2 (14 Nov 15) - Fixed a bug in the hooking routines (due to stock code). Fixed fairing CoL and CoP via MPFFix. Engine gimbal rates default to enabled when StockPlus ModuleGimbalPlus is active.
