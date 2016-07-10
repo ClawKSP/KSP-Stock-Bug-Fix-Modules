@@ -41,6 +41,12 @@ Bug Fixes and Stock Plus Included in this Release
 
 ----
 
++ DockingPortFix
+Description: Fixes docking ports that were docked after using fairings (and possibly other decouple events)
+  - Adds a "Force Undock" button that appears if a stuck docking port is detected (Use with care.)
+
+----
+
 + GameSettingsPlus (Plus)
 Description: Provides GUI Access to some of the stock settings in settings.cfg
   - (Plus) Access to in-flight highlight, save count, save interval, conic patch mode, and wheel clipping settings
@@ -356,6 +362,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license. (C
 
 Change Log
 ==========
+v1.1.3b.1 (10 Jul 16) - Added DockingPortFix, which adds a "Force Undock" option to stuck docking ports.
 v1.1.3a.1 ( 9 Jul 16) - Updates for 1.1.3, including fix for broken docking ports and kerbals stuck on EVA.
 v1.1.2b.1 ( 9 May 16) - Added BodyLiftFix, which fixes broken body lift in 1.1.2.
 v1.1.2a.1 ( 8 May 16) - Updated for KSP v1.1.2. Deprecated several modules and added GameSettingsPlus.
