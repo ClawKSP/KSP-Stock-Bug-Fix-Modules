@@ -6,11 +6,12 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * GameSettingsPlus - Written for KSP v1.1.2
+ * GameSettingsPlus - Written for KSP v1.1.3
  * 
  * - Provides GUI Access to some of the stock settings in settings.cfg
  * 
  * Change Log:
+ * - v01.02  ( 9 Jul 16)    Updated for KSP v1.1.3
  * - v01.01  ( 8 May 16)    Updated for KSP v1.1.2
  * - v01.00  (21 Apr 16)    Initial release for KSP v1.1.0
  * 

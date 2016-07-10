@@ -6,11 +6,12 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * ModuleGimbalPlus - Written for KSP v1.1.2
+ * ModuleGimbalPlus - Written for KSP v1.1.3
  * 
  * - (Plus) Adds tweakable gimbal rate for engines with gimbal
  * 
  * Change Log:
+ * - v01.04  ( 9 Jul 16)   Updated for KSP v1.1.3
  * - v01.03  ( 8 May 16)   Updated for KSP v1.1.2
  * - v01.02  (27 Dec 15)   Added support for user configurable gimbal rates
  * - v01.01  (14 Nov 15)   Made moduleGimbal
@@ -107,7 +108,7 @@ namespace ClawKSP
 
         public override void OnStart(StartState state)
         {
-            Debug.Log(moduleName + ".Start(): v01.03");
+            Debug.Log(moduleName + ".Start(): v01.04");
 
             //base.OnStart(state);
 

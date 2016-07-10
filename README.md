@@ -39,14 +39,17 @@ Fix Modules that include StockPlus features are marked (Plus) below. After the r
 Bug Fixes and Stock Plus Included in this Release
 =================================================
 
-+ BodyLiftFix
-Description: Fixes missing body lift in KSP v1.1.2
-
------
+----
 
 + GameSettingsPlus (Plus)
 Description: Provides GUI Access to some of the stock settings in settings.cfg
   - (Plus) Access to in-flight highlight, save count, save interval, conic patch mode, and wheel clipping settings
+
+----
+
++ KerbalEVAFix
+Description: Fixes non-responsive EVA lights
+  - Fixes non-responsive EVA lights
 
 ----
 
@@ -89,6 +92,14 @@ Description: The new(ish) pilot abilities cause smaller vessels to jitter and ra
 
 ----
 
++ RendererFix
+Description: Fixes broken docking ports and kerbals stuck on EVA due to fairings.
+  - Fixes issue where jettisoned fairings cause kerbals to get stuck out on EVA
+  - Fixes issue where jettisoned fairings cause docking ports to non-decouple
+  - Attempts to clean up some orphaned objects that may be causing leaks/crashes
+
+----
+
 
 DEPRECATED
 =======
@@ -96,6 +107,11 @@ DEPRECATED
 Release v0.1.7d is the last compatible version for KSP v0.90
 Release v0.1.5c is the last compatible version for KSP v0.25
 Further releases are labeled by compatible version. Example: Release v1.0.2e.3 is compatible with KSP v1.0.2
+
+----
+
++ [FIXED IN KSP v1.1.3] BodyLiftFix
+Description: Fixes missing body lift in KSP v1.1.2
 
 ----
 
@@ -340,6 +356,7 @@ ModuleManager by Sarbian (bundled) is covered under a CC share-alike license. (C
 
 Change Log
 ==========
+v1.1.3a.1 ( 9 Jul 16) - Updates for 1.1.3, including fix for broken docking ports and kerbals stuck on EVA.
 v1.1.2b.1 ( 9 May 16) - Added BodyLiftFix, which fixes broken body lift in 1.1.2.
 v1.1.2a.1 ( 8 May 16) - Updated for KSP v1.1.2. Deprecated several modules and added GameSettingsPlus.
 v1.0.5a.4 (25 Jan 16) - Fixed bug in MPFFix and added actuator speed tweakable to MCSPlus.

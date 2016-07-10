@@ -450,37 +450,6 @@ namespace ClawKSP
                 // End Toggle Line 
                 #endregion
 
-                #region wheelPlus
-                //// Begin Toggle Line
-                //GUILayout.BeginVertical();
-                //GUILayout.BeginHorizontal();
-                //buttonText = "Wheel Plus: ";
-                //if (wheelPlus)
-                //{
-                //    buttonText += "Active";
-                //    GUI.color = Color.green;
-                //}
-                //else
-                //{
-                //    buttonText += "Disabled";
-                //    GUI.color = Color.yellow;
-                //}
-                //if (GUILayout.Button(buttonText))
-                //{
-                //    wheelPlus = !wheelPlus;
-                //    changesDetected = true;
-                //    sceneChangeRequired = true;
-                //}
-                //GUI.color = currentColor;
-                //if (GUILayout.Button("Info", GUILayout.Width(35)))
-                //{
-                //    InfoToggle(true, "Wheel Plus \n\nDescription: Adds tweakable grip multiplier, which allows for differential traction. \n\nRequires a scene change to activate.");
-                //}
-                //GUILayout.EndHorizontal();
-                //GUILayout.EndVertical();
-                //// End Toggle Line 
-                #endregion 
-
                 #region Legacy
                 //#region inFlightHighlightOff
                 //// Begin Toggle Line
@@ -573,6 +542,38 @@ namespace ClawKSP
                 //GUILayout.EndVertical();
                 //// End Toggle Line 
                 //#endregion
+
+                #region wheelPlus
+                //// Begin Toggle Line
+                //GUILayout.BeginVertical();
+                //GUILayout.BeginHorizontal();
+                //buttonText = "Wheel Plus: ";
+                //if (wheelPlus)
+                //{
+                //    buttonText += "Active";
+                //    GUI.color = Color.green;
+                //}
+                //else
+                //{
+                //    buttonText += "Disabled";
+                //    GUI.color = Color.yellow;
+                //}
+                //if (GUILayout.Button(buttonText))
+                //{
+                //    wheelPlus = !wheelPlus;
+                //    changesDetected = true;
+                //    sceneChangeRequired = true;
+                //}
+                //GUI.color = currentColor;
+                //if (GUILayout.Button("Info", GUILayout.Width(35)))
+                //{
+                //    InfoToggle(true, "Wheel Plus \n\nDescription: Adds tweakable grip multiplier, which allows for differential traction. \n\nRequires a scene change to activate.");
+                //}
+                //GUILayout.EndHorizontal();
+                //GUILayout.EndVertical();
+                //// End Toggle Line 
+                #endregion
+
                 #endregion
 
                 GUILayout.EndScrollView();

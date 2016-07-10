@@ -6,13 +6,14 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * ModuleParachutePlus - Written for KSP v1.1.2
+ * ModuleParachutePlus - Written for KSP v1.1.3
  * - Fixes some minor graphics glitches
  * - Plus: Adds a couple visual effects (such as symmetric chute spread and asynchronous chute movement)
  * - Plus: Adds ability to reset chutes that are active but not deployed
  * - Plus: Adds safe/risky/unsafe indicator to staging icons
  * 
  * Change Log:
+ * - v01.11  ( 9 Jul 16) Updated for KSP v1.1.3
  * - v01.10  ( 8 May 16) Updated for KSP v1.1.2
  * - v01.09  (21 Apr 16) Updated for KSP v1.1.0
  * - v01.08  (9 Nov 15)  Renamed from ModuleParachuteFix to ModuleParachutePlus. Integrated into new StockBugFixPlusController
@@ -129,7 +130,7 @@ namespace ClawKSP
         {
             base.OnStart(state);
 
-            Debug.Log("ModuleParachutePlus.Start(): v01.10");
+            Debug.Log("ModuleParachutePlus.Start(): v01.11");
 
             ParachuteModule = (ModuleParachute)GetModule("ModuleParachute");
 

@@ -6,7 +6,7 @@
  * (https://creativecommons.org/licenses/by-nc-sa/4.0/)
  * 
  *
- * ModuleRSASFix - Written for KSP v1.1.2
+ * ModuleRSASFix - Written for KSP v1.1.3
  * 
  * - Fixes overreaction by the SAS for small vessels with excess torque/RCS control.
  * - Improved reduction of wobbly craft
@@ -14,6 +14,7 @@
  * - (Plus) Gives tweakable RSAS adjustment parameters
  * 
  * Change Log:
+ * - v00.07  ( 9 Jul 16)  Updated for KSP v1.1.3
  * - v00.06  ( 8 May 16)  Updated for KSP v1.1.2
  * - v00.05  (21 Apr 16)  Updated for KSP v1.1.0
  * - v00.04  (27 Dec 15)  Fixed a bug causing the Plus features to be disabled
@@ -72,7 +73,7 @@ namespace ClawKSP
         public override void OnStart(StartState state)
         {
             base.OnStart(state);
-            Debug.Log(moduleName + ".Start(): v00.06");
+            Debug.Log(moduleName + ".Start(): v00.07");
 
             GameEvents.onVesselChange.Add(DisableGUI);
             DisableGUI(null);
